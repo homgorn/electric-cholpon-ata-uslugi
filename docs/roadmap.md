@@ -4,12 +4,12 @@
 - [x] E0 скелет репы
 - [x] E1 research: услуги, цены, локации, конкуренты, источники
 - [x] E2 docs + data
-- [ ] E3 генератор контента 400+ страниц
-- [ ] E4 Astro сайт
-- [ ] E5 каталог мастеров (каркас)
-- [ ] E6 QA валидатор
-- [ ] E7 деплой Cloudflare Pages
-- [ ] E8 экспорт базы
+- [x] E3 генератор контента: 370 страниц + 13 статичных = 383 HTML
+- [x] E4 Astro сайт (JSON-LD, sitemap, robots, llms.txt, md-версии)
+- [x] E5 каталог мастеров — каркас /mastera/ с набором кандидатов
+- [x] E6 QA валидатор: validate.mjs зелёный на 375 страницах
+- [ ] E7 деплой: код готов (deploy.yml), нужен CLOUDFLARE_API_TOKEN → npm run deploy
+- [x] E8 экспорт базы: db.sqlite + exports/*.csv + bundle.json
 
 ## v1.1 — после запуска
 - [ ] Купить домен (.kg или .com), 301 с pages.dev, поменять SITE_URL
