@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/FaqBlock.astro';
+import Cita from '../components/Citations.astro';
+import Cta from '../components/CtaButtons.astro';
+import { render, getCollection } from 'astro:content';
+import { serviceLd, faqLd, breadcrumbsLd, electricianLd } from '../lib/jsonld';
+
+// Гео-лендинги: /[услуга]-v-[локация] — catch-all после статических маршрутов
+export async function getStaticPaths() {
+  const geo = await getCollection('geo');
+  return geo.map((entry) => ({ params: { geo: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const crumbs = [
+  { name: 'Главная', url: '/' },
+  { name: `Электрик в ${entry.data.location_slug}`, url: `/lokacii/${d.location_slug}/` },
+  { name: d.name ?? `${d.service_slug} в ${d.location_slug}` },
+];
+---
+<Base title={d.title} description={d.description} jsonld={[
+  electricianLd([d.location_slug]),
+  serviceLd({ name: `${d.service_slug}`, description: d.description, min: d.price_min, max: d.price_max, unit: d.unit, area: d.location_slug }),
+  ...(d.faq ? [faqLd(d.faq)] : []),
+  breadcrumbsLd(crumbs),
+]}>
+  <Breadcrumbs items={crumbs} />
+  <h1>{d.h1}</h1>
+  {d.lead && <p class="lead">{d.lead}</p>}
+  <article><Content /></article>
+  {d.faq && <Faq faq={d.faq} />}
+  <Cita keys={d.citations ?? []} />
+  <Cta service={`${d.service_slug.replace(/-/g, ' ')} в ${d.location_slug}`} />
+</Base>

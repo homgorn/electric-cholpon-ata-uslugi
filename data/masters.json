@@ -1,0 +1,12 @@
+{
+  "note": "Каркас каталога исполнителей. status: todo = карточка скрыта с сайта до заполнения контактов. Заполнять по одному полю, менять status на active.",
+  "apply_cta": "Хотите попасть в каталог? Напишите в Telegram @realhikaz: имя, район, специализация, телефон.",
+  "masters": [
+    {"id":1,"name":"TODO: Имя мастера","status":"todo","phone":"","whatsapp":"","telegram":"","rating":0,"jobs_done":0,"experience_years":0,"specialties":["розетки","освещение"],"areas":["Чолпон-Ата"],"bio":""},
+    {"id":2,"name":"TODO: Имя мастера","status":"todo","phone":"","whatsapp":"","telegram":"","rating":0,"jobs_done":0,"experience_years":0,"specialties":["проводка под ключ"],"areas":["Бостери","Бактуу-Долоноту"],"bio":""},
+    {"id":3,"name":"TODO: Имя мастера","status":"todo","phone":"","whatsapp":"","telegram":"","rating":0,"jobs_done":0,"experience_years":0,"specialties":["щиты","автоматы"],"areas":["Тамчы","Чок-Тал"],"bio":""},
+    {"id":4,"name":"TODO: Имя мастера","status":"todo","phone":"","whatsapp":"","telegram":"","rating":0,"jobs_done":0,"experience_years":0,"specialties":["загородные сети","СИП","заземление"],"areas":["Ананьево","Григорьевка"],"bio":""},
+    {"id":5,"name":"TODO: Имя мастера","status":"todo","phone":"","whatsapp":"","telegram":"","rating":0,"jobs_done":0,"experience_years":0,"specialties":["коммерческие объекты","380В"],"areas":["Чолпон-Ата","Кара-Ой","Сары-Ой"],"bio":""},
+    {"id":6,"name":"TODO: Имя мастера","status":"todo","phone":"","whatsapp":"","telegram":"","rating":0,"jobs_done":0,"experience_years":0,"specialties":["бойлеры","тёплый пол"],"areas":["Ак-Суу","Каракол"],"bio":""}
+  ]
+}

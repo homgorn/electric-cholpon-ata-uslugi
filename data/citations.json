@@ -1,0 +1,13 @@
+[
+  {"key":"pue","title":"ПУЭ, 7-е издание","url":"https://docs.cntd.ru/document/902112231","fact":"Правила устройства электроустановок — требования к монтажу, заземлению и выбору сечений кабелей"},
+  {"key":"repair-com-kg","title":"Repair.com.kg (Бишкек)","url":"https://repair.com.kg/electric-v-bishkeke.html","fact":"розетки от 80 сом, люстра от 500, автомат 300–500, щитовые от 1200"},
+  {"key":"eco-service-kg","title":"Eco-service.kg (Бишкек)","url":"https://eco-service.kg/elektrik/wiring-rep","fact":"электроточка 300–600 сом; квартира 60 м² — 25–45 тыс. сом; дом под ключ от 50 тыс."},
+  {"key":"elmaster-kg","title":"Elmaster.kg (Бишкек)","url":"https://elmaster.kg/elektromontazh-pod-kljuch/","fact":"автомат однофазный от 400 сом; розетка под плиту в бетон от 200 сом"},
+  {"key":"electrician-kg","title":"Electrician.kg (Бишкек)","url":"https://electrician.kg/","fact":"выезд за 30 минут, работы от 300 сом, гарантия до 5 лет"},
+  {"key":"flagma-karakol","title":"Flagma — услуги электрика Каракол","url":"https://flagma-kg.com/ru/products/uslugi-elektrika/karakolissyk/","fact":"электрик в Караколе от 500 сом/услуга"},
+  {"key":"lalafo-karakol","title":"Lalafo — электрики Каракол","url":"https://lalafo.kg/karakol/remont/electricians","fact":"полный спектр электромонтажных работ в Караколе"},
+  {"key":"wiki-bosteri","title":"Википедия — Бостери","url":"https://ru.wikipedia.org/wiki/Бостери","fact":"8 км восточнее Чолпон-Аты, население 7 815 чел. (2020), трасса А-363"},
+  {"key":"wiki-cholpon","title":"Википедия — Чолпон-Ата","url":"https://ru.wikipedia.org/wiki/Чолпон-Ата","fact":"курортный город областного подчинения на северном берегу Иссык-Куля"},
+  {"key":"issykkul-biz","title":"IssykKul.Biz — города и сёла","url":"https://www.issykkul.biz/issyyk-kul6/goroda_issyyk-kulja.aspx","fact":"Корумду — 25 км от Чолпон-Аты; Булан-Сегетту — 20 км"},
+  {"key":"nacstat-kg","title":"Нацстат КР","url":"http://stat.kg","fact":"официальная численность населения населённых пунктов"}
+]

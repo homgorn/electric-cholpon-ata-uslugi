@@ -1,0 +1,24 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { render, getCollection } from 'astro:content';
+import { breadcrumbsLd } from '../../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const cats = await getCollection('categories');
+  return cats.map((entry) => ({ params: { cat: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const cat = entry.data;
+const crumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Услуги', url: '/uslugi/' },
+  { name: cat.h1 },
+];
+---
+<Base title={cat.title} description={cat.description} jsonld={[breadcrumbsLd(crumbs)]}>
+  <Breadcrumbs items={crumbs} />
+  <h1>{cat.h1}</h1>
+  <article><Content /></article>
+</Base>

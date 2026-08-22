@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.wrangler/
+outputs/*/
+!outputs/.gitkeep
+docs/research/fetched/*.html
+.DS_Store
+*.log

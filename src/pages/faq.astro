@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/CtaButtons.astro';
+import Faq from '../components/FaqBlock.astro';
+import { getCollection } from 'astro:content';
+import { breadcrumbsLd, faqLd, electricianLd } from '../lib/jsonld';
+
+// Агрегированный FAQ со всех услуг (топ-вопросы) + общие
+const services = await getCollection('services');
+const picked = ['zamena-rozetki', 'zamena-provodki-dome', 'ustanovka-lyustry', 'sborka-elektroshchita', 'podklyuchenie-boylera', 'srochnyy-vyzov-elektrika'];
+const faq = [
+  { q: 'Как вызвать электрика в Чолпон-Ате?', a: 'Напишите в WhatsApp с фото проблемы — ответим за 5 минут с ценой и временем приезда. По городу приезжаем за 30–60 минут.' },
+  ...picked.map((slug) => {
+    const s = services.find((x) => x.data.slug === slug);
+    return s?.data.faq?.[0] ?? { q: slug, a: '' };
+  }).filter((f) => f.a),
+  { q: 'Работаете ли вы в сёлах?', a: 'Да, 32 населённых пункта в радиусе до 95 км: Бостери, Тамчы, Корумду, Ананьево, Григорьевка, Ак-Суу, Балыкчы и другие. Надбавка 200–1000 сом.' },
+  { q: 'Есть ли гарантия?', a: '12 месяцев письменно на все монтажные работы. Материалы — по гарантии производителя.' },
+];
+---
+<Base title="FAQ — вопросы об услугах электрика на Иссык-Куле"
+  description="Ответы на частые вопросы: как вызвать электрика, цены, гарантия, выезд в сёла Иссык-Куля, аварийные работы 24/7."
+  jsonld={[electricianLd(['Чолпон-Ата']), breadcrumbsLd([{ name: 'Главная', url: '/' }, { name: 'FAQ' }]), faqLd(faq)]}
+>
+  <nav class="crumbs"><a href="/">Главная</a> → FAQ</nav>
+  <h1>Частые вопросы об услугах электрика</h1>
+  <p class="lead">Кратко о ценах, гарантиях и выезде. Не нашли свой вопрос — напишите в WhatsApp, отвечаем быстро.</p>
+  <Faq faq={faq} title="Все вопросы" />
+  <Cta />
+</Base>

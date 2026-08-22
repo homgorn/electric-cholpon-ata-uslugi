@@ -1,0 +1,12 @@
+---
+import { citations } from '../lib/site';
+interface Props { keys?: string[] }
+const { keys = [] } = Astro.props;
+const list = keys.map((k) => citations[k]).filter(Boolean);
+---
+{list.length > 0 && (
+<section class="src">
+  <h2>Источники</h2>
+  <ul>{list.map((c) => <li><a href={c.url} rel="noopener" target="_blank">{c.title}</a> — {c.fact}</li>)}</ul>
+</section>
+)}

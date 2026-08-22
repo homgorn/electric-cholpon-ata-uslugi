@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { locations } from '../../lib/site';
+
+const locs = await getCollection('locations');
+const zones = [
+  ['Город', 'city'], ['0–30 км', 'core'], ['30–50 км', 'mid'], ['50–90 км', 'far'], ['90+ км', 'extended'],
+] as const;
+---
+<Base
+  title={`Где работает электрик — ${locations.length} населённых пунктов Иссык-Куля`}
+  description={`Зона выезда электрика: Чолпон-Ата, Бостери, Тамчы, Корумду, Ананьево, Григорьевка, Ак-Суу, Балыкчы, Каракол и другие сёла в радиусе 95 км. Надбавки 200–1000 сом.`}
+>
+  <nav class="crumbs"><a href="/">Главная</a> → Где работаем</nav>
+  <h1>География выезда: Иссык-Куль до 95 км</h1>
+  <p class="lead">Обслуживаем {locations.length} населённых пунктов северного и восточного берега Иссык-Куля. Надбавка за выезд — 200–1000 сом, фиксированная и известна до заказа.</p>
+
+  {zones.map(([label, zone]) => {
+    const list = locations.filter((l) => l.zone === zone);
+    if (!list.length) return null;
+    return (
+      <section>
+        <h2>{label}</h2>
+        <ul>{list.map((l) => (
+          <li><a href={`/lokacii/${l.slug}/`}>Электрик в {l.name}</a> — выезд {l.travel_fee} сом ({l.distance_km} км)</li>
+        ))}</ul>
+      </section>
+    );
+  })}
+</Base>

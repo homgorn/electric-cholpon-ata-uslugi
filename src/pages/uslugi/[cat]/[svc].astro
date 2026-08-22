@@ -1,0 +1,40 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import Faq from '../../../components/FaqBlock.astro';
+import Cita from '../../../components/Citations.astro';
+import Cta from '../../../components/CtaButtons.astro';
+import { render, getCollection } from 'astro:content';
+import { serviceLd, faqLd, breadcrumbsLd, electricianLd } from '../../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  return services.map((entry) => ({
+    params: { cat: entry.data.category, svc: entry.data.slug },
+    props: { entry },
+  }));
+}
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const d = entry.data;
+const crumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Услуги', url: '/uslugi/' },
+  { name: d.category_name ?? d.category, url: `/uslugi/${d.category}/` },
+  { name: `${d.name} в Чолпон-Ате` },
+];
+---
+<Base title={d.title} description={d.description} jsonld={[
+  electricianLd(['Чолпон-Ата', 'Иссык-Кульская область']),
+  serviceLd({ name: d.name, description: d.description, min: d.price_min, max: d.price_max, unit: d.unit, area: 'Чолпон-Ата' }),
+  ...(d.faq ? [faqLd(d.faq)] : []),
+  breadcrumbsLd(crumbs),
+]}>
+  <Breadcrumbs items={crumbs} />
+  <h1>{d.h1}</h1>
+  {d.lead && <p class="lead">{d.lead}</p>}
+  <article><Content /></article>
+  {d.faq && <Faq faq={d.faq} />}
+  <Cita keys={d.citations ?? []} />
+  <Cta service={`${d.name} в Чолпон-Ате`} />
+</Base>

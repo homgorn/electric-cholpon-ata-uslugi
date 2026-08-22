@@ -1,0 +1,549 @@
+[
+ {
+  "slug": "cholpon-ata",
+  "name": "Чолпон-Ата",
+  "distance_km": 0,
+  "travel_fee": 0,
+  "zone": "city",
+  "population": 12500,
+  "coords": [
+   42.6492,
+   77.0839
+  ],
+  "facts": [
+   "Курортный центр Иссык-Кульской области",
+   "Город областного подчинения",
+   "Пик сезона: июнь–сентябрь"
+  ],
+  "pre": "Чолпон-Ате"
+ },
+ {
+  "slug": "baktuu-dolonotu",
+  "name": "Бактуу-Долоноту",
+  "distance_km": 6,
+  "travel_fee": 200,
+  "zone": "core",
+  "population": 1500,
+  "coords": [
+   42.6528,
+   77.1275
+  ],
+  "facts": [
+   "Между Чолпон-Атой и Бостери",
+   "Бывшее название — Хутор",
+   "Курортная зона с пансионатами"
+  ],
+  "pre": "Бактуу-Долоноту"
+ },
+ {
+  "slug": "bosteri",
+  "name": "Бостери",
+  "distance_km": 8,
+  "travel_fee": 200,
+  "zone": "core",
+  "population": 7815,
+  "coords": [
+   42.65,
+   77.18
+  ],
+  "facts": [
+   "8 км восточнее Чолпон-Аты, трасса А-363",
+   "Пансионаты «Золотые пески», «Тулпар», «Киргизское взморье»",
+   "Население 7 815 чел. (2020)"
+  ],
+  "pre": "Бостери"
+ },
+ {
+  "slug": "kara-oy",
+  "name": "Кара-Ой",
+  "distance_km": 12,
+  "travel_fee": 200,
+  "zone": "core",
+  "population": 2200,
+  "coords": [
+   42.6381,
+   77.2242
+  ],
+  "facts": [
+   "Курортное село с пляжами",
+   "Рядом природный парк Кызыл-Суу"
+  ],
+  "pre": "Кара-Ой"
+ },
+ {
+  "slug": "sary-oy",
+  "name": "Сары-Ой",
+  "distance_km": 14,
+  "travel_fee": 200,
+  "zone": "core",
+  "population": 1100,
+  "coords": [
+   42.63,
+   77.26
+  ],
+  "facts": [
+   "Курортная зона северного берега"
+  ],
+  "pre": "Сары-Ой"
+ },
+ {
+  "slug": "temirovka",
+  "name": "Темировка",
+  "distance_km": 15,
+  "travel_fee": 300,
+  "zone": "core",
+  "population": 900,
+  "coords": [
+   42.61,
+   76.98
+  ],
+  "facts": [
+   "Частный сектор западнее города"
+  ],
+  "pre": "Темировке"
+ },
+ {
+  "slug": "tamchy",
+  "name": "Тамчы",
+  "distance_km": 16,
+  "travel_fee": 300,
+  "zone": "core",
+  "population": 3500,
+  "coords": [
+   42.5614,
+   76.9833
+  ],
+  "facts": [
+   "Крупное село западнее Чолпон-Аты",
+   "Аэропорт Иссык-Куль рядом"
+  ],
+  "pre": "Тамчы"
+ },
+ {
+  "slug": "baetovka",
+  "name": "Баетовка",
+  "distance_km": 17,
+  "travel_fee": 300,
+  "zone": "core",
+  "population": 800,
+  "coords": [
+   42.55,
+   76.95
+  ],
+  "facts": [
+   "Частный сектор, старый жилфонд"
+  ],
+  "pre": "Баетовке"
+ },
+ {
+  "slug": "chok-tal",
+  "name": "Чок-Тал",
+  "distance_km": 18,
+  "travel_fee": 300,
+  "zone": "core",
+  "population": 1300,
+  "coords": [
+   42.54,
+   76.92
+  ],
+  "facts": [
+   "Курортное село, базы отдыха"
+  ],
+  "pre": "Чок-Тале"
+ },
+ {
+  "slug": "zharkynbaevo",
+  "name": "Жаркынбаево",
+  "distance_km": 19,
+  "travel_fee": 300,
+  "zone": "core",
+  "population": 1600,
+  "coords": [
+   42.53,
+   76.89
+  ],
+  "facts": [
+   "Село с частным сектором и базами"
+  ],
+  "pre": "Жаркынбаево"
+ },
+ {
+  "slug": "bulan-segettu",
+  "name": "Булан-Сегетту",
+  "distance_km": 20,
+  "travel_fee": 300,
+  "zone": "core",
+  "population": 2400,
+  "coords": [
+   42.52,
+   76.85
+  ],
+  "facts": [
+   "20 км от Чолпон-Аты",
+   "Санаторная зона"
+  ],
+  "pre": "Булан-Сегетту"
+ },
+ {
+  "slug": "chet-baysoorun",
+  "name": "Чет-Байсоорун",
+  "distance_km": 21,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 1200,
+  "coords": [
+   42.51,
+   76.82
+  ],
+  "facts": [
+   "Частный сектор"
+  ],
+  "pre": "Чет-Байсоорун"
+ },
+ {
+  "slug": "oy-terek",
+  "name": "Ой-Терек",
+  "distance_km": 22,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 1000,
+  "coords": [
+   42.5,
+   76.79
+  ],
+  "facts": [
+   "Сельский частный сектор"
+  ],
+  "pre": "Ой-Терек"
+ },
+ {
+  "slug": "kyzyl-oryuk",
+  "name": "Кызыл-Орюк",
+  "distance_km": 23,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 900,
+  "coords": [
+   42.49,
+   76.76
+  ],
+  "facts": [
+   "Село у подножия гор"
+  ],
+  "pre": "Кызыл-Орюке"
+ },
+ {
+  "slug": "karool-debe",
+  "name": "Кароол-Дёбё",
+  "distance_km": 24,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 1400,
+  "coords": [
+   42.48,
+   76.73
+  ],
+  "facts": [
+   "Частный сектор"
+  ],
+  "pre": "Кароол-Дёбё"
+ },
+ {
+  "slug": "kosh-kel",
+  "name": "Кош-Кёль",
+  "distance_km": 24,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 700,
+  "coords": [
+   42.475,
+   76.72
+  ],
+  "facts": [
+   "Небольшое село"
+  ],
+  "pre": "Кош-Кёле"
+ },
+ {
+  "slug": "kok-debe",
+  "name": "Кёк-Дёбё",
+  "distance_km": 25,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 800,
+  "coords": [
+   42.47,
+   76.7
+  ],
+  "facts": [
+   "Село в предгорьях"
+  ],
+  "pre": "Кёк-Дёбё"
+ },
+ {
+  "slug": "korumdu",
+  "name": "Корумду",
+  "distance_km": 25,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 2100,
+  "coords": [
+   42.46,
+   76.67
+  ],
+  "facts": [
+   "25 км от Чолпон-Аты",
+   "Этнографический парк, петроглифы"
+  ],
+  "pre": "Корумду"
+ },
+ {
+  "slug": "kashat",
+  "name": "Кашат",
+  "distance_km": 26,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 600,
+  "coords": [
+   42.45,
+   76.64
+  ],
+  "facts": [
+   "У дороги на Григорьевское ущелье"
+  ],
+  "pre": "Кашате"
+ },
+ {
+  "slug": "grigorievskaya-pristan",
+  "name": "Григорьевская пристань",
+  "distance_km": 28,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 1300,
+  "coords": [
+   42.44,
+   76.6
+  ],
+  "facts": [
+   "Пристань и курортная зона"
+  ],
+  "pre": "Григорьевской пристани"
+ },
+ {
+  "slug": "toru-aygyr",
+  "name": "Тору-Айгыр",
+  "distance_km": 28,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 1700,
+  "coords": [
+   42.43,
+   76.57
+  ],
+  "facts": [
+   "Село у Семёновского ущелья"
+  ],
+  "pre": "Тору-Айгыр"
+ },
+ {
+  "slug": "kodzhoyar",
+  "name": "Коджояр",
+  "distance_km": 29,
+  "travel_fee": 400,
+  "zone": "core",
+  "population": 900,
+  "coords": [
+   42.42,
+   76.54
+  ],
+  "facts": [
+   "Частный сектор"
+  ],
+  "pre": "Коджояр"
+ },
+ {
+  "slug": "ananevo",
+  "name": "Ананьево",
+  "distance_km": 33,
+  "travel_fee": 500,
+  "zone": "mid",
+  "population": 5200,
+  "coords": [
+   42.38,
+   76.46
+  ],
+  "facts": [
+   "Одно из крупнейших сёл района",
+   "Активное строительство"
+  ],
+  "pre": "Ананьеве"
+ },
+ {
+  "slug": "semeonovka",
+  "name": "Семёновка",
+  "distance_km": 38,
+  "travel_fee": 500,
+  "zone": "mid",
+  "population": 2800,
+  "coords": [
+   42.34,
+   76.36
+  ],
+  "facts": [
+   "У Семёновского ущелья",
+   "Туристический поток"
+  ],
+  "pre": "Семёновке"
+ },
+ {
+  "slug": "grigorievka",
+  "name": "Григорьевка",
+  "distance_km": 42,
+  "travel_fee": 500,
+  "zone": "mid",
+  "population": 4900,
+  "coords": [
+   42.31,
+   76.29
+  ],
+  "facts": [
+   "Крупное село у Григорьевского ущелья",
+   "Базы отдыха"
+  ],
+  "pre": "Григорьевке"
+ },
+ {
+  "slug": "barskoon",
+  "name": "Барскоон",
+  "distance_km": 52,
+  "travel_fee": 600,
+  "zone": "far",
+  "population": 2300,
+  "coords": [
+   42.39,
+   77.48
+  ],
+  "facts": [
+   "Восточнее Бостери",
+   "Ущелье Барскоон, водопады"
+  ],
+  "pre": "Барскооне"
+ },
+ {
+  "slug": "tepke",
+  "name": "Тепке",
+  "distance_km": 55,
+  "travel_fee": 600,
+  "zone": "far",
+  "population": 1200,
+  "coords": [
+   42.37,
+   77.56
+  ],
+  "facts": [
+   "Село восточного побережья"
+  ],
+  "pre": "Тепке"
+ },
+ {
+  "slug": "ichke-dzhergez",
+  "name": "Ичке-Джергез",
+  "distance_km": 58,
+  "travel_fee": 600,
+  "zone": "far",
+  "population": 1500,
+  "coords": [
+   42.35,
+   77.62
+  ],
+  "facts": [
+   "Джети-Огузский район"
+  ],
+  "pre": "Ичке-Джергезе"
+ },
+ {
+  "slug": "ak-suu",
+  "name": "Ак-Суу (Теплоключенка)",
+  "distance_km": 60,
+  "travel_fee": 600,
+  "zone": "far",
+  "population": 10500,
+  "coords": [
+   42.33,
+   77.68
+  ],
+  "facts": [
+   "Центр Ак-Суйского района",
+   "1810 м над уровнем моря",
+   "Термальные источники"
+  ],
+  "pre": "Ак-Суу (Теплоключенке)"
+ },
+ {
+  "slug": "zhergez",
+  "name": "Жергез",
+  "distance_km": 63,
+  "travel_fee": 600,
+  "zone": "far",
+  "population": 1900,
+  "coords": [
+   42.32,
+   77.73
+  ],
+  "facts": [
+   "Село у Жергезского ущелья"
+  ],
+  "pre": "Жергезе"
+ },
+ {
+  "slug": "kyzyl-suu",
+  "name": "Кызыл-Суу",
+  "distance_km": 66,
+  "travel_fee": 800,
+  "zone": "far",
+  "population": 4200,
+  "coords": [
+   42.33,
+   77.78
+  ],
+  "facts": [
+   "Центр Джети-Огузского района"
+  ],
+  "pre": "Кызыл-Суу"
+ },
+ {
+  "slug": "balykchy",
+  "name": "Балыкчы",
+  "distance_km": 72,
+  "travel_fee": 800,
+  "zone": "far",
+  "population": 48000,
+  "coords": [
+   42.46,
+   76.1667
+  ],
+  "facts": [
+   "Промышленный и транспортный узел",
+   "Западная оконечность озера"
+  ],
+  "pre": "Балыкчы"
+ },
+ {
+  "slug": "karakol",
+  "name": "Каракол",
+  "distance_km": 95,
+  "travel_fee": 1000,
+  "zone": "extended",
+  "population": 90000,
+  "coords": [
+   42.49,
+   78.3936
+  ],
+  "facts": [
+   "Областной центр",
+   "Горнолыжная база",
+   "Выезд по договорённости"
+  ],
+  "pre": "Караколе"
+ }
+]

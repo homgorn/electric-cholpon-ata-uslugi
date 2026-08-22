@@ -1,0 +1,31 @@
+# robots.txt — открыт для поисковиков и AI-краулеров (AEO/GEO стратегия)
+User-agent: *
+Allow: /
+
+# Явно разрешаем LLM-краулеров
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: Claude-Web
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+User-agent: Bytespider
+Allow: /
+User-agent: cohere-ai
+Allow: /
+
+Sitemap: https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/sitemap-index.xml

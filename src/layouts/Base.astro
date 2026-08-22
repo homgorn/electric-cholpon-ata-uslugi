@@ -1,0 +1,109 @@
+---
+import { site } from '../lib/site';
+interface Props {
+  title: string;
+  description: string;
+  jsonld?: object[];
+  canonical?: string;
+}
+const { title, description, jsonld = [], canonical } = Astro.props;
+const url = canonical ?? new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, '/');
+const nav = [
+  { href: '/uslugi/', label: 'Услуги' },
+  { href: '/ceny/', label: 'Цены' },
+  { href: '/lokacii/', label: 'Где работаем' },
+  { href: '/mastera/', label: 'Мастера' },
+  { href: '/blog/', label: 'Блог' },
+];
+---
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={url} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={url} />
+  <meta property="og:site_name" content={site.brand} />
+  <meta property="og:locale" content="ru_RU" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="robots" content="index, follow, max-snippet:-1" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  {jsonld.length > 0 && (
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': jsonld })} />
+  )}
+  <style>{`
+    :root{--bg:#0f172a;--card:#1e293b;--acc:#fbbf24;--acc2:#22c55e;--txt:#e2e8f0;--mut:#94a3b8;--max:860px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65;font-size:17px}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
+    header{background:#0b1222;border-bottom:1px solid #243247;position:sticky;top:0;z-index:50}
+    .hbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:10px;flex-wrap:wrap}
+    .logo{font-weight:800;font-size:18px;color:#fff;text-decoration:none}.logo span{color:var(--acc)}
+    nav{display:flex;gap:14px;flex-wrap:wrap}
+    nav a{color:var(--mut);text-decoration:none;font-size:14px}
+    nav a:hover{color:#fff}
+    main{padding:28px 0 90px}
+    h1{font-size:clamp(24px,4vw,34px);line-height:1.25;color:#fff;margin-bottom:14px}
+    h2{font-size:clamp(20px,3vw,26px);color:#fff;margin:34px 0 12px;border-left:4px solid var(--acc);padding-left:12px}
+    h3{font-size:19px;color:#fde68a;margin:22px 0 8px}
+    p{margin-bottom:14px}
+    a{color:#7dd3fc}
+    ul,ol{margin:0 0 16px 22px}
+    li{margin-bottom:6px}
+    table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:15px}
+    th,td{border:1px solid #334155;padding:9px 12px;text-align:left}
+    th{background:#182236;color:#fff}
+    tr:nth-child(even) td{background:#16202f}
+    .lead{font-size:19px;color:#fef3c7;background:#1c2740;border-radius:10px;padding:14px 16px;margin-bottom:22px}
+    blockquote{border-left:4px solid var(--acc2);background:#12251c;padding:12px 16px;border-radius:0 10px 10px 0;margin:18px 0}
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;font-size:16px}
+    .btn-wa{background:#22c55e;color:#052e16}
+    .btn-tg{background:#38bdf8;color:#082f49}
+    .btn:hover{filter:brightness(1.1)}
+    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:16px 0}
+    .card{background:var(--card);border:1px solid #2b3b55;border-radius:12px;padding:14px}
+    .card h3{margin:0 0 6px;font-size:17px}
+    .card small{color:var(--mut)}
+    footer{border-top:1px solid #243247;background:#0b1222;padding:30px 0 40px;font-size:14px;color:var(--mut)}
+    footer a{color:var(--mut)}
+    .sticky-cta{position:fixed;bottom:0;left:0;right:0;display:flex;gap:1px;z-index:60}
+    .sticky-cta a{flex:1;text-align:center;padding:13px;font-weight:800;text-decoration:none;font-size:15px}
+    .sc-wa{background:#22c55e;color:#052e16}.sc-tg{background:#0ea5e9;color:#fff}
+    .crumbs{font-size:13px;color:var(--mut);margin-bottom:16px}.crumbs a{color:var(--mut)}
+    .src{font-size:13.5px;color:var(--mut)}
+    .src li{margin-bottom:4px}
+    @media(min-width:700px){.sticky-cta{display:none}}
+  `}</style>
+</head>
+<body>
+  <header><div class="wrap hbar">
+    <a class="logo" href="/">⚡ Электрик<span> Чолпон-Ата</span></a>
+    <nav>{nav.map((n) => <a href={n.href}>{n.label}</a>)}</nav>
+  </div></header>
+
+  <main><div class="wrap"><slot /></div></main>
+
+  <footer><div class="wrap">
+    <p><strong style="color:#fff">{site.brand}</strong> — электромонтаж в {site.city} и сёлах {site.region_short} до 95 км.</p>
+    <p>WhatsApp: <a href={site.whatsapp}>{site.phone_display}</a> · Telegram: <a href={site.telegram}>@realhikaz</a><br/>
+    Режим: {site.work_hours}</p>
+    <p>
+      <a href="/uslugi/">Все услуги</a> · <a href="/ceny/">Прайс</a> · <a href="/lokacii/">География</a> ·
+      <a href="/mastera/">Мастера</a> · <a href="/faq/">FAQ</a> · <a href="/blog/">Блог</a> ·
+      <a href="/kontakty/">Контакты</a> · <a href="/llms.txt">llms.txt</a> · <a href="/sitemap-index.xml">Sitemap</a>
+    </p>
+    <p style="opacity:.6">© 2026 {site.brand}. Цены на сайте ориентировочные, финальная стоимость после осмотра.</p>
+  </div></footer>
+
+  <div class="sticky-cta">
+    <a class="sc-wa" href={site.whatsapp}>💬 WhatsApp</a>
+    <a class="sc-tg" href={site.telegram}>✈️ Telegram</a>
+  </div>
+</body>
+</html>

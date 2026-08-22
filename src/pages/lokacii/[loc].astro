@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/FaqBlock.astro';
+import Cta from '../../components/CtaButtons.astro';
+import { render, getCollection } from 'astro:content';
+import { faqLd, breadcrumbsLd, electricianLd } from '../../lib/jsonld';
+import { site } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const locs = await getCollection('locations');
+  return locs.map((entry) => ({ params: { loc: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const crumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Где работаем', url: '/lokacii/' },
+  { name: `Электрик в ${d.name}` },
+];
+---
+<Base title={d.title} description={d.description} jsonld={[
+  electricianLd([d.name]),
+  ...(d.faq ? [faqLd(d.faq)] : []),
+  breadcrumbsLd(crumbs),
+]}>
+  <Breadcrumbs items={crumbs} />
+  <h1>{d.h1}</h1>
+  {d.lead && <p class="lead">{d.lead}</p>}
+  <article><Content /></article>
+  {d.faq && <Faq faq={d.faq} title={`Вопросы о выезде в ${d.name}`} />}
+  <Cta service={`Электрик в ${d.name}`} />
+  <p><a href="/lokacii/">← Все населённые пункты</a></p>
+</Base>

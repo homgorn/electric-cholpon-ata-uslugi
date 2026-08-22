@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/CtaButtons.astro';
+import Faq from '../components/FaqBlock.astro';
+import { getCollection } from 'astro:content';
+import { breadcrumbsLd, faqLd } from '../lib/jsonld';
+
+const services = (await getCollection('services'))
+  .sort((a, b) => a.data.price_min - b.data.price_min);
+const faq = [
+  { q: 'Цены окончательные или могут вырасти?', a: 'Диапазоны на странице — ориентир. Точную сумму мастер называет после фото или осмотра и фиксирует до начала работ.' },
+  { q: 'Входит ли выезд в цену?', a: 'По Чолпон-Ате при заказе от 1000 сом выезд бесплатный. В сёла — надбавка 200–1000 сом по расстоянию.' },
+  { q: 'Материалы включены?', a: 'Работа и материалы считаются отдельно. Мастер привозит расходники с собой; крупные позиции (кабель, щит) согласуются заранее.' },
+];
+---
+<Base title="Цены на услуги электрика в Чолпон-Ате — прайс 2026 (80+ позиций)"
+  description="Полный прайс электрика в Чолпон-Ате на 2026 год: розетки от 250 сом, люстры от 700, щиты от 6000, проводка квартир от 25000 сом. Выезд в сёла 200–800 сом."
+  jsonld={[breadcrumbsLd([{ name: 'Главная', url: '/' }, { name: 'Цены' }]), faqLd(faq)]}
+>
+  <nav class="crumbs"><a href="/">Главная</a> → Цены</nav>
+  <h1>Прайс на услуги электрика — {new Date().getFullYear()} год</h1>
+  <p class="lead">Все цены в сомах по региону Иссык-Куль: от 150 сом за метр кабеля до 138 000 сом за дом под ключ. Выезд в сёла — плюс 200–800 сом.</p>
+
+  <table>
+    <thead><tr><th>Услуга</th><th>Ед.</th><th>Цена, сом</th></tr></thead>
+    <tbody>
+      {services.map((s) => (
+        <tr>
+          <td><a href={`/uslugi/${s.data.category}/${s.data.slug}/`}>{s.data.name}</a></td>
+          <td>{s.data.unit}</td>
+          <td><strong>{s.data.price_min}–{s.data.price_max}</strong></td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <h2>Выезд в сёла</h2>
+  <table>
+    <thead><tr><th>Расстояние от Чолпон-Аты</th><th>Надбавка</th></tr></thead>
+    <tbody>
+      <tr><td>до 10 км (Бостери, Бактуу-Долоноту)</td><td>200 сом</td></tr>
+      <tr><td>11–20 км (Тамчы, Кара-Ой, Булан-Сегетту)</td><td>300 сом</td></tr>
+      <tr><td>21–30 км (Корумду, Ананьево)</td><td>400 сом</td></tr>
+      <tr><td>31–50 км (Григорьевка, Семёновка)</td><td>500 сом</td></tr>
+      <tr><td>50–90 км (Балыкчы, Ак-Суу, Барскоон)</td><td>600–800 сом</td></tr>
+      <tr><td>Каракол (~95 км)</td><td>1000 сом / договорная</td></tr>
+    </tbody>
+  </table>
+
+  <Faq faq={faq} />
+  <Cta />
+</Base>

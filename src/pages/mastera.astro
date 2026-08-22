@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/CtaButtons.astro';
+import Faq from '../components/FaqBlock.astro';
+import { masters, site } from '../lib/site';
+import { faqLd, breadcrumbsLd } from '../lib/jsonld';
+
+const active = masters.masters.filter((m) => m.status === 'active');
+const faq = [
+  { q: 'Как попасть в каталог мастеров?', a: 'Напишите в Telegram @realhikaz: имя, район работы, специализация и телефон. Размещение бесплатное — мы ищем проверенных исполнителей по всему Иссык-Кулю.' },
+  { q: 'Мастера проходят проверку?', a: 'Да: проверяем опыт по выполненным работам и берём обратную связь от первых клиентов каталога.' },
+];
+---
+<Base title="Лучшие электрики Иссык-Куля — каталог проверенных мастеров"
+  description="Каталог электриков Чолпон-Аты и сёл Иссык-Куля: рейтинг, специализация, зоны выезда. Хотите в список? Напишите в Telegram."
+  jsonld={[breadcrumbsLd([{ name: 'Главная', url: '/' }, { name: 'Мастера' }]), faqLd(faq)]}
+>
+  <nav class="crumbs"><a href="/">Главная</a> → Мастера</nav>
+  <h1>Каталог мастеров-электриков региона</h1>
+  <p class="lead">Раздел наполняется: мы добавляем проверенных исполнителей по одному, с рейтингом и зоной выезда. Сейчас идёт набор — размещение бесплатное.</p>
+
+  {active.length > 0 ? (
+    <div class="cards">
+      {active.map((m) => (
+        <div class="card">
+          <h3>{m.name}</h3>
+          <small>⭐ {m.rating} · {m.jobs_done}+ работ · стаж {m.experience_years} лет</small>
+          <p>{m.specialties.join(', ')}</p>
+          <p><small>Зоны: {m.areas.join(', ')}</small></p>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <blockquote><strong>Набор открыт.</strong> Первые карточки появятся после проверки первых кандидатов. Клиенты пока обслуживаются основным мастером сайта.</blockquote>
+  )}
+
+  <h2>Как попасть в каталог</h2>
+  <ol>
+    <li>Напишите в <a href={site.telegram}>Telegram @realhikaz</a></li>
+    <li>Укажите: имя, район (Чолпон-Ата / Бостери / …), специализацию, телефон/WhatsApp</li>
+    <li>2–3 примера выполненных работ (фото)</li>
+    <li>После проверки — карточка на сайте + заявки с гео-страниц вашего района</li>
+  </ol>
+
+  <Faq faq={faq} />
+  <Cta />
+</Base>

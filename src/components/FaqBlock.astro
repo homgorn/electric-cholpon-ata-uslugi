@@ -1,0 +1,13 @@
+---
+import { faqLd } from '../lib/jsonld';
+interface Props { faq: { q: string; a: string }[]; title?: string; withLd?: boolean }
+const { faq, title = 'Частые вопросы', withLd = true } = Astro.props;
+---
+{withLd && <script type="application/ld+json" set:html={JSON.stringify(faqLd(faq))} />}
+<h2>{title}</h2>
+{faq.map((f) => (
+  <div>
+    <h3>{f.q}</h3>
+    <p>{f.a}</p>
+  </div>
+))}

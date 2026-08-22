@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/CtaButtons.astro';
+import { site, categories, locations } from '../lib/site';
+import { electricianLd } from '../lib/jsonld';
+
+const topServices = [
+  ['Замена розетки', '/uslugi/rozetki-vyklyuchateli/zamena-rozetki/', 'от 250 сом'],
+  ['Замена проводки в доме', '/uslugi/provodka/zamena-provodki-dome/', 'от 52 000 сом'],
+  ['Установка люстры', '/uslugi/osveshchenie/ustanovka-lyustry/', 'от 700 сом'],
+  ['Сборка электрощита', '/uslugi/shchity-avtomaty/sborka-elektroshchita/', 'от 6 000 сом'],
+  ['Подключение бойлера', '/uslugi/bytovaya-tehnika/podklyuchenie-boylera/', 'от 1 000 сом'],
+  ['Срочный вызов 24/7', '/uslugi/avariynye-raboty/srochnyy-vyzov-elektrika/', 'выезд от 575 сом'],
+];
+const villages = ['Бостери','Тамчы','Кара-Ой','Корумду','Ананьево','Григорьевка','Ак-Суу','Балыкчы'];
+---
+<Base
+  title={`Электрик Чолпон-Ата — услуги электрика с выездом в сёла Иссык-Куля`}
+  description={`Электрик в Чолпон-Ате: ${85} услуг от 150 сом — проводка, розетки, щиты, бойлеры. Выезд в ${villages.length}+ сёл Иссык-Куля до 95 км. Гарантия 12 месяцев, WhatsApp-ответ за 5 минут.`}
+  jsonld={[electricianLd(locations.map((l) => l.name))]}
+>
+  <h1>Электрик в Чолпон-Ате и сёлах Иссык-Куля</h1>
+  <p class="lead">Электромонтажные работы в Чолпон-Ате: от замены розетки (250 сом) до проводки дома под ключ (от 52 000 сом). Выезд в Бостери, Тамчы, Корумду и ещё 30 населённых пунктов — 200–800 сом.</p>
+
+  <div class="cta">
+    <a class="btn btn-wa" href={site.whatsapp}>💬 WhatsApp с фото — цена за 5 минут</a>
+    <a class="btn btn-tg" href={site.telegram}>✈️ Telegram @realhikaz</a>
+  </div>
+
+  <h2>Популярные услуги</h2>
+  <div class="cards">
+    {topServices.map(([name, url, price]) => (
+      <a class="card" href={url} style="text-decoration:none">
+        <h3 style="color:#7dd3fc">{name}</h3>
+        <small>{price} · гарантия 12 мес</small>
+      </a>
+    ))}
+  </div>
+  <p><a href="/ceny/">→ Полный прайс из 80+ позиций</a> · <a href="/uslugi/">Каталог всех услуг</a></p>
+
+  <h2>Категории работ</h2>
+  <ul>
+    {categories.map((c) => (
+      <li><a href={`/uslugi/${c.slug}/`}>{c.icon} {c.name}</a></li>
+    ))}
+  </ul>
+
+  <h2>Выезжаем по всему Прииссыккулью</h2>
+  <p>Город Чолпон-Ата — приезд за 30–60 минут. Сёла в радиусе 95 км — по записи в день обращения:</p>
+  <p>{villages.map((v) => v).join(' · ')}, <a href="/lokacii/">и все остальные →</a></p>
+
+  <h2>Почему нас выбирают</h2>
+  <ul>
+    <li><strong>Местный мастер</strong> — не ждёте бригаду из Бишкека</li>
+    <li><strong>Цена до выезда</strong> — пришлите фото в WhatsApp, назовём диапазон сразу</li>
+    <li><strong>Гарантия 12 месяцев</strong> письменно на весь монтаж</li>
+    <li><strong>Работаем по ПУЭ</strong>: клеммы вместо скруток, УЗО во влажных зонах</li>
+    <li><strong>Аварийные вызовы 24/7</strong> — искрение и запах гари приоритетны</li>
+  </ul>
+
+  <Cta service="Консультация электрика" />
+</Base>

@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Cta from '../../components/CtaButtons.astro';
+import { render, getCollection } from 'astro:content';
+import { breadcrumbsLd } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const tags = await getCollection('tags');
+  return tags.map((entry) => ({ params: { tag: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+<Base title={d.title} description={d.description} jsonld={[
+  breadcrumbsLd([{ name: 'Главная', url: '/' }, { name: 'Услуги', url: '/uslugi/' }, { name: d.h1 }]),
+]}>
+  <Breadcrumbs items={[{ name: 'Главная', url: '/' }, { name: 'Услуги', url: '/uslugi/' }, { name: d.h1 }]} />
+  <h1>{d.h1}</h1>
+  <article><Content /></article>
+  <Cta service={d.title} />
+</Base>

@@ -1,0 +1,31 @@
+{
+  "note": "Контент-план блога. status: todo → статья пишется через пайплайн fetch→rewrite→publish (scripts/fetch-blog.mjs). Каждая тема: источники для фетча + целевой ключ + угол подачи.",
+  "pipeline": ["fetch sources → docs/research/fetched/", "rewrite под SEO/GEO/AEO (ответ в первых 100 символах)", "сохранить в content/blog/", "перегенерить llms.txt"],
+  "topics": [
+    {"slug":"skolko-stoit-elektrik-v-cholpon-ate-2026","title":"Сколько стоит электрик в Чолпон-Ате в 2026 году: полный обзор цен","keyword":"сколько стоит электрик чолпон ата","sources":["https://repair.com.kg/electric-v-bishkeke.html","https://eco-service.kg/elektrik/wiring-rep"],"status":"published"},
+    {"slug":"kak-vybrat-elektrika-sovety","title":"Как выбрать электрика и не переплатить: 7 проверок перед вызовом","keyword":"как выбрать электрика","sources":["https://electrician.kg/"],"status":"published"},
+    {"slug":"pochemu-vybivaet-avtomat-prichiny","title":"Выбивает автомат в доме: 6 причин и что делать","keyword":"выбивает автомат что делать","sources":["https://docs.cntd.ru/document/902112231"],"status":"published"},
+    {"slug":"elektrika-na-issyk-kule-osobennosti","title":"Электрика на Иссык-Куле: как солёный воздух и сезонность убивают проводку","keyword":"электрика иссык куль","sources":[],"status":"published"},
+    {"slug":"podgotovka-pansionata-k-sezonu","title":"Чеклист: подготовка электрики пансионата к сезону на Иссык-Куле","keyword":"подготовка пансионата к сезону электрика","sources":["https://www.issykkul.biz/"],"status":"published"},
+    {"slug":"zamena-provodki-v-chastnom-dome-etapy","title":"Замена проводки в частном доме: этапы, сроки, цены","keyword":"замена проводки в частном доме цена","sources":["https://eco-service.kg/elektrik/wiring-rep"],"status":"todo"},
+    {"slug":"mozhno-li-samomu-menjat-rozetku","title":"Можно ли самому менять розетку: когда да, когда нет","keyword":"можно ли самому заменить розетку","sources":["https://docs.cntd.ru/document/902112231"],"status":"todo"},
+    {"slug":"uzo-nuzhno-li-v-dome","title":"УЗО в доме: зачем нужно и сколько стоит защита от удара током","keyword":"нужно ли узо в доме","sources":["https://docs.cntd.ru/document/902112231"],"status":"todo"},
+    {"slug":"zazemlenie-v-chastnom-dome","title":"Заземление в частном доме: схема, цены, ошибки","keyword":"заземление в частном доме","sources":[],"status":"todo"},
+    {"slug":"stabilizator-napryazheniya-nuzhen-li","title":"Стабилизатор напряжения в селе: нужен ли и какой выбрать","keyword":"стабилизатор напряжения для дома","sources":[],"status":"todo"},
+    {"slug":"bojler-na-issyk-kule","title":"Бойлер на Иссык-Куле: подключение, обслуживание, типичные поломки","keyword":"подключение бойлера","sources":[],"status":"todo"},
+    {"slug":"svet-v-gostinom-dome","title":"Освещение гостевого дома: что делают владельцы на Иссык-Куле","keyword":"освещение гостевого дома","sources":[],"status":"todo"},
+    {"slug":"generator-dlya-doma","title":"Генератор для дома: как подключить и не спалить технику","keyword":"подключение генератора к дому","sources":[],"status":"todo"},
+    {"slug":"elektrootoplenie-doma","title":"Электроотопление дома без газа: котёл, конвекторы, тёплый пол","keyword":"электроотопление частного дома","sources":[],"status":"todo"},
+    {"slug":"videonablyudenie-na-dache","title":"Видеонаблюдение на даче за 3 камеры: схема и цены","keyword":"видеонаблюдение на даче","sources":[],"status":"todo"},
+    {"slug":"380v-dlya-doma","title":"380В в частный дом: когда нужно и как подключить","keyword":"подключение 380в к дому","sources":[],"status":"todo"},
+    {"slug":"sip-ili-kabel-v-zemle","title":"СИП по воздуху или кабель в земле: что выбрать для ввода","keyword":"ввод электричества в дом сип","sources":[],"status":"todo"},
+    {"slug":"pozharnaya-bezopasnost-elektriki","title":"5 ошибок монтажа, из-за которых горят дома","keyword":"пожарная безопасность электропроводки","sources":["https://docs.cntd.ru/document/902112231"],"status":"todo"},
+    {"slug":"svet-vo-dvore-shema","title":"Уличное освещение двора: схема, фотореле, цены","keyword":"уличное освещение участка","sources":[],"status":"todo"},
+    {"slug":"teplyj-pol-pod-plitku","title":"Тёплый пол под плитку: расчёт, монтаж, ошибки","keyword":"тёплый пол под плитку","sources":[],"status":"todo"},
+    {"slug":"zaryadka-electromobilya-doma","title":"Зарядка электромобиля дома: розетка или wallbox","keyword":"зарядка электромобиля дома","sources":[],"status":"todo"},
+    {"slug":"retro-provodka-v-derevyannom-dome","title":"Ретро-проводка в деревянном доме: красота и безопасность","keyword":"ретро проводка в деревянном доме","sources":[],"status":"todo"},
+    {"slug":"prohodnoy-vyklyuchatel-shema","title":"Проходной выключатель: свет с двух мест без встания с кровати","keyword":"проходной выключатель схема","sources":[],"status":"todo"},
+    {"slug":"schemy-schita-dlya-doma","title":"Схема щита для дома: группы, УЗО, номиналы","keyword":"схема электрощита для дома","sources":[],"status":"todo"},
+    {"slug":"zimnyaya-konservaciya-doma","title":"Консервация дома на зиму: электрика, вода, обогрев","keyword":"консервация дома на зиму","sources":[],"status":"todo"}
+  ]
+}

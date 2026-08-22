@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Faq from '../../components/FaqBlock.astro';
+import Cita from '../../components/Citations.astro';
+import Cta from '../../components/CtaButtons.astro';
+import { render, getCollection } from 'astro:content';
+import { articleLd, breadcrumbsLd, faqLd } from '../../lib/jsonld';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.filter((p) => p.data.h1).map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const crumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Блог', url: '/blog/' },
+  { name: d.h1 },
+];
+---
+<Base title={d.title} description={d.description} jsonld={[
+  articleLd({ title: d.title, description: d.description, date: d.date ?? '', slug: entry.id, keyword: d.keyword }),
+  ...(d.faq ? [faqLd(d.faq)] : []),
+  breadcrumbsLd(crumbs),
+]}>
+  <Breadcrumbs items={crumbs} />
+  <h1>{d.h1}</h1>
+  <p style="color:#94a3b8;font-size:14px">{d.date} · ключ: «{d.keyword}»</p>
+  <article><Content /></article>
+  {d.faq && <Faq faq={d.faq} />}
+  <Cita keys={d.citations ?? []} />
+  <Cta service={d.title} />
+  <p><a href="/blog/">← Все статьи блога</a></p>
+</Base>

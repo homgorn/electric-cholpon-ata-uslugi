@@ -1,0 +1,23 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../../lib/site';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !/status:\s*"?todo/.test(p.body ?? ''))
+  .sort((a, b) => (b.data.date ?? '').localeCompare(a.data.date ?? ''));
+---
+<Base title="Блог об электрике — Иссык-Куль: цены, советы, безопасность"
+  description="Статьи об электрике на Иссык-Куле: реальные цены 2026, выбор мастера, защита от скачков напряжения, подготовка пансионатов к сезону.">
+  <nav class="crumbs"><a href="/">Главная</a> → Блог</nav>
+  <h1>Блог об электрике на Иссык-Куле</h1>
+  <p class="lead">Практические материалы от мастеров: сколько стоят работы в {new Date().getFullYear()} году, как не переплатить и что делать при аварии.</p>
+  <div class="cards">
+    {posts.map((p) => (
+      <a class="card" href={`/blog/${p.id}/`} style="text-decoration:none">
+        <h3 style="color:#7dd3fc">{p.data.title}</h3>
+        <small>{p.data.date} · {p.data.keyword}</small>
+      </a>
+    ))}
+  </div>
+</Base>

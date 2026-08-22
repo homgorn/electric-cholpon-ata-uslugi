@@ -1,0 +1,34 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/CtaButtons.astro';
+import { site } from '../lib/site';
+import { electricianLd } from '../lib/jsonld';
+---
+<Base title={`Контакты — ${site.brand}`}
+  description={`Связаться с электриком Чолпон-Аты: WhatsApp ${site.phone_display}, Telegram @realhikaz. Режим ${site.work_hours}.`}
+  jsonld={[electricianLd(['Чолпон-Ата', 'Иссык-Кульская область'])]}
+>
+  <nav class="crumbs"><a href="/">Главная</a> → Контакты</nav>
+  <h1>Контакты</h1>
+  <p class="lead">Самый быстрый способ — WhatsApp с фото проблемы: ответ с ценой приходит в течение 5 минут.</p>
+
+  <div class="cta">
+    <a class="btn btn-wa" href={site.whatsapp}>💬 WhatsApp {site.phone_display}</a>
+    <a class="btn btn-tg" href={site.telegram}>✈️ Telegram @realhikaz</a>
+  </div>
+
+  <h2>Режим работы</h2>
+  <ul>
+    <li>{site.work_hours}</li>
+    <li>Аварийные вызовы (искрение, запах гари, полное отключение) — круглосуточно</li>
+    <li>Выезд по городу: 30–60 минут; сёла — по записи в день обращения</li>
+  </ul>
+
+  <h2>Зона обслуживания</h2>
+  <p>{site.city} + 32 населённых пункта в радиусе до 95 км. Полный список — <a href="/lokacii/">на странице географии</a>.</p>
+
+  <h2>Для бизнеса</h2>
+  <p>Пансионаты, гостевые дома, кафе: предсезонное ТО и дежурство мастеров в сезон. Пишите в Telegram — составим регламент под объект.</p>
+
+  <Cta />
+</Base>

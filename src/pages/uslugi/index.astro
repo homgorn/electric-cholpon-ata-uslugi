@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { categories, locations } from '../../lib/site';
+import { breadcrumbsLd } from '../../lib/jsonld';
+
+const services = await getCollection('services');
+export async function getStaticPaths() {
+  return [{ params: {} }];
+}
+const byCat = categories.map((c) => ({
+  ...c,
+  list: services.filter((s) => s.data.category === c.slug),
+}));
+const minPrice = Math.min(...services.map((s) => s.data.price_min));
+---
+<Base
+  title={`Все услуги электрика в Чолпон-Ате — каталог с ценами от ${minPrice} сом`}
+  description={`Каталог услуг электрика в Чолпон-Ате и на Иссык-Куле: ${services.length} работ в ${categories.length} категориях. Цены от ${minPrice} сом, гарантия 12 месяцев, выезд в сёла.`}
+  jsonld={[breadcrumbsLd([{ name: 'Главная', url: '/' }, { name: 'Услуги' }])]}
+>
+  <nav class="crumbs"><a href="/">Главная</a> → Услуги</nav>
+  <h1>Каталог услуг электрика</h1>
+  <p class="lead">{services.length} услуг электромонтажа в {locations.length} населённых пунктах Иссык-Куля. Цены от {minPrice} сом, финальная стоимость — после фото или осмотра.</p>
+
+  {byCat.map((c) => (
+    <section>
+      <h2>{c.icon} <a href={`/uslugi/${c.slug}/`} style="color:#fde68a;text-decoration:none">{c.name}</a></h2>
+      <ul>
+        {c.list.map((s) => (
+          <li><a href={`/uslugi/${s.data.category}/${s.data.slug}/`}>{s.data.name}</a> — от {s.data.price_min} сом</li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Base>

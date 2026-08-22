@@ -1,0 +1,26 @@
+{
+  "name": "electric-cholpon-ata-uslugi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Programmatic SEO/AEO/GEO сайт услуг электрика: Чолпон-Ата и сёла Иссык-Куля до 90 км",
+  "scripts": {
+    "gen": "node scripts/generate-content.mjs",
+    "llms": "node scripts/generate-llms.mjs",
+    "db": "node --experimental-sqlite scripts/build-db.mjs",
+    "export": "node scripts/export.mjs",
+    "validate": "node scripts/validate.mjs",
+    "fetch-blog": "node scripts/fetch-blog.mjs",
+    "dev": "astro dev",
+    "build": "npm run gen && npm run llms && astro build && npm run validate -- --postbuild",
+    "preview": "astro preview",
+    "deploy": "wrangler pages deploy dist --project-name uslugi-electrica-cholpon-ata-issyk-kol"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.1.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.99.0"
+  }
+}

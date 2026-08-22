@@ -1,0 +1,9 @@
+---
+import { waLink, site } from '../lib/site';
+interface Props { service?: string; telegram?: boolean }
+const { service } = Astro.props;
+---
+<div class="cta">
+  <a class="btn btn-wa" href={waLink(service)}>💬 WhatsApp с фото — цена за 5 минут</a>
+  <a class="btn btn-tg" href={site.telegram}>✈️ Telegram</a>
+</div>
