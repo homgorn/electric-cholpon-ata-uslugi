@@ -4,6 +4,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Faq from '../components/FaqBlock.astro';
 import Cita from '../components/Citations.astro';
 import Cta from '../components/CtaButtons.astro';
+import CategoryNav from '../components/CategoryNav.astro';
 import { render, getCollection } from 'astro:content';
 import { serviceLd, faqLd, breadcrumbsLd, electricianLd } from '../lib/jsonld';
 
@@ -33,5 +34,6 @@ const crumbs = [
   <article><Content /></article>
   {d.faq && <Faq faq={d.faq} />}
   <Cita keys={d.citations ?? []} />
+  <CategoryNav />
   <Cta service={`${d.service_slug.replace(/-/g, ' ')} в ${d.location_slug}`} />
 </Base>

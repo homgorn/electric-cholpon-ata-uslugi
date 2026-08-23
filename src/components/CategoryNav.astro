@@ -1,0 +1,18 @@
+---
+import { categories } from '../lib/site';
+interface Props { current?: string; title?: string }
+const { current, title = 'Категории услуг' } = Astro.props;
+---
+<section style="margin:30px 0 10px">
+  <h2 style="font-size:17px;border:none;padding:0;margin-bottom:10px">{title}</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:8px">
+    {categories.map((c) => (
+      <a
+        href={`/uslugi/${c.slug}/`}
+        style={`display:inline-block;padding:7px 12px;border-radius:8px;font-size:13.5px;text-decoration:none;background:${c.slug === current ? '#334155' : '#1e293b'};border:1px solid #2b3b55;color:${c.slug === current ? '#fde68a' : '#94a3b8'}`}
+      >
+        {c.icon} {c.name}
+      </a>
+    ))}
+  </div>
+</section>

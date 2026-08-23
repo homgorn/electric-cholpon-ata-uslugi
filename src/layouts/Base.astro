@@ -1,5 +1,5 @@
 ---
-import { site } from '../lib/site';
+import { site, categories, locations } from '../lib/site';
 interface Props {
   title: string;
   description: string;
@@ -7,169 +7,34 @@ interface Props {
   canonical?: string;
   ogImage?: string;
   twitterCard?: 'summary' | 'summary_large_image';
-  pageType?: 'website' | 'article' | 'service' | 'category' | 'tag' | 'location';
+  pageType?: string;
 }
-const { title, description, jsonld = [], canonical, ogImage = '/og-default.svg', twitterCard = 'summary_large_image', pageType = 'website' } = Astro.props;
+const { title, description, jsonld = [], canonical, ogImage = '/favicon.svg', twitterCard = 'summary_large_image', pageType = 'website' } = Astro.props;
 const url = canonical ?? new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, '/');
-const nav = [
-  { href: '/uslugi/', label: 'Услуги' },
-  { href: '/ceny/', label: 'Цены' },
-  { href: '/lokacii/', label: 'Где работаем' },
-  { href: '/mastera/', label: 'Мастера' },
-  { href: '/blog/', label: 'Блог' },
-];
 const ogImageUrl = new URL(ogImage, Astro.site).href;
-const twitterHandle = '@realhikaz';
 
-/**
- * Build comprehensive JSON-LD graph with all SEO schemas
- */
-function buildJsonLd(props: Props): object[] {
-  const { title, description, url, pageType, jsonld: customJsonld = [] } = props;
-  const baseUrl = site.url;
-  const graph: object[] = [];
-
-  // 1. WebSite schema with SearchAction
-  graph.push({
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    '@id': `${baseUrl}#website`,
-    url: baseUrl,
-    name: site.brand,
-    description: site.brand + ' — электромонтажные услуги в ' + site.city + ' и сёлах ' + site.region_short,
-    publisher: { '@id': `${baseUrl}#electrician` },
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: { '@type': 'EntryPoint', urlTemplate: `${baseUrl}/search?q={search_term_string}` },
-      'query-input': 'required name=search_term_string',
-    },
-    inLanguage: 'ru',
-  });
-
-  // 2. LocalBusiness / Electrician (main entity)
-  const electricianId = `${baseUrl}#electrician`;
-  graph.push({
-    '@context': 'https://schema.org',
-    '@type': ['LocalBusiness', 'Electrician'],
-    '@id': electricianId,
-    name: site.brand,
-    description: 'Электромонтажные работы в ' + site.city + ' и сёлах ' + site.region_short + ': проводка, розетки, щиты, освещение, бойлеры. Гарантия 12 месяцев.',
-    url: baseUrl,
-    telephone: site.phone_raw,
-    priceRange: '150–138000 KGS',
-    currency: 'KGS',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: site.city,
-      addressRegion: site.region,
-      addressCountry: 'KG',
-      streetAddress: site.city,
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: 42.6492,
-      longitude: 77.0839,
-    },
-    areaServed: [
-      { '@type': 'Place', name: site.city },
-      { '@type': 'Place', name: site.region },
-    ],
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      opens: '08:00',
-      closes: '22:00',
-    },
-    sameAs: [site.telegram, site.whatsapp],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: site.phone_raw,
-      contactType: 'customer service',
-      availableLanguage: ['Russian', 'Kyrgyz'],
-      hoursAvailable: 'Mo-Su 08:00-22:00',
-    },
-    serviceArea: {
-      '@type': 'GeoCircle',
-      geoMidpoint: {
-        '@type': 'GeoCoordinates',
-        latitude: 42.6492,
-        longitude: 77.0839,
-      },
-      geoRadius: '95000',
-    },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      reviewCount: '127',
-      bestRating: '5',
-      worstRating: '1',
-    },
-    review: [
-      {
-        '@type': 'Review',
-        author: { '@type': 'Person', name: 'Аскар' },
-        reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-        reviewBody: 'Приехал за 40 минут, заменил розетки, чисто и аккуратно. Рекомендую!',
-        datePublished: '2026-07-15',
-      },
-      {
-        '@type': 'Review',
-        author: { '@type': 'Person', name: 'Айгуль' },
-        reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
-        reviewBody: 'Заменили проводку в квартире полностью. Качественно, по смету, без сюрпризов.',
-        datePublished: '2026-06-20',
-      },
-    ],
-  });
-
-  // 3. Page-specific schemas based on type
-  if (pageType === 'service' || pageType === 'geo') {
-    // Service schema handled by page-specific jsonld
-  } else if (pageType === 'article') {
-    // Article schema handled by blog post page
-  } else if (pageType === 'category') {
-    // CollectionPage / ItemList for category page
-    graph.push({
-      '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
-      name: 'Категория услуг',
-      description: 'Список всех услуг в категории',
-      mainEntity: {
-        '@type': 'ItemList',
-        itemListElement: [], // populated by page-specific jsonld
-      },
-    });
-  } else if (pageType === 'tag') {
-    graph.push({
-      '@context': 'https://schema.org',
-      '@type': 'CollectionPage',
-      name: 'Услуги по тегу',
-      description: 'Услуги, связанные с тегом',
-      mainEntity: {
-        '@type': 'ItemList',
-        itemListElement: [],
-      },
-    });
-  } else if (pageType === 'location') {
-    // Location page - LocalBusiness with areaServed
-    graph.push({
-      '@context': 'https://schema.org',
-      '@type': 'Place',
-      name: 'Зона обслуживания',
-      containedInPlace: { '@id': electricianId },
-    });
-  }
-
-  // 4. Add custom page-specific JSON-LD
-  graph.push(...customJsonld);
-
-  return graph;
-}
-
-// Build the complete JSON-LD
-const jsonldGraph = buildJsonLd({ title, description, url: url, pageType, jsonld, ogImage, twitterCard });
+// Футер: 5 колонок перелинковки
+const topLocations = locations.filter(l => l.slug !== 'cholpon-ata').slice(0, 10);
+const topServices = [
+  ['Замена розетки', '/uslugi/rozetki-vyklyuchateli/zamena-rozetki/'],
+  ['Замена проводки в доме', '/uslugi/provodka/zamena-provodki-dome/'],
+  ['Установка люстры', '/uslugi/osveshchenie/ustanovka-lyustry/'],
+  ['Сборка электрощита', '/uslugi/shchity-avtomaty/sborka-elektroshchita/'],
+  ['Подключение бойлера', '/uslugi/bytovaya-tehnika/podklyuchenie-boylera/'],
+  ['Срочный вызов 24/7', '/uslugi/avariynye-raboty/srochnyy-vyzov-elektrika/'],
+  ['Замена автомата', '/uslugi/shchity-avtomaty/zamena-avtomata/'],
+  ['Электрика под ключ', '/uslugi/provodka/elektrika-pod-kluch/'],
+];
+const infoLinks = [
+  ['Все услуги', '/uslugi/'],
+  ['Прайс-лист', '/ceny/'],
+  ['Где работаем', '/lokacii/'],
+  ['Мастера', '/mastera/'],
+  ['Блог', '/blog/'],
+  ['FAQ', '/faq/'],
+  ['Контакты', '/kontakty/'],
+];
 ---
-
 <!doctype html>
 <html lang="ru">
 <head>
@@ -178,129 +43,178 @@ const jsonldGraph = buildJsonLd({ title, description, url: url, pageType, jsonld
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={url} />
-  
-  <!-- Open Graph -->
-  <meta property="og:type" content={pageType === 'article' ? 'article' : pageType} />
+
+  <meta property="og:type" content={pageType === 'article' ? 'article' : 'website'} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={url} />
   <meta property="og:site_name" content={site.brand} />
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:image" content={ogImageUrl} />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content={title} />
-  
-  <!-- Twitter Card -->
   <meta name="twitter:card" content={twitterCard} />
-  <meta name="twitter:site" content={twitterHandle} />
-  <meta name="twitter:creator" content={twitterHandle} />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={ogImageUrl} />
-  <meta name="twitter:image:alt" content={title} />
 
-  <!-- Standard SEO -->
-  <link rel="canonical" href={url} />
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
   <meta name="theme-color" content="#0f172a" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content={site.brand} />
-  
-  <!-- Favicon -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <link rel="manifest" href="/manifest.json" />
 
-  <!-- JSON-LD Structured Data -->
-  {jsonldGraph.length > 0 && (
-    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': jsonldGraph })} />
+  {jsonld.length > 0 && (
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': jsonld })} />
   )}
 
-  <!-- Preload critical resources -->
-  <link rel="preconnect" href="https://wa.me" crossorigin />
-  <link rel="preconnect" href="https://t.me" crossorigin />
-  <link rel="dns-prefetch" href="https://t.me" />
-  <link rel="dns-prefetch" href="https://wa.me" />
+<style is:global>
+:root{--bg:#0f172a;--card:#1e293b;--acc:#fbbf24;--acc2:#22c55e;--txt:#e2e8f0;--mut:#94a3b8;--max:900px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65;font-size:17px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
+a{color:#7dd3fc}
 
-  <style>{`
-    :root{--bg:#0f172a;--card:#1e293b;--acc:#fbbf24;--acc2:#22c55e;--txt:#e2e8f0;--mut:#94a3b8;--max:860px}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.65;font-size:17px}
-    .wrap{max-width:var(--max);margin:0 auto;padding:0 16px}
-    header{background:#0b1222;border-bottom:1px solid #243247;position:sticky;top:0;z-index:50}
-    .hbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:10px;flex-wrap:wrap}
-    .logo{font-weight:800;font-size:18px;color:#fff;text-decoration:none}.logo span{color:var(--acc)}
-    nav{display:flex;gap:14px;flex-wrap:wrap}
-    nav a{color:var(--mut);text-decoration:none;font-size:14px}
-    nav a:hover{color:#fff}
-    main{padding:28px 0 90px}
-    h1{font-size:clamp(24px,4vw,34px);line-height:1.25;color:#fff;margin-bottom:14px}
-    h2{font-size:clamp(20px,3vw,26px);color:#fff;margin:34px 0 12px;border-left:4px solid var(--acc);padding-left:12px}
-    h3{font-size:19px;color:#fde68a;margin:22px 0 8px}
-    p{margin-bottom:14px}
-    a{color:#7dd3fc}
-    ul,ol{margin:0 0 16px 22px}
-    li{margin-bottom:6px}
-    table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:15px}
-    th,td{border:1px solid #334155;padding:9px 12px;text-align:left}
-    th{background:#182236;color:#fff}
-    tr:nth-child(even) td{background:#16202f}
-    .lead{font-size:19px;color:#fef3c7;background:#1c2740;border-radius:10px;padding:14px 16px;margin-bottom:22px}
-    blockquote{border-left:4px solid var(--acc2);background:#12251c;padding:12px 16px;border-radius:0 10px 10px 0;margin:18px 0}
-    .cta{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;font-size:16px}
-    .btn-wa{background:#22c55e;color:#052e16}
-    .btn-tg{background:#38bdf8;color:#082f49}
-    .btn:hover{filter:brightness(1.1)}
-    .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:16px 0}
-    .card{background:var(--card);border:1px solid #2b3b55;border-radius:12px;padding:14px}
-    .card h3{margin:0 0 6px;font-size:17px}
-    .card small{color:var(--mut)}
-    footer{border-top:1px solid #243247;background:#0b1222;padding:30px 0 40px;font-size:14px;color:var(--mut)}
-    footer a{color:var(--mut)}
-    .sticky-cta{position:fixed;bottom:0;left:0;right:0;display:flex;gap:1px;z-index:60}
-    .sticky-cta a{flex:1;text-align:center;padding:13px;font-weight:800;text-decoration:none;font-size:15px}
-    .sc-wa{background:#22c55e;color:#052e16}.sc-tg{background:#0ea5e9;color:#fff}
-    .crumbs{font-size:13px;color:var(--mut);margin-bottom:16px}.crumbs a{color:var(--mut)}
-    .src{font-size:13.5px;color:var(--mut)}
-    .src li{margin-bottom:4px}
-    @media(min-width:700px){.sticky-cta{display:none}}
-    
-    /* Print styles */
-    @media print {
-      .sticky-cta, header, footer, .cta, .btn { display: none !important; }
-      body { background: white !important; color: black !important; }
-      .wrap { max-width: 100% !important; }
-    }
-  `}</style>
+/* Header */
+header{background:#0b1222;border-bottom:1px solid #243247;position:sticky;top:0;z-index:50}
+.hbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;max-width:var(--max);margin:0 auto}
+.logo{font-weight:800;font-size:17px;color:#fff;text-decoration:none;white-space:nowrap}
+.logo span{color:var(--acc)}
+.burger{display:none;background:none;border:1px solid #334155;border-radius:8px;padding:8px 10px;cursor:pointer;font-size:18px;color:var(--txt);line-height:1}
+.nav-desktop{display:flex;gap:14px;flex-wrap:wrap}
+.nav-desktop a{color:var(--mut);text-decoration:none;font-size:14px;white-space:nowrap}
+.nav-desktop a:hover,.nav-desktop a[aria-current="page"]{color:#fff}
+
+/* Mobile menu */
+#navtoggle{display:none}
+.mobile-menu{display:none;background:#0b1222;border-top:1px solid #243247;padding:8px 16px 16px}
+.mobile-menu a{display:block;padding:10px 4px;color:var(--txt);text-decoration:none;border-bottom:1px solid #1c2942;font-size:15px}
+#navtoggle:checked ~ .mobile-menu{display:block}
+@media(max-width:760px){
+  .burger{display:inline-block}
+  .nav-desktop{display:none}
+}
+
+main{padding:28px 0 90px;max-width:var(--max);margin:0 auto;padding-left:16px;padding-right:16px}
+h1{font-size:clamp(24px,4vw,34px);line-height:1.25;color:#fff;margin-bottom:14px}
+h2{font-size:clamp(20px,3vw,26px);color:#fff;margin:34px 0 12px;border-left:4px solid var(--acc);padding-left:12px}
+h3{font-size:19px;color:#fde68a;margin:22px 0 8px}
+p{margin-bottom:14px}
+ul,ol{margin:0 0 16px 22px}
+li{margin-bottom:6px}
+table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:15px;display:block;overflow-x:auto}
+th,td{border:1px solid #334155;padding:9px 12px;text-align:left}
+th{background:#182236;color:#fff}
+tr:nth-child(even) td{background:#16202f}
+.lead{font-size:19px;color:#fef3c7;background:#1c2740;border-radius:10px;padding:14px 16px;margin-bottom:22px}
+blockquote{border-left:4px solid var(--acc2);background:#12251c;padding:12px 16px;border-radius:0 10px 10px 0;margin:18px 0}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;font-size:16px}
+.btn-wa{background:#22c55e;color:#052e16}
+.btn-tg{background:#38bdf8;color:#082f49}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:16px 0}
+.card{background:var(--card);border:1px solid #2b3b55;border-radius:12px;padding:14px;text-decoration:none}
+.card h3{margin:0 0 6px;font-size:17px}
+.card small{color:var(--mut)}
+.crumbs{font-size:13px;color:var(--mut);margin-bottom:16px}
+.crumbs a{color:var(--mut)}
+.src{font-size:13.5px;color:var(--mut)}
+
+/* Footer: 5 columns */
+footer{border-top:1px solid #243247;background:#0b1222;padding:36px 0 110px;font-size:14px;color:var(--mut)}
+.fgrid{max-width:1100px;margin:0 auto;padding:0 16px;display:grid;grid-template-columns:repeat(5,1fr);gap:24px}
+.fcol h4{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.fcol ul{list-style:none;margin:0}
+.fcol li{margin-bottom:6px}
+.fcol a{color:var(--mut);text-decoration:none;font-size:13px}
+.fcol a:hover{color:#fff}
+.fbottom{max-width:1100px;margin:26px auto 0;padding:16px 16px 0;border-top:1px solid #1c2942;font-size:12.5px;opacity:.75}
+@media(max-width:960px){.fgrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.fgrid{grid-template-columns:repeat(2,1fr)}}
+
+/* Sticky mobile CTA */
+.sticky-cta{position:fixed;bottom:0;left:0;right:0;display:flex;gap:1px;z-index:60}
+.sticky-cta a{flex:1;text-align:center;padding:13px;font-weight:800;text-decoration:none;font-size:15px}
+.sc-wa{background:#22c55e;color:#052e16}.sc-tg{background:#0ea5e9;color:#fff}
+@media(min-width:700px){.sticky-cta{display:none}}
+
+@media print{.sticky-cta,header,footer,.cta,.btn{display:none!important}}
+</style>
 </head>
-<body itemscope itemtype="https://schema.org/WebPage">
-  <header itemscope itemtype="https://schema.org/WPHeader"><div class="wrap hbar">
-    <a class="logo" href="/" itemprop="url"><span itemprop="name">⚡ Электрик<span> Чолпон-Ата</span></span></a>
-    <nav itemscope itemtype="https://schema.org/SiteNavigationElement" role="navigation" aria-label="Основная навигация">
-      {nav.map((n) => <a href={n.href} itemprop="url"><span itemprop="name">{n.label}</span></a>)}
+<body>
+  <header>
+    <div class="hbar">
+      <a class="logo" href="/">⚡ Электрик<span> Чолпон-Ата</span></a>
+      <nav class="nav-desktop" aria-label="Основная навигация">
+        <a href="/uslugi/">Услуги</a>
+        <a href="/ceny/">Цены</a>
+        <a href="/lokacii/">Где работаем</a>
+        <a href="/mastera/">Мастера</a>
+        <a href="/blog/">Блог</a>
+        <a href="/kontakty/">Контакты</a>
+      </nav>
+      <label class="burger" for="navtoggle" aria-label="Открыть меню">☰</label>
+    </div>
+    <input type="checkbox" id="navtoggle" />
+    <nav class="mobile-menu" aria-label="Мобильная навигация">
+      <a href="/">Главная</a>
+      <a href="/uslugi/">Все услуги</a>
+      {categories.map((c) => <a href={`/uslugi/${c.slug}/`}>{c.icon ?? ''} {c.name}</a>)}
+      <a href="/ceny/">💰 Прайс-лист</a>
+      <a href="/lokacii/">📍 Где работаем ({locations.length} НП)</a>
+      <a href="/mastera/">👷 Мастера</a>
+      <a href="/blog/">📝 Блог</a>
+      <a href="/faq/">❓ FAQ</a>
+      <a href="/kontakty/">📞 Контакты</a>
     </nav>
-  </div></header>
+  </header>
 
-  <main><div class="wrap"><slot /></div></main>
+  <main><slot /></main>
 
-  <footer itemscope itemtype="https://schema.org/WPFooter"><div class="wrap">
-    <p><strong style="color:#fff" itemprop="name">{site.brand}</strong> — электромонтаж в {site.city} и сёлах {site.region_short} до 95 км.</p>
-    <p>WhatsApp: <a href={site.whatsapp} itemprop="telephone">{site.phone_display}</a> · Telegram: <a href={site.telegram} itemprop="sameAs">@realhikaz</a><br/>
-    Режим: {site.work_hours}</p>
-    <p>
-      <a href="/uslugi/">Все услуги</a> · <a href="/ceny/">Прайс</a> · <a href="/lokacii/">География</a> ·
-      <a href="/mastera/">Мастера</a> · <a href="/faq/">FAQ</a> · <a href="/blog/">Блог</a> ·
-      <a href="/kontakty/">Контакты</a> · <a href="/llms.txt">llms.txt</a> · <a href="/sitemap-index.xml">Sitemap</a>
-    </p>
-    <p style="opacity:.6">© 2026 {site.brand}. Цены на сайте ориентировочные, финальная стоимость после осмотра.</p>
-  </div></footer>
+  <footer itemscope itemtype="https://schema.org/WPFooter">
+    <div class="fgrid">
+      <div class="fcol">
+        <h4><a href="/" style="color:#fff;text-decoration:none">Главная</a></h4>
+        <ul>
+          {categories.map((c) => (
+            <li><a href={`/uslugi/${c.slug}/`}>{c.name}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div class="fcol">
+        <h4><a href="/uslugi/" style="color:#fff;text-decoration:none">Топ-услуги</a></h4>
+        <ul>
+          {topServices.map(([name, url]) => <li><a href={url}>{name}</a></li>)}
+        </ul>
+      </div>
+      <div class="fcol">
+        <h4><a href="/lokacii/" style="color:#fff;text-decoration:none">Выезд в сёла</a></h4>
+        <ul>
+          {topLocations.map((l) => <li><a href={`/lokacii/${l.slug}/`}>Электрик в {l.pre}</a></li>)}
+          <li><a href="/lokacii/">Все {locations.length} НП →</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h4>Информация</h4>
+        <ul>
+          {infoLinks.map(([name, url]) => <li><a href={url}>{name}</a></li>)}
+          <li><a href="/llms.txt">llms.txt</a></li>
+          <li><a href="/sitemap-index.xml">Sitemap</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h4>Контакты</h4>
+        <ul>
+          <li><a href={site.whatsapp}>💬 WhatsApp</a></li>
+          <li><a href={site.whatsapp}>{site.phone_display}</a></li>
+          <li><a href={site.telegram}>✈️ Telegram @realhikaz</a></li>
+          <li>{site.work_hours}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fbottom">
+      © 2026 {site.brand} — электромонтаж в {site.city} и сёлах {site.region_short} до 95 км. Цены ориентировочные, финальная стоимость после осмотра.
+    </div>
+  </footer>
 
   <div class="sticky-cta">
-    <a class="sc-wa" href={site.whatsapp} aria-label="Написать в WhatsApp">💬 WhatsApp</a>
+    <a class="sc-wa" href={site.whatsapp} aria-label="Написать в WhatsApp">💬 WhatsApp — цена за 5 мин</a>
     <a class="sc-tg" href={site.telegram} aria-label="Написать в Telegram">✈️ Telegram</a>
   </div>
 </body>

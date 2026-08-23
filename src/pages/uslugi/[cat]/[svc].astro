@@ -4,6 +4,7 @@ import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import Faq from '../../../components/FaqBlock.astro';
 import Cita from '../../../components/Citations.astro';
 import Cta from '../../../components/CtaButtons.astro';
+import CategoryNav from '../../../components/CategoryNav.astro';
 import { render, getCollection } from 'astro:content';
 import { site } from '../../../lib/site';
 
@@ -121,6 +122,7 @@ const serviceSchema = {
   {d.lead && <p class="lead">{d.lead}</p>}
   <article><Content /></article>
   {d.faq && <Faq faq={d.faq} />}
+  <CategoryNav current={d.category} />
   <Cita keys={d.citations ?? []} />
   <Cta service={d.name + ' в Чолпон-Ате'} />
 </Base>
