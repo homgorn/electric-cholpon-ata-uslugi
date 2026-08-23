@@ -5,6 +5,8 @@ h1: "Монтаж провода СИП в Чолпон-Ате — цена от
 lead: "Цена монтажа СИП в Чолпон-Ате: от 290 сом (метр). Выезд мастер за 30–60 минут."
 type: "service"
 slug: "montazh-sip"
+name: "Монтаж провода СИП"
+name_gen: "монтажа СИП"
 category: "zagorodnye-seti"
 category_name: "Загородные сети"
 price_min: 290
@@ -30,7 +32,7 @@ citations:
   - "eco-service-kg"
   - "pue"
   - "electrician-kg"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Цена монтажа СИП в Чолпон-Ате: от 290 сом (метр). Выезд мастер за 30–60 минут.

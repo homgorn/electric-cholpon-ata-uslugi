@@ -5,6 +5,8 @@ h1: "LED-подсветка в Чолпон-Ате — цена от 700 сом"
 lead: "Цена LED-подсветки в Чолпон-Ате: от 700 сом (метр). Выезд мастер за 30–60 минут."
 type: "service"
 slug: "led-podsvetka"
+name: "LED-подсветка"
+name_gen: "LED-подсветки"
 category: "osveshchenie"
 category_name: "Освещение"
 price_min: 700
@@ -29,7 +31,7 @@ citations:
   - "eco-service-kg"
   - "pue"
   - "electrician-kg"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Цена LED-подсветки в Чолпон-Ате: от 700 сом (метр). Выезд мастер за 30–60 минут.

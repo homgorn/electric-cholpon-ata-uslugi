@@ -3,20 +3,82 @@ import Base from '../layouts/Base.astro';
 import Cta from '../components/CtaButtons.astro';
 import Faq from '../components/FaqBlock.astro';
 import { getCollection } from 'astro:content';
-import { breadcrumbsLd, faqLd } from '../lib/jsonld';
+import { site } from '../lib/site';
 
 const services = (await getCollection('services'))
   .sort((a, b) => a.data.price_min - b.data.price_min);
+
 const faq = [
   { q: 'Цены окончательные или могут вырасти?', a: 'Диапазоны на странице — ориентир. Точную сумму мастер называет после фото или осмотра и фиксирует до начала работ.' },
   { q: 'Входит ли выезд в цену?', a: 'По Чолпон-Ате при заказе от 1000 сом выезд бесплатный. В сёла — надбавка 200–1000 сом по расстоянию.' },
   { q: 'Материалы включены?', a: 'Работа и материалы считаются отдельно. Мастер привозит расходники с собой; крупные позиции (кабель, щит) согласуются заранее.' },
 ];
+
+const minPrice = Math.min(...services.map(s => s.data.price_min));
+const maxPrice = Math.max(...services.map(s => s.data.price_max));
+
+const serviceOffers = services.map(s => ({
+  '@type': 'Service',
+  '@id': site.url + '/uslugi/' + s.data.category + '/' + s.data.slug + '/#service',
+  name: s.data.name,
+  description: s.data.description,
+  provider: { '@id': site.url + '#electrician' },
+  areaServed: { '@type': 'Place', name: 'Чолпон-Ата и сёла Иссык-Куля' },
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'KGS',
+    priceSpecification: {
+      '@type': 'PriceSpecification',
+      minPrice: s.data.price_min,
+      maxPrice: s.data.price_max,
+      priceCurrency: 'KGS',
+      unitText: s.data.unit,
+    },
+    availability: 'https://schema.org/InStock',
+  },
+}));
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      '@id': site.url + '/ceny/#webpage',
+      name: 'Прайс-лист электромонтажных услуг',
+      description: 'Полный прайс на услуги электромонтажа в Чолпон-Ате и сёлах Иссык-Куля',
+      url: site.url + '/ceny/',
+      isPartOf: { '@id': site.url + '#website' },
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Главная', item: site.url },
+          { '@type': 'ListItem', position: 2, name: 'Цены' },
+        ],
+      },
+      inLanguage: 'ru-RU',
+    },
+    {
+      '@type': 'PriceSpecification',
+      name: 'Прайс-лист электромонтажных услуг',
+      description: 'Полный прайс на услуги электромонтажа в Чолпон-Ате и сёлах Иссык-Куля',
+      minPrice,
+      maxPrice,
+      priceCurrency: 'KGS',
+      validFrom: new Date().toISOString().slice(0, 10),
+    },
+    ...serviceOffers,
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ],
+};
 ---
-<Base title="Цены на услуги электрика в Чолпон-Ате — прайс 2026 (80+ позиций)"
-  description="Полный прайс электрика в Чолпон-Ате на 2026 год: розетки от 250 сом, люстры от 700, щиты от 6000, проводка квартир от 25000 сом. Выезд в сёла 200–800 сом."
-  jsonld={[breadcrumbsLd([{ name: 'Главная', url: '/' }, { name: 'Цены' }]), faqLd(faq)]}
->
+<Base title="Цены на услуги электрика в Чолпон-Ате — прайс 2026 (80+ позиций)" description="Полный прайс электрика в Чолпон-Ате на 2026 год: розетки от 250 сом, люстры от 700, щиты от 6000, проводка квартир от 25000 сом. Выезд в сёла 200–800 сом." pageType="category" jsonld={[jsonld]}>
   <nav class="crumbs"><a href="/">Главная</a> → Цены</nav>
   <h1>Прайс на услуги электрика — {new Date().getFullYear()} год</h1>
   <p class="lead">Все цены в сомах по региону Иссык-Куль: от 150 сом за метр кабеля до 138 000 сом за дом под ключ. Выезд в сёла — плюс 200–800 сом.</p>

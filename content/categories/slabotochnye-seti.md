@@ -11,7 +11,7 @@ services:
   - "domofon"
   - "tv-rozetki-antenny"
   - "signalizaciya-elektrika"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Монтаж интернет-розеток, камер видеонаблюдения, домофонов и сигнализации в Чолпон-Ате и сёлах.

@@ -10,6 +10,7 @@ const site = read('site.json');
 const categories = read('categories.json');
 const locations = read('locations.json');
 const services = fs.readdirSync(path.join(ROOT, 'data/services'))
+  .filter(f => f.endsWith(".json"))
   .flatMap(f => JSON.parse(fs.readFileSync(path.join(ROOT, 'data/services', f), 'utf8')));
 const U = site.url;
 

@@ -10,7 +10,7 @@ services:
   - "vvod-elektrichestva-v-dom"
   - "montazh-sip"
   - "remont-vl-linii"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Прокладка кабеля открытым способом, в штробах, по фасадам, СИП по воздуху.

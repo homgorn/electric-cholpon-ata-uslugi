@@ -17,6 +17,7 @@ const locations = DATA('locations.json');
 const tags = DATA('tags.json');
 const citations = Object.fromEntries(DATA('citations.json').map(c => [c.key, c]));
 const services = fs.readdirSync(path.join(ROOT, 'data/services'))
+  .filter(f => f.endsWith(".json"))
   .flatMap(f => JSON.parse(fs.readFileSync(path.join(ROOT, 'data/services', f), 'utf8')));
 const bySlug = Object.fromEntries(services.map(s => [s.slug, s]));
 const catBySlug = Object.fromEntries(categories.map(c => [c.slug, c]));
@@ -165,7 +166,7 @@ ${ctaBlock(`${service.name} в ${site.city}`, r)}
     title: `${service.name} в Чолпон-Ате — цена от ${service.price_min} сом`,
     description: `${service.name} в Чолпон-Ате: от ${service.price_min} до ${service.price_max} сом за ${service.unit}, ${service.time}. Выезд ${site.eta_city}. WhatsApp с фото — ответ за 5 минут.`,
     h1: `${service.name} в Чолпон-Ате — цена от ${service.price_min} сом`,
-    lead, type: 'service', slug: service.slug, category: service.category,
+    lead, type: 'service', slug: service.slug, name: service.name, name_gen: service.name_gen, category: service.category,
     category_name: cat.name, price_min: service.price_min, price_max: service.price_max,
     unit: service.unit, time: service.time, tags: service.tags,
     faq, citations: citeKeys, updated: today,
@@ -400,11 +401,27 @@ const mdUrl = (relPath) => {
   return relPath;
 };
 
-// clean
-for (const d of ['content/services', 'content/geo', 'content/locations', 'content/categories', 'content/tags']) {
-  fs.rmSync(path.join(ROOT, d), { recursive: true, force: true });
+// clean - properly handle non-empty directories
+function cleanDir(dir) {
+  if (fs.existsSync(dir)) {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        cleanDir(fullPath);
+        try { fs.rmdirSync(fullPath); } catch (e) { /* ignore */ }
+      } else {
+        try { fs.unlinkSync(fullPath); } catch (e) { /* ignore */ }
+      }
+    }
+    try { fs.rmdirSync(dir); } catch (e) { /* ignore */ }
+  }
 }
-fs.rmSync(path.join(ROOT, 'public/md'), { recursive: true, force: true });
+for (const d of ['content/services', 'content/geo', 'content/locations', 'content/categories', 'content/tags']) {
+  cleanDir(path.join(ROOT, d));
+}
+if (fs.existsSync(path.join(ROOT, 'public/md'))) {
+  cleanDir(path.join(ROOT, 'public/md'));
+}
 
 for (const s of services) writeMd(`services/${s.category}/${s.slug}.md`, ...Object.values(buildServicePage(s)));
 for (const s of GEO_SERVICES) for (const l of GEO_LOCATIONS) writeMd(`geo/${s.slug}-v-${l.slug}.md`, ...Object.values(buildGeoPage(s, l)));

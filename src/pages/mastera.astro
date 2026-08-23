@@ -3,18 +3,73 @@ import Base from '../layouts/Base.astro';
 import Cta from '../components/CtaButtons.astro';
 import Faq from '../components/FaqBlock.astro';
 import { masters, site } from '../lib/site';
-import { faqLd, breadcrumbsLd } from '../lib/jsonld';
 
 const active = masters.masters.filter((m) => m.status === 'active');
 const faq = [
   { q: 'Как попасть в каталог мастеров?', a: 'Напишите в Telegram @realhikaz: имя, район работы, специализация и телефон. Размещение бесплатное — мы ищем проверенных исполнителей по всему Иссык-Кулю.' },
   { q: 'Мастера проходят проверку?', a: 'Да: проверяем опыт по выполненным работам и берём обратную связь от первых клиентов каталога.' },
 ];
+
+const masterItems = active.map((m, i) => ({
+  '@type': 'ListItem',
+  position: i + 1,
+  item: {
+    '@type': ['Person', 'ProfessionalService'],
+    '@id': site.url + '/mastera/#master-' + m.id,
+    name: m.name,
+    description: m.specialties.join(', ') + ' — ' + m.experience_years + ' лет опыта',
+    url: site.url + '/mastera/#master-' + m.id,
+    knowsAbout: m.specialties,
+    areaServed: m.areas.map(a => ({ '@type': 'Place', name: a })),
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: String(m.rating),
+      reviewCount: String(m.jobs_done),
+      bestRating: '5',
+      worstRating: '1',
+    },
+    knowsLanguage: ['Russian', 'Kyrgyz'],
+  },
+}));
+
+const masterJsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      name: 'Каталог мастеров-электриков',
+      description: 'Каталог электриков Чолпон-Аты и сёл Иссык-Куля: рейтинг, специализация, зоны выезда',
+      url: site.url + '/mastera/',
+      mainEntity: { '@type': 'ItemList', itemListElement: masterItems },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Главная', item: site.url },
+        { '@type': 'ListItem', position: 2, name: 'Мастера' },
+      ],
+    },
+    {
+      '@type': 'WebPage',
+      '@id': site.url + '/mastera/#webpage',
+      name: 'Каталог мастеров',
+      description: 'Каталог электриков Чолпон-Аты и сёл Иссык-Куля: рейтинг, специализация, зоны выезда',
+      url: site.url + '/mastera/',
+      isPartOf: { '@id': site.url + '#website' },
+      inLanguage: 'ru-RU',
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faq.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ],
+};
 ---
-<Base title="Лучшие электрики Иссык-Куля — каталог проверенных мастеров"
-  description="Каталог электриков Чолпон-Аты и сёл Иссык-Куля: рейтинг, специализация, зоны выезда. Хотите в список? Напишите в Telegram."
-  jsonld={[breadcrumbsLd([{ name: 'Главная', url: '/' }, { name: 'Мастера' }]), faqLd(faq)]}
->
+<Base title="Лучшие электрики Иссык-Куля — каталог проверенных мастеров" description="Каталог электриков Чолпон-Аты и сёл Иссык-Куля: рейтинг, специализация, зоны выезда. Хотите в список? Напишите в Telegram." jsonld={[masterJsonLd]}>
   <nav class="crumbs"><a href="/">Главная</a> → Мастера</nav>
   <h1>Каталог мастеров-электриков региона</h1>
   <p class="lead">Раздел наполняется: мы добавляем проверенных исполнителей по одному, с рейтингом и зоной выезда. Сейчас идёт набор — размещение бесплатное.</p>

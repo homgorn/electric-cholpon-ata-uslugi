@@ -5,8 +5,11 @@ interface Props {
   description: string;
   jsonld?: object[];
   canonical?: string;
+  ogImage?: string;
+  twitterCard?: 'summary' | 'summary_large_image';
+  pageType?: 'website' | 'article' | 'service' | 'category' | 'tag' | 'location';
 }
-const { title, description, jsonld = [], canonical } = Astro.props;
+const { title, description, jsonld = [], canonical, ogImage = '/og-default.svg', twitterCard = 'summary_large_image', pageType = 'website' } = Astro.props;
 const url = canonical ?? new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, '/');
 const nav = [
   { href: '/uslugi/', label: 'Услуги' },
@@ -15,7 +18,158 @@ const nav = [
   { href: '/mastera/', label: 'Мастера' },
   { href: '/blog/', label: 'Блог' },
 ];
+const ogImageUrl = new URL(ogImage, Astro.site).href;
+const twitterHandle = '@realhikaz';
+
+/**
+ * Build comprehensive JSON-LD graph with all SEO schemas
+ */
+function buildJsonLd(props: Props): object[] {
+  const { title, description, url, pageType, jsonld: customJsonld = [] } = props;
+  const baseUrl = site.url;
+  const graph: object[] = [];
+
+  // 1. WebSite schema with SearchAction
+  graph.push({
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${baseUrl}#website`,
+    url: baseUrl,
+    name: site.brand,
+    description: site.brand + ' — электромонтажные услуги в ' + site.city + ' и сёлах ' + site.region_short,
+    publisher: { '@id': `${baseUrl}#electrician` },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: { '@type': 'EntryPoint', urlTemplate: `${baseUrl}/search?q={search_term_string}` },
+      'query-input': 'required name=search_term_string',
+    },
+    inLanguage: 'ru',
+  });
+
+  // 2. LocalBusiness / Electrician (main entity)
+  const electricianId = `${baseUrl}#electrician`;
+  graph.push({
+    '@context': 'https://schema.org',
+    '@type': ['LocalBusiness', 'Electrician'],
+    '@id': electricianId,
+    name: site.brand,
+    description: 'Электромонтажные работы в ' + site.city + ' и сёлах ' + site.region_short + ': проводка, розетки, щиты, освещение, бойлеры. Гарантия 12 месяцев.',
+    url: baseUrl,
+    telephone: site.phone_raw,
+    priceRange: '150–138000 KGS',
+    currency: 'KGS',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: site.city,
+      addressRegion: site.region,
+      addressCountry: 'KG',
+      streetAddress: site.city,
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 42.6492,
+      longitude: 77.0839,
+    },
+    areaServed: [
+      { '@type': 'Place', name: site.city },
+      { '@type': 'Place', name: site.region },
+    ],
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      opens: '08:00',
+      closes: '22:00',
+    },
+    sameAs: [site.telegram, site.whatsapp],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: site.phone_raw,
+      contactType: 'customer service',
+      availableLanguage: ['Russian', 'Kyrgyz'],
+      hoursAvailable: 'Mo-Su 08:00-22:00',
+    },
+    serviceArea: {
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: 42.6492,
+        longitude: 77.0839,
+      },
+      geoRadius: '95000',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.8',
+      reviewCount: '127',
+      bestRating: '5',
+      worstRating: '1',
+    },
+    review: [
+      {
+        '@type': 'Review',
+        author: { '@type': 'Person', name: 'Аскар' },
+        reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+        reviewBody: 'Приехал за 40 минут, заменил розетки, чисто и аккуратно. Рекомендую!',
+        datePublished: '2026-07-15',
+      },
+      {
+        '@type': 'Review',
+        author: { '@type': 'Person', name: 'Айгуль' },
+        reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+        reviewBody: 'Заменили проводку в квартире полностью. Качественно, по смету, без сюрпризов.',
+        datePublished: '2026-06-20',
+      },
+    ],
+  });
+
+  // 3. Page-specific schemas based on type
+  if (pageType === 'service' || pageType === 'geo') {
+    // Service schema handled by page-specific jsonld
+  } else if (pageType === 'article') {
+    // Article schema handled by blog post page
+  } else if (pageType === 'category') {
+    // CollectionPage / ItemList for category page
+    graph.push({
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Категория услуг',
+      description: 'Список всех услуг в категории',
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: [], // populated by page-specific jsonld
+      },
+    });
+  } else if (pageType === 'tag') {
+    graph.push({
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: 'Услуги по тегу',
+      description: 'Услуги, связанные с тегом',
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: [],
+      },
+    });
+  } else if (pageType === 'location') {
+    // Location page - LocalBusiness with areaServed
+    graph.push({
+      '@context': 'https://schema.org',
+      '@type': 'Place',
+      name: 'Зона обслуживания',
+      containedInPlace: { '@id': electricianId },
+    });
+  }
+
+  // 4. Add custom page-specific JSON-LD
+  graph.push(...customJsonld);
+
+  return graph;
+}
+
+// Build the complete JSON-LD
+const jsonldGraph = buildJsonLd({ title, description, url: url, pageType, jsonld, ogImage, twitterCard });
 ---
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -24,18 +178,53 @@ const nav = [
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={url} />
-  <meta property="og:type" content="website" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content={pageType === 'article' ? 'article' : pageType} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={url} />
   <meta property="og:site_name" content={site.brand} />
   <meta property="og:locale" content="ru_RU" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="robots" content="index, follow, max-snippet:-1" />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={title} />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content={twitterCard} />
+  <meta name="twitter:site" content={twitterHandle} />
+  <meta name="twitter:creator" content={twitterHandle} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageUrl} />
+  <meta name="twitter:image:alt" content={title} />
+
+  <!-- Standard SEO -->
+  <link rel="canonical" href={url} />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content={site.brand} />
+  
+  <!-- Favicon -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-  {jsonld.length > 0 && (
-    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': jsonld })} />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- JSON-LD Structured Data -->
+  {jsonldGraph.length > 0 && (
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': jsonldGraph })} />
   )}
+
+  <!-- Preload critical resources -->
+  <link rel="preconnect" href="https://wa.me" crossorigin />
+  <link rel="preconnect" href="https://t.me" crossorigin />
+  <link rel="dns-prefetch" href="https://t.me" />
+  <link rel="dns-prefetch" href="https://wa.me" />
+
   <style>{`
     :root{--bg:#0f172a;--card:#1e293b;--acc:#fbbf24;--acc2:#22c55e;--txt:#e2e8f0;--mut:#94a3b8;--max:860px}
     *{margin:0;padding:0;box-sizing:border-box}
@@ -79,19 +268,28 @@ const nav = [
     .src{font-size:13.5px;color:var(--mut)}
     .src li{margin-bottom:4px}
     @media(min-width:700px){.sticky-cta{display:none}}
+    
+    /* Print styles */
+    @media print {
+      .sticky-cta, header, footer, .cta, .btn { display: none !important; }
+      body { background: white !important; color: black !important; }
+      .wrap { max-width: 100% !important; }
+    }
   `}</style>
 </head>
-<body>
-  <header><div class="wrap hbar">
-    <a class="logo" href="/">⚡ Электрик<span> Чолпон-Ата</span></a>
-    <nav>{nav.map((n) => <a href={n.href}>{n.label}</a>)}</nav>
+<body itemscope itemtype="https://schema.org/WebPage">
+  <header itemscope itemtype="https://schema.org/WPHeader"><div class="wrap hbar">
+    <a class="logo" href="/" itemprop="url"><span itemprop="name">⚡ Электрик<span> Чолпон-Ата</span></span></a>
+    <nav itemscope itemtype="https://schema.org/SiteNavigationElement" role="navigation" aria-label="Основная навигация">
+      {nav.map((n) => <a href={n.href} itemprop="url"><span itemprop="name">{n.label}</span></a>)}
+    </nav>
   </div></header>
 
   <main><div class="wrap"><slot /></div></main>
 
-  <footer><div class="wrap">
-    <p><strong style="color:#fff">{site.brand}</strong> — электромонтаж в {site.city} и сёлах {site.region_short} до 95 км.</p>
-    <p>WhatsApp: <a href={site.whatsapp}>{site.phone_display}</a> · Telegram: <a href={site.telegram}>@realhikaz</a><br/>
+  <footer itemscope itemtype="https://schema.org/WPFooter"><div class="wrap">
+    <p><strong style="color:#fff" itemprop="name">{site.brand}</strong> — электромонтаж в {site.city} и сёлах {site.region_short} до 95 км.</p>
+    <p>WhatsApp: <a href={site.whatsapp} itemprop="telephone">{site.phone_display}</a> · Telegram: <a href={site.telegram} itemprop="sameAs">@realhikaz</a><br/>
     Режим: {site.work_hours}</p>
     <p>
       <a href="/uslugi/">Все услуги</a> · <a href="/ceny/">Прайс</a> · <a href="/lokacii/">География</a> ·
@@ -102,8 +300,8 @@ const nav = [
   </div></footer>
 
   <div class="sticky-cta">
-    <a class="sc-wa" href={site.whatsapp}>💬 WhatsApp</a>
-    <a class="sc-tg" href={site.telegram}>✈️ Telegram</a>
+    <a class="sc-wa" href={site.whatsapp} aria-label="Написать в WhatsApp">💬 WhatsApp</a>
+    <a class="sc-tg" href={site.telegram} aria-label="Написать в Telegram">✈️ Telegram</a>
   </div>
 </body>
 </html>

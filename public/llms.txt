@@ -247,6 +247,7 @@
 
 ## Блог
 
+- [Блог об электрике — Иссык-Куль](https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/blog/INDEX/) · [md](https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/md/blog/INDEX.md)
 - [Электрика на Иссык-Куле: солёный воздух, сезонность и старые сети](https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/blog/elektrika-na-issyk-kule-osobennosti/) · [md](https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/md/blog/elektrika-na-issyk-kule-osobennosti.md)
 - [Как выбрать электрика: 7 проверок перед вызовом мастера](https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/blog/kak-vybrat-elektrika-sovety/) · [md](https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/md/blog/kak-vybrat-elektrika-sovety.md)
 - [Выбивает автомат в доме: 6 причин и что делать](https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/blog/pochemu-vybivaet-avtomat-prichiny/) · [md](https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/md/blog/pochemu-vybivaet-avtomat-prichiny.md)

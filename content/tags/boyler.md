@@ -7,7 +7,7 @@ type: "tag"
 slug: "boyler"
 services:
   - "podklyuchenie-boylera"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Подключение и выделенная линия для водонагревателей — актуально для курортной зоны.

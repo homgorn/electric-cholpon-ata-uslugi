@@ -1,15 +1,18 @@
 # Индекс: data/
 
-Файлов: 9. Обновлено: 2026-08-22
+Файлов: см. ниже. Обновлено: 2026-08-23. Источник правды сайта.
 
-Источник правды. После изменений: npm run gen && npm run llms && npm run db && npm run export.
+| Файл | Что содержит | Когда править |
+|---|---|---|
+| site.json | бренд, контакты, CTA-шаблон, URL | смена телефона/домена |
+| categories.json | 10 категорий услуг | новая категория |
+| locations.json | 33 НП: slug, name, **pre** (склонение!), км, выезд | новое село |
+| tags.json | 18 тегов навигации | редко |
+| citations.json | 11 трастовых источников | новый источник |
+| masters.json | исполнители (status todo→active) | новый мастер |
+| blog-plan.json | 25 тем блога со статусами | новая тема |
+| db.sqlite | SQLite: services+locations+pages(375) — генерируется | npm run db |
+| pools/pools.json | пулы абзацев для рандомизации | смена тона текстов |
+| services/*.json | 85 услуг в 10 файлах-категориях | цены, новые услуги |
 
-- `blog-plan.json` — 6.9 KB
-- `categories.json` — 3.7 KB
-- `citations.json` — 2.6 KB
-- `db.sqlite` — 136 KB
-- `locations.json` — 10.1 KB
-- `masters.json` — 2 KB
-- `services` — (dir)
-- `site.json` — 0.9 KB
-- `tags.json` — 4.1 KB
+Подробности: docs/ADMIN-GUIDE.md

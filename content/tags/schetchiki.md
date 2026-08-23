@@ -7,7 +7,7 @@ type: "tag"
 slug: "schetchiki"
 services:
   - "zamena-elektroschetchika"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Замена и перенос электросчётчиков с соблюдением требований энергосбыта.

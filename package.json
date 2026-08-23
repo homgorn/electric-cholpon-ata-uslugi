@@ -14,13 +14,22 @@
     "dev": "astro dev",
     "build": "npm run gen && npm run llms && astro build && npm run validate -- --postbuild",
     "preview": "astro preview",
-    "deploy": "wrangler pages deploy dist --project-name uslugi-electrica-cholpon-ata-issyk-kol"
+    "deploy": "wrangler pages deploy dist --project-name uslugi-electrica-cholpon-ata-issyk-kol",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.2.1",
     "astro": "^5.1.0"
   },
   "devDependencies": {
-    "wrangler": "^3.99.0"
+    "@types/node": "^26.2.0",
+    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/ui": "^4.1.11",
+    "pino": "^10.3.1",
+    "vitest": "^4.1.11",
+    "wrangler": "^3.99.0",
+    "zod": "^4.4.3"
   }
 }

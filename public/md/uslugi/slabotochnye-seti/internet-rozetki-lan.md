@@ -5,6 +5,8 @@ h1: "Интернет-розетки (LAN) в Чолпон-Ате — цена �
 lead: "Цена интернет-розеток в Чолпон-Ате: от 460 сом (точку). Выезд мастер за 30–60 минут."
 type: "service"
 slug: "internet-rozetki-lan"
+name: "Интернет-розетки (LAN)"
+name_gen: "интернет-розеток"
 category: "slabotochnye-seti"
 category_name: "Слаботочные сети"
 price_min: 460
@@ -29,7 +31,7 @@ citations:
   - "eco-service-kg"
   - "pue"
   - "electrician-kg"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Цена интернет-розеток в Чолпон-Ате: от 460 сом (точку). Выезд мастер за 30–60 минут.

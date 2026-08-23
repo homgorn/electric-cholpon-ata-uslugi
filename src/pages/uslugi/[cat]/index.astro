@@ -2,7 +2,8 @@
 import Base from '../../../layouts/Base.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { render, getCollection } from 'astro:content';
-import { breadcrumbsLd } from '../../../lib/jsonld';
+import { breadcrumbsLd, itemListLd, collectionPageLd } from '../../../lib/jsonld';
+import { site } from '../../../lib/site';
 
 export async function getStaticPaths() {
   const cats = await getCollection('categories');
@@ -11,14 +12,68 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const cat = entry.data;
+const services = (await getCollection('services')).filter(s => s.data.category === cat.slug);
 const crumbs = [
   { name: 'Главная', url: '/' },
   { name: 'Услуги', url: '/uslugi/' },
   { name: cat.h1 },
 ];
+
+// Build ItemList for category services
+const itemListItems = services.map((s, i) => ({
+  '@type': 'ListItem',
+  position: i + 1,
+  item: {
+    '@type': 'Service',
+    '@id': `${site.url}/uslugi/${cat.slug}/${s.data.slug}/#service`,
+    name: s.data.name,
+    description: s.data.description,
+    url: `${site.url}/uslugi/${cat.slug}/${s.data.slug}/`,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'KGS',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        minPrice: s.data.price_min,
+        maxPrice: s.data.price_max,
+        priceCurrency: 'KGS',
+      },
+    },
+    areaServed: { '@type': 'Place', name: 'Чолпон-Ата и сёла Иссык-Куля' },
+    provider: { '@id': `${site.url}#electrician` },
+  },
+}));
+
+const categoryJsonLd = [
+  collectionPageLd({
+    name: cat.name,
+    description: cat.description,
+    url: `/uslugi/${cat.slug}/`,
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: itemListItems,
+    },
+  }),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: site.url },
+      { '@type': 'ListItem', position: 2, name: 'Услуги', item: `${site.url}/uslugi/` },
+      { '@type': 'ListItem', position: 3, name: cat.h1 },
+    ],
+  },
+];
 ---
-<Base title={cat.title} description={cat.description} jsonld={[breadcrumbsLd(crumbs)]}>
-  <Breadcrumbs items={crumbs} />
+<Base title={cat.title} description={cat.description} pageType="category" jsonld={categoryJsonLd}>
+  <nav class="crumbs"><a href="/">Главная</a> → <a href="/uslugi/">Услуги</a> → {cat.h1}</nav>
   <h1>{cat.h1}</h1>
   <article><Content /></article>
+  
+  <h2>Услуги в категории «{cat.name}»</h2>
+  <ul>
+    {services.map(s => (
+      <li><a href={`/uslugi/${cat.slug}/${s.data.slug}/`}>{s.data.name}</a> — от {s.data.price_min} сом</li>
+    ))}
+  </ul>
 </Base>

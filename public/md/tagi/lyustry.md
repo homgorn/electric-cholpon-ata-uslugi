@@ -9,7 +9,7 @@ services:
   - "ustanovka-lyustry"
   - "zamena-lyustry"
   - "remont-lyustry"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Установка, замена и ремонт люстр любой сложности, включая каскадные и тяжёлые модели.

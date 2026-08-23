@@ -3,9 +3,9 @@ import Base from '../layouts/Base.astro';
 import Cta from '../components/CtaButtons.astro';
 import Faq from '../components/FaqBlock.astro';
 import { getCollection } from 'astro:content';
-import { breadcrumbsLd, faqLd, electricianLd } from '../lib/jsonld';
+import { breadcrumbsLd, faqLd, electricianLd, webPageLd, webSiteLd } from '../lib/jsonld';
+import { site } from '../lib/site';
 
-// Агрегированный FAQ со всех услуг (топ-вопросы) + общие
 const services = await getCollection('services');
 const picked = ['zamena-rozetki', 'zamena-provodki-dome', 'ustanovka-lyustry', 'sborka-elektroshchita', 'podklyuchenie-boylera', 'srochnyy-vyzov-elektrika'];
 const faq = [
@@ -17,11 +17,40 @@ const faq = [
   { q: 'Работаете ли вы в сёлах?', a: 'Да, 32 населённых пункта в радиусе до 95 км: Бостери, Тамчы, Корумду, Ананьево, Григорьевка, Ак-Суу, Балыкчы и другие. Надбавка 200–1000 сом.' },
   { q: 'Есть ли гарантия?', a: '12 месяцев письменно на все монтажные работы. Материалы — по гарантии производителя.' },
 ];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map(f => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const pageJsonLd = [
+  webSiteLd(),
+  faqJsonLd,
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${site.url}/faq/#webpage`,
+    name: 'FAQ — вопросы об услугах электрика',
+    description: 'Ответы на частые вопросы: как вызвать электрика, цены, гарантия, выезд в сёла Иссык-Куля, аварийные работы 24/7.',
+    url: `${site.url}/faq/`,
+    isPartOf: { '@id': `${site.url}#website` },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Главная', item: site.url },
+        { '@type': 'ListItem', position: 2, name: 'FAQ' },
+      ],
+    },
+    inLanguage: 'ru-RU',
+  },
+];
 ---
-<Base title="FAQ — вопросы об услугах электрика на Иссык-Куле"
-  description="Ответы на частые вопросы: как вызвать электрика, цены, гарантия, выезд в сёла Иссык-Куля, аварийные работы 24/7."
-  jsonld={[electricianLd(['Чолпон-Ата']), breadcrumbsLd([{ name: 'Главная', url: '/' }, { name: 'FAQ' }]), faqLd(faq)]}
->
+<Base title="FAQ — вопросы об услугах электрика на Иссык-Куле" description="Ответы на частые вопросы: как вызвать электрика, цены, гарантия, выезд в сёла Иссык-Куля, аварийные работы 24/7." jsonld={pageJsonLd}>
   <nav class="crumbs"><a href="/">Главная</a> → FAQ</nav>
   <h1>Частые вопросы об услугах электрика</h1>
   <p class="lead">Кратко о ценах, гарантиях и выезде. Не нашли свой вопрос — напишите в WhatsApp, отвечаем быстро.</p>

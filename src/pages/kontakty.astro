@@ -2,12 +2,11 @@
 import Base from '../layouts/Base.astro';
 import Cta from '../components/CtaButtons.astro';
 import { site } from '../lib/site';
-import { electricianLd } from '../lib/jsonld';
+import { contactPageLd } from '../lib/jsonld';
+
+const contactJsonLd = contactPageLd();
 ---
-<Base title={`Контакты — ${site.brand}`}
-  description={`Связаться с электриком Чолпон-Аты: WhatsApp ${site.phone_display}, Telegram @realhikaz. Режим ${site.work_hours}.`}
-  jsonld={[electricianLd(['Чолпон-Ата', 'Иссык-Кульская область'])]}
->
+<Base title={`Контакты — ${site.brand}`} description={`Связаться с электриком ${site.city}: WhatsApp ${site.phone_display}, Telegram @realhikaz. Режим ${site.work_hours}.`} pageType="contact" jsonld={[contactJsonLd]}>
   <nav class="crumbs"><a href="/">Главная</a> → Контакты</nav>
   <h1>Контакты</h1>
   <p class="lead">Самый быстрый способ — WhatsApp с фото проблемы: ответ с ценой приходит в течение 5 минут.</p>

@@ -14,7 +14,7 @@ services:
   - "vlagozashchitnaya-rozetka"
   - "rozetka-dlya-elektroplity"
   - "rozetka-dlya-stiralnoy-mashiny"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Все работы с розетками: установка, замена, перенос, влагозащищённые и силовые розетки в Чолпон-Ате и сёлах Иссык-Куля.

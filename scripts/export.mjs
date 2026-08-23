@@ -12,7 +12,7 @@ const categories = read('categories.json');
 const locations = read('locations.json');
 const tags = read('tags.json');
 const citations = read('citations.json');
-const services = fs.readdirSync(path.join(ROOT, 'data/services'))
+const services = fs.readdirSync(path.join(ROOT, 'data/services')).filter(f => f.endsWith('.json'))
   .flatMap(f => JSON.parse(fs.readFileSync(path.join(ROOT, 'data/services', f), 'utf8')));
 
 const OUT = path.join(ROOT, 'exports');

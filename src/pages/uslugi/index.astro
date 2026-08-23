@@ -2,7 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 import { categories, locations } from '../../lib/site';
-import { breadcrumbsLd } from '../../lib/jsonld';
+import { breadcrumbsLd, collectionPageLd, itemListLd } from '../../lib/jsonld';
+import { site } from '../../lib/site';
 
 const services = await getCollection('services');
 export async function getStaticPaths() {
@@ -13,11 +14,57 @@ const byCat = categories.map((c) => ({
   list: services.filter((s) => s.data.category === c.slug),
 }));
 const minPrice = Math.min(...services.map((s) => s.data.price_min));
+
+// Build ItemList for all services
+const allServicesItems = services.map((s, i) => ({
+  '@type': 'ListItem',
+  position: i + 1,
+  item: {
+    '@type': 'Service',
+    '@id': `${site.url}/uslugi/${s.data.category}/${s.data.slug}/#service`,
+    name: s.data.name,
+    description: s.data.description,
+    url: `${site.url}/uslugi/${s.data.category}/${s.data.slug}/`,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'KGS',
+      priceSpecification: {
+        '@type': 'PriceSpecification',
+        minPrice: s.data.price_min,
+        maxPrice: s.data.price_max,
+        priceCurrency: 'KGS',
+      },
+    },
+    areaServed: { '@type': 'Place', name: 'Чолпон-Ата и сёла Иссык-Куля' },
+    provider: { '@id': `${site.url}#electrician` },
+  },
+}));
+
+const catalogJsonLd = [
+  collectionPageLd({
+    name: 'Каталог услуг электрика',
+    description: `Полный каталог ${services.length} услуг электромонтажа в ${site.city} и сёлах ${site.region_short}`,
+    url: '/uslugi/',
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: allServicesItems,
+    },
+  }),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Главная', item: site.url },
+      { '@type': 'ListItem', position: 2, name: 'Услуги' },
+    ],
+  },
+];
 ---
 <Base
   title={`Все услуги электрика в Чолпон-Ате — каталог с ценами от ${minPrice} сом`}
   description={`Каталог услуг электрика в Чолпон-Ате и на Иссык-Куле: ${services.length} работ в ${categories.length} категориях. Цены от ${minPrice} сом, гарантия 12 месяцев, выезд в сёла.`}
-  jsonld={[breadcrumbsLd([{ name: 'Главная', url: '/' }, { name: 'Услуги' }])]}
+  pageType="category"
+  jsonld={catalogJsonLd}
 >
   <nav class="crumbs"><a href="/">Главная</a> → Услуги</nav>
   <h1>Каталог услуг электрика</h1>

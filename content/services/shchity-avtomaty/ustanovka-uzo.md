@@ -5,6 +5,8 @@ h1: "Установка УЗО в Чолпон-Ате — цена от 900 со
 lead: "Установка УЗО в Чолпон-Ате — от 900 до 1800 сом за шт, 40–90 минут. Звоните или пишите в WhatsApp — ответим за 5 минут."
 type: "service"
 slug: "ustanovka-uzo"
+name: "Установка УЗО"
+name_gen: "УЗО"
 category: "shchity-avtomaty"
 category_name: "Щиты, автоматы и учёт"
 price_min: 900
@@ -30,7 +32,7 @@ citations:
   - "eco-service-kg"
   - "pue"
   - "electrician-kg"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Установка УЗО в Чолпон-Ате — от 900 до 1800 сом за шт, 40–90 минут. Звоните или пишите в WhatsApp — ответим за 5 минут.

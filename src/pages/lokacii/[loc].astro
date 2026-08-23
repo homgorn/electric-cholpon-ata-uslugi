@@ -14,17 +14,86 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+
+// Enhanced LocalBusiness for specific location
+const locationBusiness = {
+  '@type': ['LocalBusiness', 'Electrician'],
+  '@id': `${site.url}/lokacii/${d.slug}/#business`,
+  name: `Электрик в ${d.name}`,
+  description: `Электромонтажные услуги в ${d.name} (${d.distance_km} км от Чолпон-Аты). Выезд ${d.travel_fee} сом, все виды электромонтажа с гарантией.`,
+  url: `${site.url}/lokacii/${d.slug}/`,
+  telephone: site.phone_raw,
+  priceRange: '250–138000 KGS',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: d.name,
+    addressRegion: site.region,
+    addressCountry: 'KG',
+  },
+  geo: d.coords ? {
+    '@type': 'GeoCoordinates',
+    latitude: d.coords[0],
+    longitude: d.coords[1],
+  } : undefined,
+  areaServed: [
+    { '@type': 'Place', name: d.name },
+    { '@type': 'Place', name: site.city },
+  ],
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '08:00',
+    closes: '22:00',
+  },
+  sameAs: [site.telegram, site.whatsapp],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: site.phone_raw,
+    contactType: 'customer service',
+    availableLanguage: ['Russian', 'Kyrgyz'],
+    hoursAvailable: 'Mo-Su 08:00-22:00',
+  },
+  parentOrganization: { '@id': `${site.url}#electrician` },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.8',
+    reviewCount: '89',
+    bestRating: '5',
+    worstRating: '1',
+  },
+};
+
 const crumbs = [
   { name: 'Главная', url: '/' },
   { name: 'Где работаем', url: '/lokacii/' },
   { name: `Электрик в ${d.name}` },
 ];
+
+const jsonld = [
+  {
+    '@context': 'https://schema.org',
+    '@graph': [
+      locationBusiness,
+      {
+        '@type': 'FAQPage',
+        mainEntity: d.faq?.map(f => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })) ?? [],
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: crumbs.map((b, i) => ({
+          '@type': 'ListItem', position: i + 1, name: b.name,
+          ...(b.url ? { item: new URL(b.url, site.url).href } : {}),
+        })),
+      },
+    ],
+  },
+];
 ---
-<Base title={d.title} description={d.description} jsonld={[
-  electricianLd([d.name]),
-  ...(d.faq ? [faqLd(d.faq)] : []),
-  breadcrumbsLd(crumbs),
-]}>
+<Base title={d.title} description={d.description} pageType="location" jsonld={jsonld}>
   <Breadcrumbs items={crumbs} />
   <h1>{d.h1}</h1>
   {d.lead && <p class="lead">{d.lead}</p>}

@@ -5,6 +5,8 @@ h1: "Замена лампочки в Чолпон-Ате — цена от 150 
 lead: "Цена замены лампочек в Чолпон-Ате: от 150 сом (шт). Выезд мастер за 30–60 минут."
 type: "service"
 slug: "zamena-lampochki"
+name: "Замена лампочки"
+name_gen: "замены лампочек"
 category: "osveshchenie"
 category_name: "Освещение"
 price_min: 150
@@ -29,7 +31,7 @@ citations:
   - "eco-service-kg"
   - "pue"
   - "electrician-kg"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Цена замены лампочек в Чолпон-Ате: от 150 сом (шт). Выезд мастер за 30–60 минут.

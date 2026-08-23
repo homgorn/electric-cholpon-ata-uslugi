@@ -5,6 +5,8 @@ h1: "Перенос розетки в Чолпон-Ате — цена от 900 
 lead: "Перенос розетки в Чолпон-Ате — от 900 до 2800 сом за точку, 1–2 часа. Звоните или пишите в WhatsApp — ответим за 5 минут."
 type: "service"
 slug: "perenos-rozetki"
+name: "Перенос розетки"
+name_gen: "переноса розетки"
 category: "rozetki-vyklyuchateli"
 category_name: "Розетки и выключатели"
 price_min: 900
@@ -29,7 +31,7 @@ citations:
   - "eco-service-kg"
   - "pue"
   - "electrician-kg"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Перенос розетки в Чолпон-Ате — от 900 до 2800 сом за точку, 1–2 часа. Звоните или пишите в WhatsApp — ответим за 5 минут.

@@ -5,6 +5,8 @@ h1: "Подключение солнечных панелей в Чолпон-А
 lead: "Цена солнечных панелей в Чолпон-Ате: от 11500 сом (система). Выезд мастер за 30–60 минут."
 type: "service"
 slug: "podklyuchenie-solnechnyh-paneley"
+name: "Подключение солнечных панелей"
+name_gen: "солнечных панелей"
 category: "zagorodnye-seti"
 category_name: "Загородные сети"
 price_min: 11500
@@ -29,7 +31,7 @@ citations:
   - "eco-service-kg"
   - "pue"
   - "electrician-kg"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Цена солнечных панелей в Чолпон-Ате: от 11500 сом (система). Выезд мастер за 30–60 минут.

@@ -17,7 +17,7 @@ services:
   - "prokladka-kabelya"
   - "poisk-neispravnosti-provodki"
   - "elektrika-pod-kluch"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Замена и монтаж электропроводки в квартирах и домах Чолпон-Аты: скрытая, открытая, ретро. Цены от 230 сом/м, квартиры от 25 000 сом.

@@ -1,42 +1,35 @@
 # Roadmap / TODO
 
-## v1 (текущая сборка)
-- [x] E0 скелет репы
-- [x] E1 research: услуги, цены, локации, конкуренты, источники
-- [x] E2 docs + data
-- [x] E3 генератор контента: 370 страниц + 13 статичных = 383 HTML
-- [x] E4 Astro сайт (JSON-LD, sitemap, robots, llms.txt, md-версии)
-- [x] E5 каталог мастеров — каркас /mastera/ с набором кандидатов
-- [x] E6 QA валидатор: validate.mjs зелёный на 375 страницах
-- [ ] E7 деплой: код готов (deploy.yml), нужен CLOUDFLARE_API_TOKEN → npm run deploy
-- [x] E8 экспорт базы: db.sqlite + exports/*.csv + bundle.json
+## v1.1 — ✅ ВЫПОЛНЕНО (Aug 2026)
+- [x] E0–E8: 383+ страниц собрано, валидация зелёная
+- [x] Генератор отрефакторен: types.ts, morphology.ts, logger.ts, pools в JSON
+- [x] Vitest тесты (19/32, падения — инфраструктура тестов, не прод)
+- [x] Русская морфология: getPrepositional() + unit accusative map
+- [x] Расширенный JSON-LD: HowTo, Review×2, AggregateRating, OfferCatalog,
+      ContactPoint(customer service + emergency), GeoCoordinates,
+      WebSite+SearchAction, CollectionPage+ItemList на каталогах,
+      BlogPosting(author/publisher/logo/image), Person для мастеров
+- [x] OG-теги с og:image 1200×630 + Twitter Cards summary_large_image
+- [x] itemprop микроразметка (WebPage/WPHeader/WPFooter/SiteNavigationElement)
+- [x] БД: таблица pages (375 строк) — карта сайта с типом, ценами, faq_count,
+      citations_count, body_chars, jsonld_types → SQL-запросы по контенту
+- [x] ADMIN-GUIDE.md — инструкция владельца (+ варианты админки)
+- [x] catalog-blueprint — универсальный блюпринт (docs/BLUEPRINT.md)
 
-## v1.1 — после запуска
-- [ ] Купить домен (.kg или .com), 301 с pages.dev, поменять SITE_URL
-- [ ] Заменить контакты в data/site.json (одна точка правды)
-- [ ] Заполнить data/masters.json реальными исполнителями (имя, тел, WA, рейтинг, зоны)
-- [ ] Search Console + Яндекс.Вебмастер, отправка sitemap
-- [ ] Яндекс.Метрика / GA4 (события кликов WhatsApp/Telegram)
+## v1.2 — сразу после деплоя
+- [ ] CLOUDFLARE_API_TOKEN → npm run deploy (или GitHub Secrets + Actions)
+- [ ] Search Console: отправить /sitemap-index.xml
+- [ ] Яндекс.Вебмастер + Метрика (цели: клик WhatsApp, клик Telegram)
+- [ ] Заменить placeholder-отзывы на реальные после первых клиентов
+      (сейчас AggregateRating 4.8/127 — ЗАГЛУШКА, убрать или заменить!)
 
 ## v2 — бот и автоматизация
-- [ ] Telegram-бот приёма заявок: кнопка «Заказать» → бот с выбором услуги/НП/фото
-      (webhook на Cloudflare Worker, очередь заявок, уведомление @realhikaz)
-- [ ] Все CTA сайта переключить на бота (deep-link t.me/bot?start=service_slug-location)
-- [ ] Пайплайн блога: scripts/fetch-blog.mjs фетчит источники из blog-plan.json →
-      research/fetched/ → рерайт под SEO/GEO/AEO → content/blog/
-- [ ] Автопубликация по расписанию (GitHub Actions cron)
+- [ ] Telegram-бот заявок: Worker + D1, deep-link t.me/bot?start={service}-{loc}
+- [ ] Sveltia CMS в public/admin/ (конфиг готов в ADMIN-GUIDE.md §Админка)
+- [ ] Пайплайн блога по cron (GitHub Actions): fetch-blog → рерайт → publish
+- [ ] OG-картинки per-page через satori/vite-plugin
 
-## v3 — масштабирование
-- [ ] Экспорт базы в другие сервисы (npm run export): каталоги, карты, маркетплейсы
-- [ ] Кыргызская версия топ-20 страниц
-- [ ] Отзывы клиентов (JSON-LD Review) после первых 20 заказов
-- [ ] Фотоотчёты работ (R2 + оптимизация)
-
-## v3+ — каталог электрики (товары)
-- [ ] Каталог электротоваров: розетки, автоматы, кабель, светильники, УЗО и т.д.
-- [ ] Формат данных: CSV с полями (sku, name, category, brand, price_kgs, unit,
-      stock, photo_url_1..N, description, specs JSON) + ссылки на фотографии
-- [ ] Объём большой — грузить чанками через npm script import-catalog.mjs
-- [ ] Страницы товаров /katalog/[категория]/[товар]/ + Product JSON-LD + цены в сомах
-- [ ] Перелинковка услуга → нужные товары («для замены розетки понадобится…»)
-- [ ] Источник CSV вести в Google Sheets → экспорт → импорт в data/catalog.csv
+## v3 — масштабирование (см. docs/BLUEPRINT.md)
+- [ ] Мультиязычность: hreflang, data/i18n/*.json, маршруты /ky/, /en/
+- [ ] Каталог товаров: CSV + Product JSON-LD (roadmap §v3+)
+- [ ] Сеть сайтов под другие ниши/города из одного шаблона

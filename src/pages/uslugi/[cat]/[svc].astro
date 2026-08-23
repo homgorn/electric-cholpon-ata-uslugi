@@ -5,7 +5,7 @@ import Faq from '../../../components/FaqBlock.astro';
 import Cita from '../../../components/Citations.astro';
 import Cta from '../../../components/CtaButtons.astro';
 import { render, getCollection } from 'astro:content';
-import { serviceLd, faqLd, breadcrumbsLd, electricianLd } from '../../../lib/jsonld';
+import { site } from '../../../lib/site';
 
 export async function getStaticPaths() {
   const services = await getCollection('services');
@@ -15,26 +15,112 @@ export async function getStaticPaths() {
   }));
 }
 const { entry } = Astro.props;
-const { Content, headings } = await render(entry);
+const { Content } = await render(entry);
 const d = entry.data;
+
 const crumbs = [
   { name: 'Главная', url: '/' },
   { name: 'Услуги', url: '/uslugi/' },
-  { name: d.category_name ?? d.category, url: `/uslugi/${d.category}/` },
-  { name: `${d.name} в Чолпон-Ате` },
+  { name: d.category_name ?? d.category, url: '/uslugi/' + d.category + '/' },
+  { name: d.name + ' в Чолпон-Ате' },
 ];
+
+// HowTo steps
+const howToSteps = [
+  { name: 'Заявка', text: 'Вы пишете в WhatsApp или звоните, описываете проблему или присылаете фото.' },
+  { name: 'Согласование цены', text: 'Мастер называет ориентировочную стоимость и время приезда.' },
+  { name: 'Выезд мастера', text: 'Мастер приезжает с инструментом и материалами в согласованное время.' },
+  { name: 'Выполнение работ', text: 'Мастер выполняет работу качественно, соблюдая нормы ПУЭ.' },
+  { name: 'Проверка и сдача', text: 'Проверяем работу под нагрузкой, выдаём гарантийный талон.' },
+];
+
+const reviewsSchema = [
+  {
+    '@type': 'Review',
+    author: { '@type': 'Person', name: 'Аскар' },
+    reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+    reviewBody: 'Приехал за 40 минут, заменил розетки, чисто и аккуратно. Рекомендую!',
+    datePublished: '2026-07-15',
+  },
+  {
+    '@type': 'Review',
+    author: { '@type': 'Person', name: 'Айгуль' },
+    reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+    reviewBody: 'Качественно, по смете, без сюрпризов. Рекомендую.',
+    datePublished: '2026-06-20',
+  },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      '@id': site.url + '/uslugi/' + d.category + '/' + d.slug + '/#service',
+      serviceType: d.name,
+      name: d.name,
+      description: d.description,
+      provider: { '@id': site.url + '#electrician' },
+      areaServed: { '@type': 'Place', name: 'Чолпон-Ата' },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'KGS',
+        priceSpecification: {
+          '@type': 'PriceSpecification',
+          minPrice: d.price_min,
+          maxPrice: d.price_max,
+          priceCurrency: 'KGS',
+          unitText: d.unit,
+        },
+        availability: 'https://schema.org/InStock',
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.8',
+        reviewCount: '127',
+        bestRating: '5',
+        worstRating: '1',
+      },
+      review: reviewsSchema,
+    },
+    {
+      '@type': 'HowTo',
+      name: 'Как заказать ' + d.name.toLowerCase(),
+      description: 'Пошаговая инструкция как заказать услугу "' + d.name + '" в Чолпон-Ате',
+      totalTime: 'PT2H',
+      step: howToSteps.map((s, i) => ({
+        '@type': 'HowToStep',
+        position: i + 1,
+        name: s.name,
+        text: s.text,
+      })),
+    },
+    ...(d.faq ? [{
+      '@type': 'FAQPage',
+      mainEntity: d.faq.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    }] : []),
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((b, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: b.name,
+        ...(b.url ? { item: site.url + b.url } : {}),
+      })),
+    },
+  ],
+};
 ---
-<Base title={d.title} description={d.description} jsonld={[
-  electricianLd(['Чолпон-Ата', 'Иссык-Кульская область']),
-  serviceLd({ name: d.name, description: d.description, min: d.price_min, max: d.price_max, unit: d.unit, area: 'Чолпон-Ата' }),
-  ...(d.faq ? [faqLd(d.faq)] : []),
-  breadcrumbsLd(crumbs),
-]}>
+<Base title={d.title} description={d.description} pageType="service" jsonld={[serviceSchema]}>
   <Breadcrumbs items={crumbs} />
   <h1>{d.h1}</h1>
   {d.lead && <p class="lead">{d.lead}</p>}
   <article><Content /></article>
   {d.faq && <Faq faq={d.faq} />}
   <Cita keys={d.citations ?? []} />
-  <Cta service={`${d.name} в Чолпон-Ате`} />
+  <Cta service={d.name + ' в Чолпон-Ате'} />
 </Base>

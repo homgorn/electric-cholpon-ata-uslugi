@@ -11,7 +11,7 @@ services:
   - "domofon"
   - "tv-rozetki-antenny"
   - "signalizaciya-elektrika"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Интернет-розетки, видеонаблюдение, домофоны, ТВ и сигнализация — слаботочные сети под ключ.

@@ -5,6 +5,8 @@ h1: "Замена выключателя в Чолпон-Ате — цена о�
 lead: "Замена выключателя в Чолпон-Ате — от 250 до 650 сом за точку, 20–40 минут. Звоните или пишите в WhatsApp — ответим за 5 минут."
 type: "service"
 slug: "zamena-vyklyuchatelya"
+name: "Замена выключателя"
+name_gen: "замены выключателя"
 category: "rozetki-vyklyuchateli"
 category_name: "Розетки и выключатели"
 price_min: 250
@@ -29,7 +31,7 @@ citations:
   - "eco-service-kg"
   - "pue"
   - "electrician-kg"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Замена выключателя в Чолпон-Ате — от 250 до 650 сом за точку, 20–40 минут. Звоните или пишите в WhatsApp — ответим за 5 минут.

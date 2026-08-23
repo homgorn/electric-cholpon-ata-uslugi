@@ -5,6 +5,8 @@ h1: "Установка прожектора в Чолпон-Ате — цена
 lead: "Цена прожектора в Чолпон-Ате: от 900 сом (шт). Выезд мастер за 30–60 минут."
 type: "service"
 slug: "ustanovka-prozhektora"
+name: "Установка прожектора"
+name_gen: "прожектора"
 category: "osveshchenie"
 category_name: "Освещение"
 price_min: 900
@@ -30,7 +32,7 @@ citations:
   - "eco-service-kg"
   - "pue"
   - "electrician-kg"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Цена прожектора в Чолпон-Ате: от 900 сом (шт). Выезд мастер за 30–60 минут.

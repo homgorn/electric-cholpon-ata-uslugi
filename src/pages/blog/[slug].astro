@@ -5,7 +5,7 @@ import Faq from '../../components/FaqBlock.astro';
 import Cita from '../../components/Citations.astro';
 import Cta from '../../components/CtaButtons.astro';
 import { render, getCollection } from 'astro:content';
-import { articleLd, breadcrumbsLd, faqLd } from '../../lib/jsonld';
+import { site } from '../../lib/site';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -14,17 +14,66 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+
 const crumbs = [
   { name: 'Главная', url: '/' },
   { name: 'Блог', url: '/blog/' },
   { name: d.h1 },
 ];
+
+const articleDate = d.date ?? new Date().toISOString().slice(0, 10);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      '@id': site.url + '/blog/' + entry.id + '#article',
+      headline: d.title,
+      description: d.description,
+      datePublished: articleDate,
+      dateModified: articleDate,
+      keywords: d.keyword,
+      author: {
+        '@type': 'Person',
+        name: site.founder,
+        sameAs: [site.telegram, site.whatsapp],
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: site.brand,
+        logo: { '@type': 'ImageObject', url: site.url + '/logo.png' },
+      },
+      mainEntityOfPage: site.url + '/blog/' + entry.id + '/',
+      image: {
+        '@type': 'ImageObject',
+        url: site.url + '/og-blog-' + entry.id + '.svg',
+        width: 1200,
+        height: 630,
+      },
+      inLanguage: 'ru-RU',
+    },
+    ...(d.faq ? [{
+      '@type': 'FAQPage',
+      mainEntity: d.faq.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    }] : []),
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: crumbs.map((b, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: b.name,
+        ...(b.url ? { item: site.url + b.url } : {}),
+      })),
+    },
+  ],
+};
 ---
-<Base title={d.title} description={d.description} jsonld={[
-  articleLd({ title: d.title, description: d.description, date: d.date ?? '', slug: entry.id, keyword: d.keyword }),
-  ...(d.faq ? [faqLd(d.faq)] : []),
-  breadcrumbsLd(crumbs),
-]}>
+<Base title={d.title} description={d.description} ogImage={'/og-blog-' + entry.id + '.svg'} pageType="article" jsonld={[articleSchema]}>
   <Breadcrumbs items={crumbs} />
   <h1>{d.h1}</h1>
   <p style="color:#94a3b8;font-size:14px">{d.date} · ключ: «{d.keyword}»</p>

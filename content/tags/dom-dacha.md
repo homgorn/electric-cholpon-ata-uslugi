@@ -31,7 +31,7 @@ services:
   - "vremennoe-elektrosnabzhenie"
   - "podklyuchenie-solnechnyh-paneley"
   - "remont-vl-linii"
-updated: "2026-08-22"
+updated: "2026-08-23"
 ---
 
 Электрика частных домов: ввод, щит, заземление, уличное освещение, генераторы.
