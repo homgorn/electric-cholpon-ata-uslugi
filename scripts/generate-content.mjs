@@ -157,7 +157,7 @@ ${safety}
 ${faq.map(f => `### ${f.q}\n\n${f.a}\n`).join('\n')}
 
 ${citeKeys.length ? citeList(citeKeys) : ''}
-${ctaBlock(`${service.name} в ${site.city}`, r)}
+${ctaBlock(`${service.name} в Чолпон-Ате`, r)}
 
 Смотрите также: ${relatedLinks(service, null)}
 `;
