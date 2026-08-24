@@ -1,0 +1,26 @@
+// Генерация OG-картинки 1200×630 из SVG (sharp)
+import sharp from 'sharp';
+import fs from 'node:fs';
+
+const svg = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <circle cx="1050" cy="90" r="260" fill="#fbbf24" opacity="0.07"/>
+  <circle cx="120" cy="580" r="200" fill="#22c55e" opacity="0.06"/>
+  <text x="70" y="150" font-family="Arial, sans-serif" font-size="44" fill="#fbbf24" font-weight="bold">⚡ ЭЛЕКТРИК ЧОЛПОН-АТА</text>
+  <text x="70" y="250" font-family="Arial, sans-serif" font-size="58" fill="#ffffff" font-weight="bold">Услуги электрика на Иссык-Куле</text>
+  <text x="70" y="330" font-family="Arial, sans-serif" font-size="34" fill="#94a3b8">85 услуг · Чолпон-Ата + 32 села до 95 км</text>
+  <text x="70" y="410" font-family="Arial, sans-serif" font-size="34" fill="#94a3b8">Гарантия · Выезд в день обращения · 24/7</text>
+  <rect x="70" y="460" width="480" height="72" rx="14" fill="#22c55e"/>
+  <text x="95" y="507" font-family="Arial, sans-serif" font-size="30" fill="#052e16" font-weight="bold">💬 +996 555 707 267</text>
+  <text x="70" y="585" font-family="Arial, sans-serif" font-size="24" fill="#64748b">uslugi-electrica-cholpon-ata-issyk-kol.pages.dev</text>
+</svg>`;
+
+fs.writeFileSync('public/og-default.svg', svg);
+await sharp(Buffer.from(svg)).png().toFile('public/og-default.png');
+console.log('OG image:', fs.statSync('public/og-default.png').size, 'bytes');

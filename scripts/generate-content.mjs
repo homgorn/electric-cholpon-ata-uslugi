@@ -37,7 +37,7 @@ const today = new Date().toISOString().slice(0, 10);
 const OUT_DIR = path.join(ROOT, 'outputs', today);
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
-const waLink = (service) => `${site.whatsapp}?text=${encodeURIComponent(fmt(site.cta_whatsapp_template, { service }))}`;
+const waLink = (service) => `${site.whatsapp}?text=${encodeURIComponent(fmt(site.cta_whatsapp_template, { service, site: site.url.replace('https://','') }))}`;
 const tgLink = site.telegram;
 const ctaBlock = (serviceName, r) => {
   const text = pick(CTA_TEXTS, r);
@@ -73,7 +73,7 @@ const priceTable = (service, extraRows = []) =>
   '| Параметр | Значение |\n|---|---|\n'
   + `| Цена за ${service.unit} | **от ${service.price_min} до ${service.price_max} сом** |\n`
   + `| Время работы | ${service.time} |\n`
-  + `| Гарантия | 12 месяцев |\n`
+  + `| Гарантия | 1 месяц |\n`
   + extraRows.map(x => `| ${x[0]} | ${x[1]} |\n`).join('');
 
 const travelNote = (loc) => loc && loc.slug !== 'cholpon-ata'
@@ -304,9 +304,11 @@ ${ctaBlock(`Электрик в ${locPre(loc)}`, r)}
 
   const fm = {
     title: `Электрик в ${locPre(loc)} — выезд ${loc.travel_fee} сом, все услуги`,
-    description: `Электрик в ${locPre(loc)} (${loc.distance_km} км от Чолпон-Аты): розетки, проводка, щиты, бойлеры. Выезд ${loc.travel_fee} сом, гарантия 12 мес. WhatsApp с фото — цена за 5 минут.`,
+    description: `Электрик в ${locPre(loc)} (${loc.distance_km} км от Чолпон-Аты): розетки, проводка, щиты, бойлеры. Выезд ${loc.travel_fee} сом, гарантия 1 мес. WhatsApp с фото — цена за 5 минут.`,
     h1: `Электрик в ${locPre(loc)} — все услуги с выездом`,
-    lead: `Электрик в ${locPre(loc)}: выезд ${loc.travel_fee} сом (${loc.distance_km} км), все виды электромонтажных работ с гарантией 12 месяцев.`,
+    lead: loc.slug === 'cholpon-ata'
+      ? `Электрик в ${locPre(loc)}: приезд за 30–60 минут, 85 услуг электромонтажа с гарантией 1 месяц.`
+      : `Электрик в ${locPre(loc)}: выезд ${loc.travel_fee} сом (${loc.distance_km} км), все виды электромонтажных работ с гарантией 1 месяц.`,
     type: 'location', slug: loc.slug, name: loc.name, distance_km: loc.distance_km,
     travel_fee: loc.travel_fee, zone: loc.zone, coords: loc.coords,
     faq: faq.slice(0, 3), updated: today,
@@ -329,7 +331,7 @@ ${cards}
 
 1. Напишите в WhatsApp название услуги или фото проблемы.
 2. Получите цену и время приезда.
-3. Мастер выполняет работу и выдаёт гарантию 12 месяцев.
+3. Мастер выполняет работу и выдаёт гарантию 1 месяц.
 
 ${ctaBlock(cat.name, r)}
 
@@ -338,7 +340,7 @@ ${ctaBlock(cat.name, r)}
 
   const fm = {
     title: `${cat.name} — электрик Чолпон-Ата, цены от ${Math.min(...list.map(s => s.price_min))} сом`,
-    description: `${cat.name} в Чолпон-Ате и сёлах Иссык-Куля: ${list.length} услуг, цены от ${Math.min(...list.map(s => s.price_min))} сом. Гарантия 12 месяцев, выезд в день обращения.`,
+    description: `${cat.name} в Чолпон-Ате и сёлах Иссык-Куля: ${list.length} услуг, цены от ${Math.min(...list.map(s => s.price_min))} сом. Гарантия 1 месяц, выезд в день обращения.`,
     h1: cat.h1, lead: cat.description, type: 'category', slug: cat.slug,
     services: list.map(s => s.slug), updated: today,
   };

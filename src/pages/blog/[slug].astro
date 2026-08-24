@@ -47,7 +47,7 @@ const articleSchema = {
       mainEntityOfPage: site.url + '/blog/' + entry.id + '/',
       image: {
         '@type': 'ImageObject',
-        url: site.url + '/og-blog-' + entry.id + '.svg',
+        url: site.url + '/og-default.png',
         width: 1200,
         height: 630,
       },
@@ -73,7 +73,7 @@ const articleSchema = {
   ],
 };
 ---
-<Base title={d.title} description={d.description} ogImage={'/og-blog-' + entry.id + '.svg'} pageType="article" jsonld={[articleSchema]}>
+<Base title={d.title} description={d.description} ogImage={'/og-default.png'} pageType="article" jsonld={[articleSchema]}>
   <Breadcrumbs items={crumbs} />
   <h1>{d.h1}</h1>
   <p style="color:#94a3b8;font-size:14px">{d.date} · ключ: «{d.keyword}»</p>

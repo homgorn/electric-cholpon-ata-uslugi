@@ -1,0 +1,175 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { site } from '../lib/site';
+import { locations } from '../lib/site';
+
+const services = await getCollection('services');
+// Для калькулятора: только точечные услуги (не объекты под ключ)
+const calc = services
+  .filter(s => !['объект', 'контур', 'система', 'комплект'].includes(s.data.unit))
+  .map(s => ({
+    n: s.data.name,
+    c: s.data.category,
+    u: s.data.unit,
+    min: s.data.price_min,
+    max: s.data.price_max,
+  }));
+
+const cats = [
+  ['rozetki-vyklyuchateli', '🔘 Розетки и выключатели'],
+  ['osveshchenie', '💡 Освещение'],
+  ['shchity-avtomaty', '🛡 Щиты и автоматы'],
+  ['bytovaya-tehnika', '🏠 Техника'],
+  ['provodka', '🔌 Проводка'],
+  ['avariynye-raboty', '⚡ Аварийные'],
+  ['zagorodnye-seti', '🗼 Загородные сети'],
+  ['slabotochnye-seti', '📹 Слаботочка'],
+  ['klimat-i-teplo', '🔥 Отопление'],
+];
+---
+<Base
+  title="Калькулятор стоимости электромонтажа онлайн — смета за 2 минуты"
+  description={`Рассчитайте стоимость электрики онлайн: выберите работы и количество — получите смету сразу. Отправка в WhatsApp ${site.phone_display} или на почту. Чолпон-Ата и сёла Иссык-Куля.`}
+  pageType="service"
+>
+  <nav class="crumbs"><a href="/">Главная</a> → Калькулятор</nav>
+  <h1>Калькулятор сметы онлайн</h1>
+  <p class="lead">Отметьте нужные работы, укажите количество — цена считается сразу. Готовую смету отправьте себе в WhatsApp или на почту, мастер подтвердит её при выезде.</p>
+
+  <div class="calc-layout">
+    <div class="calc-items">
+      {cats.map(([slug, label]) => {
+        const list = calc.filter(s => s.c === slug);
+        if (!list.length) return null;
+        return (
+          <details open={slug === 'rozetki-vyklyuchateli'} class="cat">
+            <summary>{label}</summary>
+            {list.map(s => (
+              <label class="row" data-name={s.n} data-unit={s.u} data-min={s.min} data-max={s.max}>
+                <input type="checkbox" class="pick" />
+                <span class="nm">{s.n}</span>
+                <span class="pr">{s.min}–{s.max} сом/{s.u}</span>
+                <input type="number" class="qty" min="1" value="1" disabled />
+              </label>
+            ))}
+          </details>
+        );
+      })}
+    </div>
+
+    <aside class="summary" id="summary">
+      <h2 style="margin-top:0;font-size:20px">Ваша смета</h2>
+      <label style="display:block;margin-bottom:12px;font-size:14px">
+        Район выезда:
+        <select id="loc" style="width:100%;padding:8px;margin-top:4px;border-radius:8px;background:#0b1222;color:#e2e8f0;border:1px solid #334155">
+          {locations.map(l => (
+            <option value={l.travel_fee}>{l.name}{l.travel_fee > 0 ? ` (+${l.travel_fee} сом)` : ''}</option>
+          ))}
+        </select>
+      </label>
+      <div id="lines"><em>Пока ничего не выбрано</em></div>
+      <div class="total" id="total">— </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+        <a id="waBtn" class="btn btn-wa" style="justify-content:center;text-decoration:none" href="#">💬 Отправить смету в WhatsApp</a>
+        <a id="mailBtn" class="btn btn-tg" style="justify-content:center;text-decoration:none;background:#64748b;color:#fff" href="#">✉️ Отправить на почту</a>
+        <button id="copyBtn" class="btn" style="background:#1e293b;color:#94a3b8;border:1px solid #334155;cursor:pointer">📋 Скопировать текст сметы</button>
+      </div>
+      <p style="font-size:12.5px;color:#94a3b8;margin-top:12px">
+        Смета ориентировочная. Мастер подтверждает цену при осмотре — обычно совпадает с расчётом.
+      </p>
+    </aside>
+  </div>
+
+<script is:inline>
+(() => {
+  const dataEl = document.getElementById('calc-data');
+  const rows = [...document.querySelectorAll('.row')];
+  const linesEl = document.getElementById('lines');
+  const totalEl = document.getElementById('total');
+  const waBtn = document.getElementById('waBtn');
+  const mailBtn = document.getElementById('mailBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const locSel = document.getElementById('loc');
+  const SITE = 'uslugi-electrica-cholpon-ata-issyk-kol.pages.dev';
+
+  function fmt(n) { return n.toLocaleString('ru-RU'); }
+
+  function selected() {
+    return rows.filter(r => r.querySelector('.pick').checked).map(r => ({
+      name: r.dataset.name, unit: r.dataset.unit,
+      min: +r.dataset.min, max: +r.dataset.max,
+      qty: Math.max(1, +r.querySelector('.qty').value || 1),
+    }));
+  }
+
+  function render() {
+    const items = selected();
+    const fee = +locSel.value || 0;
+    const locName = locSel.selectedOptions[0]?.textContent.split('(+')[0].trim() || 'Чолпон-Ата';
+
+    if (!items.length) {
+      linesEl.innerHTML = '<em>Пока ничего не выбрано</em>';
+      totalEl.textContent = '—';
+      waBtn.href = mailBtn.href = '#';
+      return;
+    }
+
+    let min = fee, max = fee;
+    linesEl.innerHTML = items.map(i => {
+      min += i.min * i.qty; max += i.max * i.qty;
+      return `<div class="line"><span>${i.name} ×${i.qty}</span><b>${fmt(i.min*i.qty)}–${fmt(i.max*i.qty)}</b></div>`;
+    }).join('');
+
+    const feeLine = fee > 0 ? `<div class="line"><span>Выезд (${locName})</span><b>${fmt(fee)}</b></div>` : '';
+    if (fee > 0) linesEl.insertAdjacentHTML('beforeend', feeLine);
+
+    totalEl.innerHTML = `Итого: <b>${fmt(min)}–${fmt(max)} сом</b>`;
+
+    let text = `Здравствуйте! Пишу с сайта ${SITE}, раздел «Калькулятор».\nМоя смета:\n`;
+    items.forEach(i => text += `• ${i.name} ×${i.qty} (${i.unit}) — ${fmt(i.min*i.qty)}–${fmt(i.max*i.qty)} сом\n`);
+    if (fee > 0) text += `• Выезд: ${locName} — ${fmt(fee)} сом\n`;
+    text += `ИТОГО: ~${fmt(min)}–${fmt(max)} сом\nУточните, пожалуйста, детали и время.`;
+
+    waBtn.href = `https://wa.me/996555707267?text=${encodeURIComponent(text)}`;
+    mailBtn.href = `mailto:refertur@yandex.ru?subject=${encodeURIComponent('Заявка с сайта — смета калькулятора')}&body=${encodeURIComponent(text)}`;
+    copyBtn.dataset.text = text;
+  }
+
+  rows.forEach(r => {
+    const pick = r.querySelector('.pick'), qty = r.querySelector('.qty');
+    pick.addEventListener('change', () => { qty.disabled = !pick.checked; render(); });
+    qty.addEventListener('input', render);
+  });
+  locSel.addEventListener('change', render);
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(copyBtn.dataset.text || '').then(() => {
+      copyBtn.textContent = '✓ Скопировано';
+      setTimeout(() => copyBtn.textContent = '📋 Скопировать текст сметы', 2000);
+    });
+  });
+  render();
+})();
+</script>
+
+<script type="application/json" id="calc-data" set:html={JSON.stringify(calc)} />
+
+<style is:global>
+.calc-layout{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+@media(max-width:800px){.calc-layout{grid-template-columns:1fr}}
+.cat{background:#16202f;border:1px solid #2b3b55;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.cat summary{cursor:pointer;padding:12px 14px;font-weight:700;color:#fde68a;list-style:none}
+.cat summary::before{content:'▸ ';color:#64748b}
+.cat[open] summary::before{content:'▾ '}
+.row{display:flex;align-items:center;gap:8px;padding:8px 14px;border-top:1px solid #223049;cursor:pointer}
+.row:hover{background:#182236}
+.row .nm{flex:1;font-size:14px}
+.row .pr{font-size:12px;color:#64748b;white-space:nowrap}
+.row .qty{width:56px;padding:5px;border-radius:6px;background:#0b1222;color:#fff;border:1px solid #334155;text-align:center}
+.row .qty:disabled{opacity:.35}
+.summary{position:sticky;top:70px;background:#101a2c;border:1px solid #2b3b55;border-radius:14px;padding:16px}
+.line{display:flex;justify-content:space-between;font-size:13.5px;padding:5px 0;border-bottom:1px dashed #223049;gap:8px}
+.total{font-size:18px;margin-top:10px;color:#fef3c7}
+@media(max-width:800px){.summary{position:static}}
+</style>
+</Base>

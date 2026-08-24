@@ -37,7 +37,7 @@ const mainJsonLd = {
       '@type': ['LocalBusiness', 'Electrician'],
       '@id': site.url + '#electrician',
       name: site.brand,
-      description: 'Электромонтажные услуги в ' + site.city + ' и сёлах ' + site.region_short + ': проводка, розетки, щиты, освещение, бойлеры. Гарантия 12 месяцев.',
+      description: 'Электромонтажные услуги в ' + site.city + ' и сёлах ' + site.region_short + ': проводка, розетки, щиты, освещение, бойлеры. Гарантия 1 месяц.',
       url: site.url,
       telephone: site.phone_raw,
       priceRange: '150–138000 KGS',
@@ -100,7 +100,7 @@ const mainJsonLd = {
 ---
 <Base
   title="Электрик Чолпон-Ата — услуги электрика с выездом в сёла Иссык-Куля"
-  description={'Электрик в Чолпон-Ате: 85 услуг от 150 сом — проводка, розетки, щиты, бойлеры. Выезд в 30+ сёл Иссык-Куля до 95 км. Гарантия 12 месяцев, WhatsApp-ответ за 5 минут.'}
+  description={'Электрик в Чолпон-Ате: 85 услуг от 150 сом — проводка, розетки, щиты, бойлеры. Выезд в 30+ сёл Иссык-Куля до 95 км. Гарантия 1 месяц, WhatsApp-ответ за 5 минут.'}
   jsonld={[mainJsonLd]}
 >
   <h1>Электрик в Чолпон-Ате и сёлах Иссык-Куля</h1>
@@ -116,7 +116,7 @@ const mainJsonLd = {
     {topServices.map(([name, url, price]) => (
       <a class="card" href={url} style="text-decoration:none">
         <h3 style="color:#7dd3fc">{name}</h3>
-        <small>{price} · гарантия 12 мес</small>
+        <small>{price} · гарантия 1 мес</small>
       </a>
     ))}
   </div>
@@ -137,7 +137,7 @@ const mainJsonLd = {
   <ul>
     <li><strong>Местный мастер</strong> — не ждёте бригаду из Бишкека</li>
     <li><strong>Цена до выезда</strong> — пришлите фото в WhatsApp, назовём диапазон сразу</li>
-    <li><strong>Гарантия 12 месяцев</strong> письменно на весь монтаж</li>
+    <li><strong>Гарантия 1 месяц</strong> письменно на весь монтаж</li>
     <li><strong>Работаем по ПУЭ</strong>: клеммы вместо скруток, УЗО во влажных зонах</li>
     <li><strong>Аварийные вызовы 24/7</strong> — искрение и запах гари приоритетны</li>
   </ul>

@@ -272,7 +272,7 @@ ${priceIntro}
 |---|---|
 | Цена за ${service.unit} | **от ${service.price_min} до ${service.price_max} ${ctx.currency}** |
 | Время работы | ${service.time} |
-| Гарантия | 12 месяцев |
+| Гарантия | 1 месяц |
 
 | Выезд в сёла | Надбавка |
 |---|---|
@@ -392,7 +392,7 @@ ${priceIntro}
 |---|---|
 | Цена за ${service.unit} | **от ${service.price_min} до ${service.price_max} ${ctx.currency}** |
 | Время работы | ${service.time} |
-| Гарантия | 12 месяцев |
+| Гарантия | 1 месяц |
 | Выезд в ${ctx.locPre(loc)} | ${loc.travel_fee} ${ctx.currency} (${loc.distance_km} км) |
 
 ## Что входит в работу
@@ -517,9 +517,9 @@ ${why}
 
   const fm: PageFrontmatter = {
     title: `Электрик в ${ctx.locPre(loc)} — выезд ${loc.travel_fee} ${ctx.currency}, все услуги`,
-    description: `Электрик в ${ctx.locPre(loc)} (${loc.distance_km} км от ${ctx.site.city}): розетки, проводка, щиты, бойлеры. Выезд ${loc.travel_fee} ${ctx.currency}, гарантия 12 мес. WhatsApp с фото — цена за 5 минут.`,
+    description: `Электрик в ${ctx.locPre(loc)} (${loc.distance_km} км от ${ctx.site.city}): розетки, проводка, щиты, бойлеры. Выезд ${loc.travel_fee} ${ctx.currency}, гарантия 1 мес. WhatsApp с фото — цена за 5 минут.`,
     h1: `Электрик в ${ctx.locPre(loc)} — все услуги с выездом`,
-    lead: `Электрик в ${ctx.locPre(loc)}: выезд ${loc.travel_fee} ${ctx.currency} (${loc.distance_km} км), все виды электромонтажных работ с гарантией 12 месяцев.`,
+    lead: `Электрик в ${ctx.locPre(loc)}: выезд ${loc.travel_fee} ${ctx.currency} (${loc.distance_km} км), все виды электромонтажных работ с гарантией 1 месяц.`,
     type: 'location',
     slug: loc.slug,
     name: loc.name,
@@ -551,7 +551,7 @@ ${cards}
 
 1. Напишите в WhatsApp название услуги или фото проблемы.
 2. Получите цену и время приезда.
-3. Мастер выполняет работу и выдаёт гарантию 12 месяцев.
+3. Мастер выполняет работу и выдаёт гарантию 1 месяц.
 
 > **${pick(ctx.pools.CTA_TEXTS, rng)}**
 >
@@ -563,7 +563,7 @@ ${cards}
   const minPrice = Math.min(...list.map(s => s.price_min));
   const fm: PageFrontmatter = {
     title: `${cat.name} — электрик ${ctx.site.city}, цены от ${minPrice} ${ctx.currency}`,
-    description: `${cat.name} в ${ctx.site.city} и сёлах ${ctx.site.region_short}: ${list.length} услуг, цены от ${minPrice} ${ctx.currency}. Гарантия 12 месяцев, выезд в день обращения.`,
+    description: `${cat.name} в ${ctx.site.city} и сёлах ${ctx.site.region_short}: ${list.length} услуг, цены от ${minPrice} ${ctx.currency}. Гарантия 1 месяц, выезд в день обращения.`,
     h1: cat.h1,
     lead: cat.description,
     type: 'category',

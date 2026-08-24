@@ -28,6 +28,7 @@
     "@vitest/coverage-v8": "^4.1.11",
     "@vitest/ui": "^4.1.11",
     "pino": "^10.3.1",
+    "sharp": "^0.35.3",
     "vitest": "^4.1.11",
     "wrangler": "^3.99.0",
     "zod": "^4.4.3"

@@ -9,7 +9,7 @@ interface Props {
   twitterCard?: 'summary' | 'summary_large_image';
   pageType?: string;
 }
-const { title, description, jsonld = [], canonical, ogImage = '/favicon.svg', twitterCard = 'summary_large_image', pageType = 'website' } = Astro.props;
+const { title, description, jsonld = [], canonical, ogImage = '/og-default.png', twitterCard = 'summary_large_image', pageType = 'website' } = Astro.props;
 const url = canonical ?? new URL(Astro.url.pathname, Astro.site).href.replace(/\/$/, '/');
 const ogImageUrl = new URL(ogImage, Astro.site).href;
 
@@ -26,6 +26,7 @@ const topServices = [
   ['Электрика под ключ', '/uslugi/provodka/elektrika-pod-kluch/'],
 ];
 const infoLinks = [
+  ['🧮 Калькулятор сметы', '/kalkulyator/'],
   ['Все услуги', '/uslugi/'],
   ['Прайс-лист', '/ceny/'],
   ['Где работаем', '/lokacii/'],
@@ -124,6 +125,7 @@ footer{border-top:1px solid #243247;background:#0b1222;padding:36px 0 110px;font
 .fcol li{margin-bottom:6px}
 .fcol a{color:var(--mut);text-decoration:none;font-size:13px}
 .fcol a:hover{color:#fff}
+.fcredit{max-width:1100px;margin:22px auto 0;padding:14px 16px;border-top:1px solid #1c2942;font-size:12px}
 .fbottom{max-width:1100px;margin:26px auto 0;padding:16px 16px 0;border-top:1px solid #1c2942;font-size:12.5px;opacity:.75}
 @media(max-width:960px){.fgrid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:600px){.fgrid{grid-template-columns:repeat(2,1fr)}}
@@ -143,6 +145,7 @@ footer{border-top:1px solid #243247;background:#0b1222;padding:36px 0 110px;font
       <a class="logo" href="/">⚡ Электрик<span> Чолпон-Ата</span></a>
       <nav class="nav-desktop" aria-label="Основная навигация">
         <a href="/uslugi/">Услуги</a>
+        <a href="/kalkulyator/">🧮 Калькулятор</a>
         <a href="/ceny/">Цены</a>
         <a href="/lokacii/">Где работаем</a>
         <a href="/mastera/">Мастера</a>
@@ -156,6 +159,7 @@ footer{border-top:1px solid #243247;background:#0b1222;padding:36px 0 110px;font
       <a href="/">Главная</a>
       <a href="/uslugi/">Все услуги</a>
       {categories.map((c) => <a href={`/uslugi/${c.slug}/`}>{c.icon ?? ''} {c.name}</a>)}
+      <a href="/kalkulyator/">🧮 Калькулятор сметы</a>
       <a href="/ceny/">💰 Прайс-лист</a>
       <a href="/lokacii/">📍 Где работаем ({locations.length} НП)</a>
       <a href="/mastera/">👷 Мастера</a>
@@ -204,9 +208,17 @@ footer{border-top:1px solid #243247;background:#0b1222;padding:36px 0 110px;font
           <li><a href={site.whatsapp}>💬 WhatsApp</a></li>
           <li><a href={site.whatsapp}>{site.phone_display}</a></li>
           <li><a href={site.telegram}>✈️ Telegram @realhikaz</a></li>
+          <li><a href={`mailto:${site.email}`}>✉️ {site.email}</a></li>
           <li>{site.work_hours}</li>
         </ul>
       </div>
+    </div>
+    <div class="fcredit">
+      <a href="https://refertur.net" rel="noopener" target="_blank" style="color:#94a3b8;text-decoration:none;display:block;line-height:1.6">
+        <b style="color:#cbd5e1">Создание и SEO, GEO, AEO продвижение</b> в нейронных сетях и поисковых системах
+        подобных каталогов, агрегаторов, интернет-магазинов, вебсервисов и сайтов под любые услуги и товары.
+        Контент-маркетинг. Обучение. <span style="color:#fde68a">refertur.net</span>
+      </a>
     </div>
     <div class="fbottom">
       © 2026 {site.brand} — электромонтаж в {site.city} и сёлах {site.region_short} до 95 км. Цены ориентировочные, финальная стоимость после осмотра.
@@ -217,5 +229,20 @@ footer{border-top:1px solid #243247;background:#0b1222;padding:36px 0 110px;font
     <a class="sc-wa" href={site.whatsapp} aria-label="Написать в WhatsApp">💬 WhatsApp — цена за 5 мин</a>
     <a class="sc-tg" href={site.telegram} aria-label="Написать в Telegram">✈️ Telegram</a>
   </div>
+<script>
+    (function () {
+      var blocks = document.querySelectorAll('pre>code.language-mermaid');
+      if (!blocks.length) return;
+      var s = document.createElement('script');
+      s.type = 'module';
+      s.textContent = "import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';" +
+        "mermaid.initialize({startOnLoad:false,theme:'dark'});" +
+        "for (const b of document.querySelectorAll('pre>code.language-mermaid'))" +
+        "{const d=document.createElement('div');d.className='mermaid';d.textContent=b.textContent;" +
+        "b.parentElement.replaceWith(d);}" +
+        "await mermaid.run();";
+      document.body.appendChild(s);
+    })();
+  </script>
 </body>
 </html>

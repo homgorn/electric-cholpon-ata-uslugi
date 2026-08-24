@@ -8,7 +8,7 @@ export const electricianLd = (areaServed: string[]) => ({
   '@type': ['LocalBusiness', 'Electrician'],
   '@id': site.url + '#electrician',
   name: site.brand,
-  description: 'Электромонтажные работы в ' + site.city + ' и сёлах ' + site.region_short + ': проводка, розетки, щиты, освещение, бойлеры. Гарантия 12 месяцев.',
+  description: 'Электромонтажные работы в ' + site.city + ' и сёлах ' + site.region_short + ': проводка, розетки, щиты, освещение, бойлеры. Гарантия 1 месяц.',
   url: site.url,
   telephone: site.phone_raw,
   priceRange: '150–138000 KGS',

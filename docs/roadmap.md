@@ -23,6 +23,14 @@
 - [ ] Заменить placeholder-отзывы на реальные после первых клиентов
       (сейчас AggregateRating 4.8/127 — ЗАГЛУШКА, убрать или заменить!)
 
+## v1.2 ✅ дополнительно сделано
+- [x] Калькулятор сметы /kalkulyator/ (WA + email refertur@yandex.ru + копирование)
+- [x] Префиллы «Пишу с сайта…», телефон +996555707267, email в футере
+- [x] Футер: 5 колонок + кредит refertur.net
+- [x] Мобильное меню (CSS-чекбокс), CategoryNav чипы
+- [x] Фикс дубля FAQPage, is:global CSS
+- [x] OG-default.png (sharp), mermaid-диаграммы в блоге
+
 ## v2 — бот и автоматизация
 - [ ] Telegram-бот заявок: Worker + D1, deep-link t.me/bot?start={service}-{loc}
 - [ ] Sveltia CMS в public/admin/ (конфиг готов в ADMIN-GUIDE.md §Админка)
