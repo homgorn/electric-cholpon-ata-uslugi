@@ -6,6 +6,7 @@ import Cita from '../components/Citations.astro';
 import Cta from '../components/CtaButtons.astro';
 import CategoryNav from '../components/CategoryNav.astro';
 import { render, getCollection } from 'astro:content';
+import { locations } from '../lib/site';
 import { serviceLd, faqLd, breadcrumbsLd, electricianLd } from '../lib/jsonld';
 
 // Гео-лендинги: /[услуга]-v-[локация] — catch-all после статических маршрутов
@@ -16,6 +17,10 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
+const allServices = await getCollection('services');
+const svcName = allServices.find(x => x.data.slug === d.service_slug)?.data.name ?? d.service_slug;
+const locEntry = locations.find(l => l.slug === d.location_slug);
+const locName = locEntry ? (locEntry.pre ?? locEntry.name) : d.location_slug;
 const crumbs = [
   { name: 'Главная', url: '/' },
   { name: `Электрик в ${entry.data.location_slug}`, url: `/lokacii/${d.location_slug}/` },
@@ -35,5 +40,5 @@ const crumbs = [
   {d.faq && <Faq faq={d.faq} />}
   <Cita keys={d.citations ?? []} />
   <CategoryNav />
-  <Cta service={`${d.service_slug.replace(/-/g, ' ')} в ${d.location_slug}`} />
+  <Cta service={svcName + ' в ' + locName} />
 </Base>

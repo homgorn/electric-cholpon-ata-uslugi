@@ -11,7 +11,7 @@ export const citations = Object.fromEntries(citationsJson.map((c) => [c.key, c])
 export const masters = mastersJson;
 export const waLink = (service?: string, pageUrl?: string) => {
   const msg = service
-    ? `Здравствуйте! Пишу с сайта ${site.url.replace('https://','')}, страница: «${service}». Можно узнать подробнее?`
+    ? `Здравствуйте! Пишу с сайта ${site.url.replace('https://','')}. Страница: «${service}». Можно узнать подробнее?`
     : `Здравствуйте! Пишу с сайта ${site.url.replace('https://','')}. Нужен электрик — подскажите по стоимости и срокам.`;
   return `${site.whatsapp}?text=${encodeURIComponent(msg)}`;
 };
