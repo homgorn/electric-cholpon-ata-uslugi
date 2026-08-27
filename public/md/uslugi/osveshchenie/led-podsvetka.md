@@ -31,7 +31,7 @@ citations:
   - "eco-service-kg"
   - "pue"
   - "electrician-kg"
-updated: "2026-08-24"
+updated: "2026-08-27"
 ---
 
 Цена LED-подсветки в Чолпон-Ате: от 700 сом (метр). Выезд мастер за 30–60 минут.

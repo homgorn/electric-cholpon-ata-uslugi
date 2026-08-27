@@ -21,7 +21,7 @@ services:
   - "videonablyudenie"
   - "signalizaciya-elektrika"
   - "rezervnoe-pitanie-avr"
-updated: "2026-08-24"
+updated: "2026-08-27"
 ---
 
 Пансионаты, гостиницы, кафе, магазины — электромонтаж и сезонное обслуживание.

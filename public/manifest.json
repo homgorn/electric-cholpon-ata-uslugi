@@ -1,0 +1,17 @@
+{
+  "name": "Электрик Чолпон-Ата",
+  "short_name": "Электрик Ч-А",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "description": "Услуги электрика в Чолпон-Ате и сёлах Иссык-Куля до 95 км. 85 услуг, цены от 150 сом.",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" },
+    { "src": "/og-default.png", "sizes": "1200x630", "type": "image/png", "purpose": "any" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "apple touch icon" }
+  ],
+  "scope": "/",
+  "categories": ["business", "services"],
+  "related_applications": []
+}

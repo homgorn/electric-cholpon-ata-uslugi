@@ -19,7 +19,7 @@ services:
   - "fotorele"
   - "dvuhklavishnyy-vyklyuchatel"
   - "dimmer"
-updated: "2026-08-24"
+updated: "2026-08-27"
 ---
 
 Люстры, светильники, споты, прожекторы, уличное освещение — монтаж и ремонт на Иссык-Куле.

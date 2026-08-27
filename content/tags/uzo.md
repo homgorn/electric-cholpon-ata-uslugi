@@ -9,7 +9,7 @@ services:
   - "poisk-utechki-toka"
   - "ustanovka-uzo"
   - "ustanovka-difavtomata"
-updated: "2026-08-24"
+updated: "2026-08-27"
 ---
 
 Установка УЗО и дифавтоматов — защита от поражения током и пожара. Обязательны для влажных зон.

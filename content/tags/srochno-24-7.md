@@ -16,7 +16,7 @@ services:
   - "datchik-dvizheniya"
   - "poisk-neispravnosti-provodki"
   - "remont-elektroshchita"
-updated: "2026-08-24"
+updated: "2026-08-27"
 ---
 
 Аварийный электрик круглосуточно: КЗ, пропал свет, искрение, запах гари. Чолпон-Ата и сёла.

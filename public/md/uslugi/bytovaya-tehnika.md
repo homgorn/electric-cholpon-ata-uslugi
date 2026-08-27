@@ -15,7 +15,7 @@ services:
   - "podklyuchenie-generatora"
   - "zaryadnaya-stanciya-ev"
   - "elektrika-dlya-kondicionera"
-updated: "2026-08-24"
+updated: "2026-08-27"
 ---
 
 Подключение плит, духовок, стиральных машин, бойлеров и генераторов на Иссык-Куле. От 700 сом, гарантия на работу.

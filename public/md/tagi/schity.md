@@ -10,7 +10,7 @@ services:
   - "perenos-elektroshchita"
   - "remont-elektroshchita"
   - "shchit-dlya-doma"
-updated: "2026-08-24"
+updated: "2026-08-27"
 ---
 
 Сборка, замена, перенос и ремонт электрощитов для квартир, домов и коммерческих объектов.

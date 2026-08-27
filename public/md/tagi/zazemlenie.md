@@ -9,7 +9,7 @@ services:
   - "ustanovka-uzo"
   - "zazemlenie-doma"
   - "molniezashchita"
-updated: "2026-08-24"
+updated: "2026-08-27"
 ---
 
 Контур заземления, молниезащита, УЗО — безопасность дома на Иссык-Куле.
