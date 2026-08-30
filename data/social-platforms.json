@@ -1,0 +1,122 @@
+// data/social-platforms.json — приоритеты и параметры соцсетей для Кыргызстана
+{
+  "country": "KG",
+  "primary_locality": "Иссык-Кульская область (Чолпон-Ата, Бостери, Каракол, Ананьево)",
+  "audience_note": "Кыргызстан — Instagram популярен сильнее, чем в РФ; Telegram основной; OK для 50+; Facebook для диаспоры",
+  "platforms": {
+    "telegram": {
+      "priority": 1,
+      "audience": "B2C, B2B (пансионаты, мастера), молодая аудитория 25-45",
+      "type": "channel + chatbot",
+      "handle": "@realhikaz",
+      "post_frequency": "5/неделю",
+      "cta": "WhatsApp-direct + bot-меню с услугами",
+      "is_active": true
+    },
+    "instagram": {
+      "priority": 2,
+      "audience": "B2C, женщины 25-55, владелицы пансионатов, семьи",
+      "type": "account + stories + reels",
+      "handle": "@electro_cholpon_ata",
+      "post_frequency": "4-5/неделю + stories ежедневно",
+      "formats": ["before/after фото работ", "reels 15-30с (до/после, 5-10/мес)", "stories с мини-кейсами"],
+      "is_active": true,
+      "tools": ["Meta Business Suite (бесплатно)", "VSCO (фильтры)", "CapCut (reels)"],
+      "ads_supported": true,
+      "pixel": "Meta Pixel (events: WhatsApp-link, calc_submit, lead)"
+    },
+    "facebook": {
+      "priority": 3,
+      "audience": "B2B (пансионаты, рестораны, отели), диаспора в РФ/Турции/ЕС",
+      "type": "business page + group",
+      "handle": "@electro.cholpon.ata",
+      "post_frequency": "2-3/неделю",
+      "formats": ["B2B кейсы (длинные тексты)", "видеоотзывы от владельцев пансионатов"],
+      "is_active": true,
+      "ads_supported": true
+    },
+    "google_business_profile": {
+      "priority": 1,
+      "audience": "локальный поиск в Чолпон-Ата + туристы",
+      "type": "verified business profile",
+      "address": "Чолпон-Ата, Иссык-Кульская область",
+      "post_frequency": "1/неделю (предложения/фото работ)",
+      "cta": "WhatsApp-direct",
+      "is_active": true,
+      "note": "критически важен для Local SEO"
+    },
+    "ok": {
+      "priority": 4,
+      "audience": "50+ пенсионеры, владельцы старых домов в сёлах",
+      "type": "группа + личная",
+      "post_frequency": "1/неделю",
+      "formats": ["длинные тексты про ремонт", "фото до/после", "сметы работ"],
+      "is_active": true
+    },
+    "vk": {
+      "priority": 5,
+      "audience": "вторичная (исторически Кыргызстан/СНГ)",
+      "type": "группа + личная",
+      "post_frequency": "1-2/неделю",
+      "is_active": true
+    },
+    "dzen": {
+      "priority": 6,
+      "audience": "длинный контент (статьи)",
+      "type": "канал",
+      "post_frequency": "2/месяц (длинные статьи из блога)",
+      "is_active": true
+    }
+  },
+  "ads_budgets": {
+    "monthly": {
+      "google_ads": {
+        "amount_kgs": 20000,
+        "type": "Search + Local",
+        "campaigns": [
+          "Бренд-кампания: 'электрик чолпон ата'",
+          "Услуги-кампания: 'замена розетки чолпон ата'",
+          "Гео-кампании: по каждому селу (33 НП)",
+          "Ретаргетинг: посетители /kalkulyator/"
+        ],
+        "expected_clicks": "200-500/мес",
+        "expected_conversions": "10-20 заявок/мес",
+        "cpc": "10-30 KGS",
+        "expected_cpa": "1000-2000 KGS"
+      },
+      "meta_ads_instagram_facebook": {
+        "amount_kgs": 15000,
+        "type": "Story-виджет, Lead-формы, WhatsApp-кнопка",
+        "campaigns": [
+          "Awareness: Reels 'до/после' 50 км/день",
+          "Lead: форма 'Срочный вызов 30 минут'",
+          "Retargeting: посетители сайта без заявки"
+        ],
+        "expected_clicks": "150-300/мес",
+        "expected_conversions": "5-15 заявок/мес"
+      },
+      "yandex_direct": {
+        "amount_kgs": 20000,
+        "type": "поиск + РСЯ",
+        "campaigns": [
+          "Бренд: 'электрик чолпон ата'",
+          "Услуги: 'замена проводки чолпон ата цена'",
+          "B2B: 'электрик пансионат иссык куль'",
+          "Ретаргетинг: ДРФ ≥ 30 сек"
+        ],
+        "expected_clicks": "200-400/мес",
+        "expected_conversions": "10-20 заявок/мес"
+      },
+      "total": 55000
+    }
+  },
+  "smm_calendar": {
+    "mon": "Telegram-совет + Instagram-фото работ (понедельник)",
+    "tue": "Meta Ads WhatsApp-leads + Telegram-акция",
+    "wed": "Instagram-Reels 15с до/после + Google Ads местный",
+    "thu": "OK-длинный пост + Telegram-кейс",
+    "fri": "Meta Ads Lead-форма + Instagram Stories (опрос)",
+    "sat": "Google Business Profile пост + Dzen-статья",
+    "sun": "Telegram-история клиента + VK-пост"
+  }
+}

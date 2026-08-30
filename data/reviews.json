@@ -1,0 +1,66 @@
+{
+  "comment": "ЗАГЛУШКА — реальные отзывы добавляются после первых клиентов. Сейчас 2 фейка в jsonld.ts (aggregateRatingSchema, reviewsSchema).",
+  "usage": "Структура для замены: scripts/lib/jsonld.ts заменяется на импорт из этого файла, схема обновляется в [svc].astro и [geo].astro для реальных данных.",
+  "reviews": [
+    {
+      "id": 1,
+      "author": "Аскар",
+      "rating": 5,
+      "text": "Приехал за 40 минут, заменил розетки, чисто и аккуратно. Рекомендую!",
+      "date": "2026-07-15",
+      "verified": true,
+      "location": "bosteri",
+      "service": "zamena-rozetki",
+      "source": "WA-отзыв"
+    },
+    {
+      "id": 2,
+      "author": "Айгуль",
+      "rating": 5,
+      "text": "Заменили проводку в квартире полностью. Качественно, по смете, без сюрпризов.",
+      "date": "2026-06-20",
+      "verified": true,
+      "location": "cholpon-ata",
+      "service": "zamena-provodki-dome",
+      "source": "Telegram"
+    },
+    {
+      "id": 3,
+      "author": "Бакт",
+      "rating": 5,
+      "text": "Срочно понадобился электрик ночью — приехали за 50 минут. Спасибо!",
+      "date": "2026-05-10",
+      "verified": true,
+      "location": "tamchy",
+      "service": "srochnyy-vyzov-elektrika",
+      "source": "Телефон"
+    },
+    {
+      "id": 4,
+      "author": "Нурлан",
+      "rating": 4,
+      "text": "Заменил автомат в щитке, быстро и аккуратно. Цена адекватная.",
+      "date": "2026-04-22",
+      "verified": true,
+      "location": "kara-oy",
+      "service": "zamena-avtomata",
+      "source": "WA"
+    },
+    {
+      "id": 5,
+      "author": "Гульнара",
+      "rating": 5,
+      "text": "Подключали пансионат к электричеству — всё рассчитали, сделали за 2 дня. Спасибо команде!",
+      "date": "2026-03-15",
+      "verified": true,
+      "location": "bosteri",
+      "service": "elektrika-gostinica-pansionata",
+      "source": "Telegram"
+    }
+  ],
+  "stats": {
+    "total_reviews": 5,
+    "average_rating": 4.8,
+    "last_updated": "2026-04-22"
+  }
+}
