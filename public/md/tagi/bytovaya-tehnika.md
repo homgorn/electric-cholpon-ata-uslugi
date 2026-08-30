@@ -16,7 +16,7 @@ services:
   - "elektrika-dlya-kondicionera"
   - "rozetka-dlya-elektroplity"
   - "rozetka-dlya-stiralnoy-mashiny"
-updated: "2026-08-27"
+updated: "2026-08-29"
 ---
 
 Подключение плит, духовок, стиральных машин, бойлеров, посудомоек и кондиционеров.

@@ -14,7 +14,7 @@ services:
   - "perenos-elektroshchita"
   - "remont-elektroshchita"
   - "shchit-dlya-doma"
-updated: "2026-08-27"
+updated: "2026-08-29"
 ---
 
 Сборка электрощитов, замена автоматов, УЗО и счётчиков в Чолпон-Ате. Автомат от 450 сом, щит для дома от 8 000 сом.

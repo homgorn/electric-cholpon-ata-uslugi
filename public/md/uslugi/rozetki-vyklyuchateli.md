@@ -19,7 +19,7 @@ services:
   - "dvuhklavishnyy-vyklyuchatel"
   - "prohodnoy-vyklyuchatel"
   - "dimmer"
-updated: "2026-08-27"
+updated: "2026-08-29"
 ---
 
 Монтаж, замена и перенос розеток и выключателей в Чолпон-Ате и сёлах Иссык-Куля. От 250 сом за точку, выезд в день звонка.

@@ -10,7 +10,7 @@ services:
   - "montazh-provodki-s-nulya"
   - "skrytaya-provodka"
   - "zamena-rozetki"
-updated: "2026-08-27"
+updated: "2026-08-29"
 ---
 
 Электромонтаж в квартирах: проводка под ключ, розетки, освещение, щиты.

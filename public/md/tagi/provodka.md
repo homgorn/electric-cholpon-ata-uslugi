@@ -17,7 +17,7 @@ services:
   - "prokladka-kabelya"
   - "poisk-neispravnosti-provodki"
   - "elektrika-pod-kluch"
-updated: "2026-08-27"
+updated: "2026-08-29"
 ---
 
 Полная и частичная замена проводки, монтаж с нуля, открытая и скрытая прокладка кабеля.

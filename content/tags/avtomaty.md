@@ -10,7 +10,7 @@ services:
   - "sborka-elektroshchita"
   - "zamena-avtomata"
   - "ustanovka-difavtomata"
-updated: "2026-08-27"
+updated: "2026-08-29"
 ---
 
 Замена и установка автоматических выключателей, подбор номинала, устранение выбивания.

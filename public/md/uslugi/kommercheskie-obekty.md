@@ -13,7 +13,7 @@ services:
   - "podklyuchenie-380v"
   - "tehobsluzhivanie-elektroustanovok"
   - "promyshlennoe-osveshchenie"
-updated: "2026-08-27"
+updated: "2026-08-29"
 ---
 
 Электромонтаж в пансионатах, гостиницах, кафе и магазинах Чолпон-Аты. Сезонное ТО курортных объектов, 380В.

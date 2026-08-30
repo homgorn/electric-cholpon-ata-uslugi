@@ -1,206 +1,350 @@
-# 📖 РУКОВОДСТВО ВЛАДЕЛЬЦА — Электрик Чолпон-Ата
+# Sveltia CMS Config — Catalog Blueprint Admin
+# Copy this file to public/admin/config.yml
+# Access admin at: https://your-site/admin/
 
-> Всё, что нужно для самостоятельной работы с сайтом. Печатайте эту страницу и держите под рукой.
+backend:
+  name: github
+  repo: homgorn/electric-cholpon-ata-uslugi  # CHANGE to your repo
+  branch: main
+  auth_endpoint: auth  # Netlify Identity (optional); or use GitHub OAuth
+  # For GitHub OAuth (simplest):
+  # 1. Create GitHub OAuth App: https://github.com/settings/developers
+  # 2. Authorization callback URL: https://your-site/admin/
+  # 3. Set Client ID / Client Secret in site config
+
+media_folder: public/img
+public_folder: /img
+
+collections:
+  # ====== СЛУЖБИ (основной каталог) ======
+  - name: services
+    label: Услуги электрика
+    folder: content/services
+    # Each file in folder = one service category (provoda.json etc.)
+    # Each file has array of service objects
+    create: false
+    # We edit the JSON source directly; admin shows structured form per service
+    fields:
+      - label: "Категория (slug)"
+        name: category_slug
+        widget: hidden
+      - label: "Название услуги"
+        name: name
+        widget: string
+      - label: "Генитив (склонение)"
+        name: name_gen
+        widget: string
+      - label: "Минимальная цена (сом)"
+        name: price_min
+        widget: number
+      - label: "Максимальная цена (сом)"
+        name: price_max
+        widget: number
+      - label: "Единица"
+        name: unit
+        widget: select
+        options: ["точка", "шт", "метр", "м²", "объект", "контур", "выезд", "час", "система", "комплект"]
+      - label: "Время работы"
+        name: time
+        widget: string
+      - label: "Теги (slugs через запятую)"
+        name: tags
+        widget: list
+      - label: "Гео-приоритет (генерирует 32 страницы)"
+        name: geo_priority
+        widget: boolean
+      - label: "Что входит (массив)"
+        name: includes
+        widget: list
+      - label: "Этапы работы (массив)"
+        name: steps
+        widget: list
+      - label: "Когда вызывать (массив)"
+        name: symptoms
+        widget: list
+
+  # ====== БЛОГ ======
+  - name: blog
+    label: Статьи
+    folder: content/blog
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: Заголовок
+        name: title
+        widget: string
+        required: true
+      - label: Описание (SEO, ≤165 симв.)
+        name: description
+        widget: text
+        required: true
+      - label: H1
+        name: h1
+        widget: string
+        required: true
+      - label: Лид-ответ (первые 100 симв., содержит цифру)
+        name: lead
+        widget: text
+        required: true
+      - label: Slug
+        name: slug
+        widget: string
+        required: true
+      - label: Дата
+        name: date
+        widget: datetime
+        required: true
+      - label: Ключевое слово
+        name: keyword
+        widget: string
+        required: true
+      - label: Цитаты (ключи из citations.json)
+        name: citations
+        widget: list
+      - label: FAQ (массив Q/A для JSON-LD)
+        name: faq
+        widget: list
+        fields:
+          - { label: Вопрос, name: q, widget: text, required: true }
+          - { label: Ответ, name: a, widget: text, required: true }
+      - label: Тело статьи (markdown)
+        name: body
+        widget: markdown
+        required: true
+      - label: Статус
+        name: status
+        widget: hidden
+        default: published
+
+  # ====== МАСТЕРА ======
+  - name: masters
+    label: Мастера
+    files:
+      - file: data/masters.json
+        label: Каталог исполнителей
+        name: data
+        widget: object
+        fields:
+          - label: Статус
+            name: status
+            widget: select
+            options: ["todo", "active"]
+            default: "todo"
+          - label: Имя
+            name: name
+            widget: string
+            required: true
+          - label: Специализации (slugs)
+            name: specialties
+            widget: list
+          - label: Зоны выезда (slugs локаций)
+            name: areas
+            widget: list
+          - label: Телефон
+            name: phone
+            widget: string
+          - label: WhatsApp
+            name: whatsapp
+            widget: string
+          - label: Telegram
+            name: telegram
+            widget: string
+          - label: Рейтинг (0–5)
+            name: rating
+            widget: number
+          - label: Выполнено работ (число)
+            name: jobs_done
+            widget: number
+          - label: Опыт (лет)
+            name: experience_years
+            widget: number
+          - label: Биография
+            name: bio
+            widget: text
+
+  # ====== ЛОКАЦИИ ======
+  - name: locations
+    label: Локации
+    folder: data/locations
+    # Мы используем JSON-источник правды; для простоты — ручная правка файла
+    create: false
+
+  # ====== ЦИТАТЫ ======
+  - name: citations
+    label: Источники цитат
+    files:
+      - file: data/citations.json
+        label: Цитаты
+        name: citations
+        widget: object
+
+  # ====== КАТЕГОРИИ (только чтение) ======
+  - name: categories
+    label: Категории
+    folder: content/categories
+    fields:
+      - label: Название
+        name: name
+        widget: string
+      - label: Slug
+        name: slug
+        widget: hidden
+      - label: H1
+        name: h1
+        widget: string
+      - label: Описание
+        name: description
+        widget: text
+      - label: Текст страницы
+        name: body
+        widget: markdown
+        required: true
+    create: false
+
+  # ====== ТЕГИ (только чтение) ======
+  - name: tags
+    label: Теги
+    folder: content/tags
+    fields:
+      - label: Название
+        name: name
+        widget: string
+      - label: Slug
+        name: slug
+        widget: hidden
+      - label: Описание
+        name: description
+        widget: text
+      - label: Текст страницы
+        name: body
+        widget: markdown
+        required: true
+    create: false
+
+local_backend: true
+media_folder: public/img/uploads
+
+collections:
+  services: data/services
+  blog: data/blog-plan.json  # Структура контент-плана, не .md страниц
+```
+
+### 2. Подключи GitHub OAuth (для визуального редактирования через Sveltia)
+1. `https://github.com/settings/developers` → OAuth Apps → New OAuth App
+2. **Homepage URL**: `https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/`
+3. **Authorization callback URL**: `https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/admin/`
+4. Скопируй **Client ID** и **Client Secret** в `public/admin/config.yml` (секция `oauth_provider` или `backend` в зависимости от CMS)
+5. **В GitHub Secrets репо** добавь: `OAUTH_CLIENT_ID`, `OAUTH_CLIENT_SECRET` (если через GitHub Actions нужен доступ)
+
+### 3. Открой админку
+`https://uslugi-electrica-cholpon-ata-issyk-kol.pages.dev/admin/` (после настройки OAuth)
 
 ---
 
-## 🎯 30-секундное резюме
-
-Сайт — это **статический генератор**: вы правите файлы в папке `data/`, запускаете одну команду, и сайт пересобирается целиком (383 страницы). Админки как таковой нет — вместо неё **JSON-файлы + Telegram**. Это быстрее, надёжнее и бесплатнее любой CMS.
-
-```
-data/*.json  →  npm run build  →  dist/  →  Cloudflare Pages (авто)
-   ↑ правите вы        ↑ одна команда         ↑ деплой за ~20 сек
-```
+## ⚠️ Правило «Один FAQPage» (конституция)
+- `<Faq faq={faq} />` компонент: ТОЛЬКО отображение (без JSON-LD)
+- FAQPage добавляется через `jsonld={[faqLd(...), breadcrumbsLd(...), webSiteLd()]}` в `.astro`
+- Проверка: `grep -o '"@type":"FAQPage"' dist/page/index.html | wc -l` = **1** на каждой странице
+- Если >1: найден дубликат → исправь в `FaqBlock.astro` или в `.astro` странице
 
 ---
 
-## ⚡ Ежедневные операции
+## 📊 Калькулятор сметы (конверсия)
+Страница `/kalkulyator/` содержит:
+- Данные услуг из `data/services/*.json` (через сериализацию в `<script id="calc-data">`)
+- Селект района с `travel_fee`
+- Живой итог `min`–`max` из БД
+- Три кнопки результата:
+  1. **WhatsApp** с префиллом: «Здравствуйте! Пишу с сайта X. Страница: «{услуга}». Можно узнать подробнее?»
+  2. **Почта** (`mailto:refertur@yandex.ru`) с полной сметой
+  3. **Копировать в буфер**
+- Без внешних зависимостей (vanilla JS)
+- Добавлен в футер сайта (колонка «Категории» или «Информация» — в текущей сборке: в навигации через `CategoryNav` компонент)
 
-### Изменить цену услуги
-1. Открой `data/services/{категория}.json`
-2. Найди услугу по `"slug"` (например `zamena-rozetki`)
-3. Правь `price_min` / `price_max`
-4. Выполни:
+---
 
+## 🔄 Пайплайн блога под нишу (программный)
+`docs/research/fetched/` — сырьё с источников (`fetch-blog.mjs`).
+`data/blog-plan.json` — 25+ тем, каждая: slug, title, keyword, sources[] (URL для фетча), status.
+Пайплайн:
 ```bash
-npm run gen && npm run llms && npm run db && npm run export
-git add -A && git commit -m "цены: замена розетки" && git push
+npm run fetch-blog     # скачивает raw → docs/research/fetched/
+# Ручной или LLM-рирайт: docs/research/fetched/{slug}/ → content/blog/{slug}.md
+npm run gen             # перегенерирует llms.txt + .md версии
+npm run validate        # QA-ворота
+npm run build           # сборка
+```
+Каждая статья: `lead ≤100 симв.` с цифрой, ≥3000 симв., таблица или алгоритм, FAQ 4+, цитаты из `data/citations.json`, CTA WhatsApp с префиллом статьи, Article JSON-LD (`datePublished`, `keywords`, `image`).
+
+---
+
+## 🌍 Масштабирование: разные города, страны, языки
+
+### Новый город (без копирования всего репо)
+```bash
+# Добавить в data/locations.json строку с обязательным pre:
+# {"slug":"kokshetau","name":"Кокшетау","pre":"Кокшетау","distance_km":...}
+# Перегенерировать: npm run gen && npm run build
 ```
 
-GitHub Actions задеплоит автоматически (~2 мин). Или локально: `npm run deploy`.
+### Новый язык (KY / EN / TR)
+```bash
+# 1. Добавить в astro.config.mjs: locales или отдельные страницы в /ky/
+# 2. Создать data/i18n/*.json — переводы категорий/услуг
+# 3. Добавить hreflang-теги в Base.astro (уже готово в заглушке)
+# 4. Дублировать content/blog/ и content/services/ или генерировать из i18n-пулов
+```
 
-### Добавить мастера в каталог
-1. Открой `data/masters.json`
-2. Заполни карточку и поменяй `"status": "todo"` → `"status": "active"`
-3. Пересобери (команды выше)
+### Новая ниша (например сантехник)
+```bash
+cp -r docs/research/RESEARCH-services.md docs/research/RESEARCH-plumber.md
+# Править: таксономия услуг → data/services/*.json → npm run gen → deploy
+```
 
-### Поменять телефон/контакты (ВСЕ 383 страницы сразу)
-1. Открой `data/site.json` — единственное место с контактами
-2. Поменяй `phone_raw`, `phone_display`, `whatsapp`, `telegram`
-3. Пересобери
+---
 
-### Добавить новую услугу
-1. Создай запись в нужном файле `data/services/*.json`:
+## 🧩 Три варианта админки
 
+| Вариант | Как | Затраты | Когда |
+|---|---|---|---|
+| **A. GitHub web** | Открыть репо → карандаш у `data/services/*.json` или `data/blog-plan.json` → Commit | 0 | Сейчас работает |
+| **B. Sveltia CMS** (`docs/ADMIN-GUIDE.md` §Админка) | `public/admin/config.yml` + GitHub OAuth → визуальные формы | 1 вечер | Когда рутинно |
+| **C. Telegram-бот** (`docs/roadmap.md` v2) | Webhook на `/api/webhook/` (Worker) → D1 → уведомление владельцу + изменение `data/masters.json` или заявки | 2 вечера | После заполнения мастеров |
+
+---
+
+## 📈 Что осталось (post-v1.1, roadmap)
+
+- [ ] **Деплой** (токен готов — `npm run deploy` или Actions с секретами `CLOUDFLARE_API_TOKEN` и `CLOUDFLARE_ACCOUNT_ID`)
+- [ ] **Мастера**: заполнить `data/masters.json` (`status: todo` → `active`) — уже готов для ручной правки или Sveltia
+- [ ] **Отзывы**: заменить AggregateRating/Review заглушки на реальные данные (`docs/research/fetched/` или форма сбора)
+- [ ] **Блог автоматизация**: `npm run fetch-blog` по cron (GitHub Actions) для наполнения `data/blog-plan.json` → черновики → публикация
+- [ ] **Каталог электрики (PWA v3)**: CSV (`SKU, name, price, photo, spec_json`) → `scripts/import-catalog.mjs` → Product JSON-LD (`docs/BLUEPRINT.md` §6.1)
+- [ ] **Мульти-язык (KY)**: `data/i18n/ky.json` + маршруты `/ky/` (`docs/BLUEPRINT.md` §8)
+- [ ] **3D-конфигуратор**: Three.js через CDN + WebGL-сцена (`docs/BLUEPRINT.md` §6.8)
+- [ ] **Мапа объектов**: `public/img/uploads/` (фото мастеров, работ) + R2 для хранения (необязательный)
+
+---
+
+*ADMIN-GUIDE v1.2 · Aug 2026 · готов для любого нового проекта из `catalog-blueprint/`*
+
+---
+
+## 📊 Отзывы: как заменить заглушку на реальные (v1.2 post-deploy)
+
+### Текущий механизм (заглушка в коде):
+- `AggregateRating`: 4.8 / 127 отзывов — **ЗАГЛУШКА** (нужно заменить на реальные данные)
+- 2 фиктивных отзыва в `jsonld.ts` (`reviewsSchema`)
+- После первых 10+ реальных клиентов:
+  1. Собрать отзывы через форму `/mastera/` или Telegram-бот
+  2. Сохранить в `data/reviews.json`
+  3. Обновить `AggregateRating` в `jsonld.ts`: `ratingValue`, `reviewCount`
+  4. Заменить `reviewsSchema` массив на реальные данные
+  5. Пересобрать сайт (`npm run build`)
+
+### Форма сбора (готовый компонент для встраивания в /mastera/ или /faq/):
+- Email или Telegram → `data/reviews.json` → скрипт обновляет AggregateRating
+- Пример структуры отзыва:
 ```json
-{
-  "slug": "ustanovka-rozetki-na-verande",
-  "name": "Установка розетки на веранде",
-  "name_gen": "установки розетки на веранде",
-  "category": "rozetki-vyklyuchateli",
-  "price_min": 500,
-  "price_max": 1200,
-  "unit": "точка",
-  "time": "40–90 минут",
-  "tags": ["rozetki", "dom-dacha"],
-  "geo_priority": false,
-  "includes": ["Монтаж влагозащищённой розетки", "Герметизация ввода кабеля", "Проверка УЗО"],
-  "steps": ["Осмотр места", "Прокладка кабеля", "Монтаж розетки", "Тест"],
-  "symptoms": ["Нужна розетка на улице", "Старая розетка залилась дождём"]
-}
+{"author":"Аскар","rating":5,"text":"Приехал быстро, всё качественно.","date":"2026-08-25","verified":true}
 ```
-
-2. Хочешь гео-страницы по всем сёлам? → `"geo_priority": true` (+32 страницы автоматически)
-3. Пересобери.
-
-### Добавить блог-статью
-Вариант А (вручную): создай `content/blog/my-article.md` с frontmatter:
-```yaml
----
-title: "Заголовок статьи"
-description: "Описание до 160 символов"
-h1: "H1 статьи"
-lead: "Ответ на запрос в первых 100 символах"
-type: "blog"
-slug: "my-article"
-date: "2026-08-23"
-keyword: "целевой запрос"
-citations: ["pue"]
----
-Текст статьи ≥3000 символов...
-```
-
-Вариант Б (пайплайн): добавь тему в `data/blog-plan.json` со статусом `todo`, затем:
-```bash
-npm run fetch-blog              # скачает источники, создаст черновик
-# отредактируй content/blog/*.md (убери status: draft)
-npm run build
-```
-
-⚠️ Черновики с `status: draft` или пустым `h1` НЕ публикуются (фильтр в blog/[slug].astro).
-
----
-
-## 📊 Шпаргалка команд
-
-| Команда | Что делает |
-|---|---|
-| `npm run gen` | data/*.json → content/**/*.md (370 страниц) |
-| `npm run llms` | llms.txt + llms-full.txt для нейросетей |
-| `npm run db` | SQLite база из JSON |
-| `npm run export` | exports/*.csv + bundle.json для внешних сервисов |
-| `npm run validate` | QA-гейт: длина текстов, лиды, дубли title |
-| `npm run build` | всё вместе + Astro сборка (≈60 сек) |
-| `npm run deploy` | задеплоить dist на Cloudflare Pages |
-| `npm run dev` | локальный сервер http://localhost:4321 |
-| `npm test` | unit-тесты генератора |
-
-**Золотое правило:** после ЛЮБОГО изменения в `data/`:
-```bash
-npm run build && git add -A && git commit -m "..." && git push
-```
-
----
-
-## 🛠 Админка: есть? Как сделать?
-
-### Сейчас (v1): «Админка через Git» ✅ работает уже сегодня
-- Редактирование = правка JSON в любом редакторе (или через github.com прямо в браузере!)
-- GitHub web-интерфейс: открываешь repo → карандашик у файла → правишь → Commit → сайт переезжает через 2 минуты. Это уже готовая бесплатная админка без кода.
-
-### Вариант 2: Decap CMS (бывшая Netlify CMS) — бесплатно, 1 вечер
-Настоящая визуальная админка поверх Git-репозитория:
-
-1. `npm install decap-cms` не нужен — достаточно одного файла `public/admin/index.html`:
-```html
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script></head>
-<body><script>
-CMS.init({
-  config: {
-    backend: { name: 'github', repo: 'ВАШ_ЛОГИН/electric-cholpon-ata-uslugi', branch: 'main' },
-    media_folder: 'public/img', public_folder: '/img',
-    collections: [
-      { name: 'services', label: 'Услуги', folder: 'content/services', create: true, extension: 'json',
-        fields: [
-          { label: 'Данные', name: 'body', widget: 'code' }
-        ]},
-      { name: 'blog', label: 'Блог', folder: 'content/blog', create: true,
-        fields: [
-          { label: 'Title', name: 'title' },
-          { label: 'Description', name: 'description', widget: 'text' },
-          { label: 'H1', name: 'h1' },
-          { label: 'Lead', name: 'lead', widget: 'text' },
-          { label: 'Type', name: 'type', default: 'blog', widget: 'hidden' },
-          { label: 'Slug', name: 'slug' },
-          { label: 'Дата', name: 'date', widget: 'datetime' },
-          { label: 'Keyword', name: 'keyword' },
-          { label: 'Текст', name: 'body', widget: 'markdown' },
-        ]},
-      { name: 'masters', label: 'Мастера', files: [{ file: 'data/masters.json',
-        fields: [{ label: 'JSON', name: 'data', widget: 'code' }] }]},
-    ],
-  },
-});
-</script></body></html>
-```
-
-2. OAuth: зарегистрируй GitHub OAuth App (callback `https://your-domain.netlify.com/`) и подключи бесплатный Netlify Identity ИЛИ используй бэкенд `github` с personal token.
-3. Открой `https://сайт/admin/` — редактируешь услуги и блог в формах, сохранение = коммит = автодеплой.
-
-### Вариант 3: Pages CMS / Sveltia CMS (современнее)
-[sveltia-cms](https://github.com/sveltia/sveltia-cms) — drop-in замена Decap с красивым UI, совместима с той же конфигурацией. Просто меняешь URL скрипта.
-
-### Вариант 4: Своя админка на Cloudflare Workers + D1 (v3 roadmap)
-Telegram-бот приёма заявок + мини-панель заявок на Worker'е — план описан в `docs/roadmap.md`.
-
-**Рекомендация:** начни с GitHub web-редактора (0 затрат), когда надоест — поставь Sveltia CMS (1 вечер).
-
----
-
-## ❓ FAQ владельца
-
-**Q: Сайт упал после моих правок.**
-A: `npm run validate` покажет конкретную страницу и причину (обычно <3000 символов или нет цифры в лиде). Исправь → пересобери.
-
-**Q: Как поменять структуру текста на всех страницах услуг?**
-A: Правки в `scripts/generate-content.mjs` (шаблон body) и `data/pools/pools.json` (варианты абзацев) → `npm run gen`.
-
-**Q: Как добавить новое село?**
-A: Добавь запись в `data/locations.json` (не забудь поле `pre` — склонение!). Для 7 приоритетных услуг автоматически появятся 7 новых страниц.
-
-**Q: Как посмотреть сайт до публикации?**
-A: `npm run dev` → http://localhost:4321
-
-**Q: Где посмотреть статистику?**
-A: После запуска подключи Яндекс.Метрику/GA4 в `Base.astro` (сниппет перед `</head>`) + Search Console отправь `/sitemap-index.xml`.
-
----
-
-## 🧮 Калькулятор сметы (v1.1)
-Страница `/kalkulyator/`: клиент выбирает услуги + количество → живой итог → отправка в WhatsApp / на refertur@yandex.ru.
-- Цены берутся из data/services/*.json при сборке — правите цены в данных, калькулятор обновляется сам
-- Район выезда добавляет надбавку автоматически
-- Изменить текст заявки: `src/pages/kalkulyator.astro`, блок `<script>` внизу
-
-## ☎️ Контакты v1.1
-- Телефон/WhatsApp: **+996 555 707 267** (был ошибочный +7…)
-- Почта для заявок: **refertur@yandex.ru** (в футере и калькуляторе)
-- Префилл WhatsApp: «Пишу с сайта …, страница: «…». Можно узнать подробнее?»
-
-## ⚠️ Технические правила (не ломать!)
-1. FAQPage JSON-LD — ровно один на страницу (FaqBlock только показывает)
-2. OG-картинка — PNG (`public/og-default.png`), перегенерация: `node scripts/make-og.mjs`
-3. Mermaid: блоки ```` ```mermaid ```` в статьях рендерятся сами
-4. INDEX.md не класть в content/blog/ — попадает в коллекцию

@@ -10,7 +10,7 @@ services:
   - "elektricheskiy-kotel"
   - "elektroobogrev"
   - "teplovaya-pushka"
-updated: "2026-08-27"
+updated: "2026-08-29"
 ---
 
 Тёплый пол от 1 040 сом/м², подключение электрокотлов и обогревателей — зимние решения для домов Иссык-Куля.

@@ -58,6 +58,7 @@ const infoLinks = [
   <meta name="twitter:image" content={ogImageUrl} />
 
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <!-- ALT-TEXT GUIDELINE: All future images added to /public/img/* must have alt=text describing image content. Example: <img src="/img/work-1.png" alt="Замена розетки в пансионате — фото работы" /> -->
   <meta name="theme-color" content="#0f172a" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
@@ -138,6 +139,27 @@ footer{border-top:1px solid #243247;background:#0b1222;padding:36px 0 110px;font
 
 @media print{.sticky-cta,header,footer,.cta,.btn{display:none!important}}
 </style>
+  <script is:inline>
+    (function(){
+      document.querySelectorAll('a[href^="https://wa.me/"]').forEach(function(a){
+        a.addEventListener('click',function(){
+          if(window.gtag) window.gtag('event','click_whatsapp',{location:window.location.pathname,url:a.href});
+        });
+      });
+      document.getElementById('waBtn')?.addEventListener('click',function(){
+        const totalText = document.getElementById('total')?.textContent || '';
+        if(window.gtag) window.gtag('event','calc_submit',{total_range:totalText.slice(0,40),page:window.location.pathname});
+      });
+      window.addEventListener('scroll',function(){
+        if(window.blogReadTracked) return;
+        const pct = Math.round((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100);
+        if(pct>85&&document.querySelector('article')){
+          window.blogReadTracked=true;
+          if(window.gtag) window.gtag('event','blog_read_85pct',{page:window.location.pathname});
+        }
+      });
+    })();
+  </script>
 </head>
 <body>
   <header>

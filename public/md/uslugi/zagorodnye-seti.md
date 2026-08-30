@@ -15,7 +15,7 @@ services:
   - "vremennoe-elektrosnabzhenie"
   - "podklyuchenie-solnechnyh-paneley"
   - "remont-vl-linii"
-updated: "2026-08-27"
+updated: "2026-08-29"
 ---
 
 Ввод электричества в дом, монтаж СИП, контур заземления, молниезащита и стабилизаторы в сёлах Иссык-Куля.

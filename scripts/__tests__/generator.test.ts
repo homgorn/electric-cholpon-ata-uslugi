@@ -161,7 +161,7 @@ describe('FAQ Generation', () => {
       unit: 'точка', time: '30 мин', category: 'cat',
     } as any;
 
-    const faq = buildFAQ({} as any, service, null, () => 0.5);
+    const faq = buildFAQ(ctx, service, null, () => 0.5);
     expect(faq).toHaveLength(5);
     expect(faq[0].q).toBe('Q1');
     expect(faq[0].a).toContain('100');

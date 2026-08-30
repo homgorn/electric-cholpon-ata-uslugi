@@ -88,7 +88,7 @@ export function yamlValue(v: unknown): string {
 /**
  * Build frontmatter YAML string
  */
-function buildFrontmatterYaml(fm: Record<string, unknown>): string {
+export function buildFrontmatterYaml(fm: Record<string, unknown>): string {
   return '---\n' + Object.entries(fm)
     .map(([k, v]) => `${k}: ${yamlValue(v)}`)
     .join('\n') + '\n---\n\n';
@@ -714,6 +714,6 @@ function mdUrl(relPath: string): string {
   return relPath;
 }
 
-// Re-export utils for tests
-export { hashString, createRNG, pick, pickN, fmt, buildFAQ, buildRelatedLinks,
+export { hashString, createRNG, pick, pickN, fmt, yamlValue, buildFrontmatterYaml, buildFAQ, buildRelatedLinks,
+  getPrepositional, getAccusativeUnit, getLocPre, getUnitAcc,
   buildServicePage, buildGeoPage, buildLocationPage, buildCategoryPage, buildTagPage };

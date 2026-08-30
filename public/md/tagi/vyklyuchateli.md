@@ -12,7 +12,7 @@ services:
   - "dvuhklavishnyy-vyklyuchatel"
   - "prohodnoy-vyklyuchatel"
   - "dimmer"
-updated: "2026-08-27"
+updated: "2026-08-29"
 ---
 
 Установка и замена выключателей: одноклавишные, двухклавишные, проходные, диммеры. Чолпон-Ата и район.
